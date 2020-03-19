@@ -1,4 +1,4 @@
-package com.web.yapp.yapp.config;
+package com.web.yapp.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
