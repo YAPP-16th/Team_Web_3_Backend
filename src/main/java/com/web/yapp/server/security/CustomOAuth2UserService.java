@@ -1,6 +1,9 @@
 package com.web.yapp.server.security;
 
 import com.web.yapp.server.config.auth.dto.OAuthAttributes;
+import com.web.yapp.server.config.auth.dto.SessionUser;
+import com.web.yapp.server.domain.user.User;
+import com.web.yapp.server.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,7 +21,7 @@ import java.util.Collections;
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final HttpSession httpSession;
-    //private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest)
@@ -33,15 +36,21 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameattributeName,
                 oAuth2User.getAttributes());
 
-        //User user = saveOrUpdate();
-        //httpSession.setAttribute("user",new Session(user));
+        User user = saveOrUpdate(attributes);
 
-//        return new DefaultOAuth2User(
-//                Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
-//                attributes.getAttributes(),
-//                attributes.getName());
-//        )
+        httpSession.setAttribute("user", new SessionUser(user)); //세션에 사용자 정보 저장
+
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
+                attributes.getAttributes(),
+                attributes.getNameAttributeKey());
     }
 
-    //private User saveOrUpdate(){}
+    private User saveOrUpdate(OAuthAttributes attributes){
+        User user = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName(),
+                        attributes.getPicture()))
+                .orElse(attributes.toEntity());
+        return userRepository.save(user);
+    }
 }

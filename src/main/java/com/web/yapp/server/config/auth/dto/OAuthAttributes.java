@@ -1,5 +1,7 @@
 package com.web.yapp.server.config.auth.dto;
 
+import com.web.yapp.server.domain.user.Role;
+import com.web.yapp.server.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -42,6 +44,15 @@ public class OAuthAttributes {
     //private static OAuthAttributes ofNaver(){}
 
     //public User toEntity(){}
+
+    public User toEntity(){
+        return User.builder()
+                .name(name)
+                .email(email)
+                .picture(picture)
+                .role(Role.USER)
+                .build();
+    }
 
 
 }
