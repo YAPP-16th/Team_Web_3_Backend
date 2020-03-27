@@ -43,8 +43,6 @@ public class OAuthAttributes {
 
     //private static OAuthAttributes ofNaver(){}
 
-    //public User toEntity(){}
-
     public User toEntity(){
         return User.builder()
                 .name(name)

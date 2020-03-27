@@ -1,4 +1,4 @@
-package com.web.yapp.server.security;
+package com.web.yapp.server.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

@@ -1,4 +1,4 @@
-package com.web.yapp.server.security;
+package com.web.yapp.server.config.auth;
 
 import com.web.yapp.server.config.auth.dto.OAuthAttributes;
 import com.web.yapp.server.config.auth.dto.SessionUser;
