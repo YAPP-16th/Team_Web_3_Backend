@@ -1,4 +1,4 @@
-package com.web.yapp.server;
+package com.web.yapp.server.controller;
 
 
 
