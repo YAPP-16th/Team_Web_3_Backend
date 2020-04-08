@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Table(name = "TUNA_BOOKMARK")
 @Entity
 public class bookmark {
     @Id

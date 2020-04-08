@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Table(name = "TUNA_SONG")
 @Entity
 public class song {
     @Id
