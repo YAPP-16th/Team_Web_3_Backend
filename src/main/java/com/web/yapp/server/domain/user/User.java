@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "TUNA_USER")
+//@Table(name = "TUNA_USER")
 @Entity
 public class User {
     @Id
@@ -42,21 +42,21 @@ public class User {
     private String birthday;
 
 
-//    @Builder
-//    public User(String name,String email, String picture, Role role){
-//        this.name = name;
-//        this.email = email;
-//        this.picture = picture;
-//        this.role = role;
-//    }
-//
-//    public User update(String name, String picture){
-//        this.name = name;
-//        this.picture = picture;
-//        return this;
-//    }
-//
-//    public String getRoleKey(){
-//        return this.role.getKey();
-//    }
+    @Builder
+    public User(String name,String email, String profile_url, Role role){
+        this.name = name;
+        this.email = email;
+        this.profile_url = profile_url;
+        this.role = role;
+    }
+
+    public User update(String name, String profile_url){
+        this.name = name;
+        this.profile_url = profile_url;
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
+    }
 }

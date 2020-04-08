@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "TUNA_ARTIST")
+//@Table(name = "TUNA_ARTIST")
 @Entity
 public class Artist {
     @Id
@@ -16,9 +16,9 @@ public class Artist {
     @Column(name = "artist_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     @Column //경력
     private String career;

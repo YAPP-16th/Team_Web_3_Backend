@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "TUNA_BOOKMARK")
+//@Table(name = "TUNA_BOOKMARK")
 @Entity
 public class Bookmark {
     @Id
@@ -17,12 +17,12 @@ public class Bookmark {
     @Column(name = "bookmark_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "artist_id")
-    private Artist artist;
-
-    @ManyToOne // 북마크(n) -> 유저(1)
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "artist_id")
+//    private Artist artist;
+//
+//    @ManyToOne // 북마크(n) -> 유저(1)
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
 }

@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "TUNA_SONG")
+//@Table(name = "TUNA_SONG")
 @Entity
 public class Song {
     @Id
@@ -16,9 +16,9 @@ public class Song {
     @Column(name = "song_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "artist_id")
-    private Artist artist;
+//    @ManyToOne
+//    @JoinColumn(name = "artist_id")
+//    private Artist artist;
 
     @Column //노래제목
     private String title;
