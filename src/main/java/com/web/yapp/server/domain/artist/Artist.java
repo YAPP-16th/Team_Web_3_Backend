@@ -1,5 +1,6 @@
-package com.web.yapp.server.domain.user;
+package com.web.yapp.server.domain.artist;
 
+import com.web.yapp.server.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
