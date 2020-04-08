@@ -1,6 +1,7 @@
-package com.web.yapp.server.domain.song;
+package com.web.yapp.server.domain.bookmark;
 
 import com.web.yapp.server.domain.artist.Artist;
+import com.web.yapp.server.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,22 +10,18 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class song {
+public class bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "song_id")
+    @Column(name = "bookmark_id")
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
-    @Column //노래제목
-    private String title;
+    @ManyToOne // 북마크(n) -> 유저(1)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column //커버이미지 파일 경로
-    private String cover_url;
-
-    @Column //음원파일 경로
-    private String song_url;
 }
