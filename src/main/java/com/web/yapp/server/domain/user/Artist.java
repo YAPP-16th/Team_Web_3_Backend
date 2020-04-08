@@ -11,22 +11,23 @@ import javax.persistence.*;
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //autoincrement
+    @Column(name = "artist_id")
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column
+    @Column //경력
     private String career;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //아티스트 이름
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //프로필 문구
     private String introduction;
 
-    @Column
+    @Column //프로필 사진 url
     private String profile_url;
 
 }
