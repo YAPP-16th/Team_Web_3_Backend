@@ -12,36 +12,50 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //이름
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //이메일
     private String email;
 
-    @Column
-    private String picture;
+    @Column(nullable = false) //프로필사진
+    private String profile_url;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //게스트, 사용자, 관리자 등 구분
     @Column(nullable = false)
     private Role role;
 
-    @Builder
-    public User(String name,String email, String picture, Role role){
-        this.name = name;
-        this.email = email;
-        this.picture = picture;
-        this.role = role;
-    }
+    @Column //연령대
+    private int age;
 
-    public User update(String name, String picture){
-        this.name = name;
-        this.picture = picture;
-        return this;
-    }
+    @Column //별명
+    private String nickname;
 
-    public String getRoleKey(){
-        return this.role.getKey();
-    }
+    @Column //성별
+    private String gender;
+
+    @Column //생일
+    private String birthday;
+
+
+//    @Builder
+//    public User(String name,String email, String picture, Role role){
+//        this.name = name;
+//        this.email = email;
+//        this.picture = picture;
+//        this.role = role;
+//    }
+//
+//    public User update(String name, String picture){
+//        this.name = name;
+//        this.picture = picture;
+//        return this;
+//    }
+//
+//    public String getRoleKey(){
+//        return this.role.getKey();
+//    }
 }
