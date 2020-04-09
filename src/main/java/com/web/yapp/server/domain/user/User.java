@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Table(name = "TUNA_USER")
 @Entity
 public class User {
     @Id
