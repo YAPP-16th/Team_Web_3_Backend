@@ -13,19 +13,19 @@ import javax.persistence.*;
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "song_id")
+    @Column(name = "SONG_ID")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "artist_id")
+    @ManyToOne // 노래(n) : 아티스트(1) 한명의 아티스트가 여러 곡 가질 수 있음
+    @JoinColumn(name = "ARTIST_ID")
     private Artist artist;
 
-    @Column //노래제목
+    @Column(name = "SONG_TITLE") //노래제목
     private String title;
 
-    @Column //커버이미지 파일 경로
+    @Column(name = "SONG_COVER_URL") //커버이미지 파일 경로
     private String cover_url;
 
-    @Column //음원파일 경로
-    private String song_url;
+    @Column(name = "SONG_URL") //음원파일 경로
+    private String url;
 }

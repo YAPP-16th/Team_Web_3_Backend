@@ -14,15 +14,15 @@ import javax.persistence.*;
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bookmark_id")
+    @Column(name = "BOOKMARK_ID")
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "artist_id")
+    @JoinColumn(name = "ARTIST_ID")
     private Artist artist;
 
     @ManyToOne // 북마크(n) -> 유저(1)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
 }
