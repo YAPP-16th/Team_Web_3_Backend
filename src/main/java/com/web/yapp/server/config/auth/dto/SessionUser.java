@@ -9,11 +9,11 @@ import java.io.Serializable;
 public class SessionUser implements Serializable {
     private String name;
     private String email;
-    private String picture;
+    private String profile_url;
 
     public SessionUser(User user){
         this.name = user.getName();
         this.email = user.getEmail();
-        this.picture = user.getPicture();
+        this.profile_url = user.getProfile_url();
     }
 }

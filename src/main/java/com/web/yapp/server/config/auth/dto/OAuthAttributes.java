@@ -13,17 +13,17 @@ public class OAuthAttributes {
     private String nameAttributeKey;
     private String name;
     private String email;
-    private String picture;
+    private String profile_url;
 
     @Builder
     public OAuthAttributes(Map<String,Object> attributes,
                            String nameAttributeKey, String name,
-                           String email, String picture){
+                           String email, String profile_url){
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
-        this.picture = picture;
+        this.profile_url = profile_url;
     }
 
     //registrationId에 따른 메서드 호출하는 역할
@@ -36,7 +36,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String)attributes.get("name"))
                 .email((String)attributes.get("email"))
-                .picture((String)attributes.get("picture"))
+                .profile_url((String)attributes.get("picture")) //구글에서 주는 picture 값 가져오기. oAuth2User.attributes.picture
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -48,7 +48,7 @@ public class OAuthAttributes {
         return User.builder()
                 .name(name)
                 .email(email)
-                .picture(picture)
+                .profile_url(profile_url)
                 .role(Role.USER)
                 .build();
     }
