@@ -25,6 +25,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile('org.springframework.cloud:spring-cloud-starter-aws') //파일업로드 
     compile('com.h2database:h2')
 
 
@@ -38,6 +39,12 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
 
+}
+
+dependencyManagement { //파일 업로드를 위한 cloud 의존성 추가
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-aws:2.0.0.RC2'
+    }
 }
 
 test {
