@@ -13,6 +13,8 @@ buildscript {
 repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/libs-milestone'}
+    /*Spring Cloud AWS가 현재 (2018.06.03) 2.0.0.RC2가 최신이라
+    maven { url 'https://repo.spring.io/libs-milestone'}가 필요*/
 }
 
 
