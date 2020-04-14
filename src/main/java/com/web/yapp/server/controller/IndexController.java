@@ -3,19 +3,22 @@ package com.web.yapp.server.controller;
 
 
 import com.web.yapp.server.config.auth.dto.SessionUser;
+import com.web.yapp.server.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
 
 //    private final PostsService postsService;
+    private final S3Uploader s3Uploader;
     private final HttpSession httpSession;
     @GetMapping("/")
     public String index(Model model) {
@@ -32,8 +35,9 @@ public class IndexController {
         return "loginSuccess";
     }
 
-
-
-
-
+    @PostMapping("/upload")
+    @ResponseBody
+    public String upload(@RequestParam("data") MultipartFile multipartFile) throws IOException {
+        return s3Uploader.upload(multipartFile, "static");
+    }
 }
