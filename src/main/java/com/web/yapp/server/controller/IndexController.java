@@ -3,7 +3,6 @@ package com.web.yapp.server.controller;
 
 
 import com.web.yapp.server.config.auth.dto.SessionUser;
-import com.web.yapp.server.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +15,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
-
-//    private final PostsService postsService;
     private final HttpSession httpSession;
     @GetMapping("/")
     public String index(Model model) {
