@@ -18,7 +18,6 @@ import java.io.IOException;
 public class IndexController {
 
 //    private final PostsService postsService;
-    private final S3Uploader s3Uploader;
     private final HttpSession httpSession;
     @GetMapping("/")
     public String index(Model model) {
@@ -33,11 +32,5 @@ public class IndexController {
     @GetMapping("/loginSuccess")
     public String loginSuccess() {
         return "loginSuccess";
-    }
-
-    @PostMapping("/upload")
-    @ResponseBody
-    public String upload(@RequestParam("data") MultipartFile multipartFile) throws IOException {
-        return s3Uploader.upload(multipartFile, "static");
     }
 }
