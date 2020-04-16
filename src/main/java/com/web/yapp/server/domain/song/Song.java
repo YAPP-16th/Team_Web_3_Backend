@@ -1,6 +1,6 @@
 package com.web.yapp.server.domain.song;
 
-import com.web.yapp.server.domain.artist.Artist;
+import com.web.yapp.server.domain.musician.Musician;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +17,8 @@ public class Song {
     private Long id;
 
     @ManyToOne // 노래(n) : 아티스트(1) 한명의 아티스트가 여러 곡 가질 수 있음
-    @JoinColumn(name = "ARTIST_ID")
-    private Artist artist;
+    @JoinColumn(name = "MUSICIAN_ID")
+    private Musician musician;
 
     @Column(name = "SONG_TITLE") //노래제목
     private String title;

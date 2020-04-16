@@ -1,6 +1,6 @@
 package com.web.yapp.server.domain.bookmark;
 
-import com.web.yapp.server.domain.artist.Artist;
+import com.web.yapp.server.domain.musician.Artist;
 import com.web.yapp.server.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
