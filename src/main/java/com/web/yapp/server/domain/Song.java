@@ -1,6 +1,5 @@
-package com.web.yapp.server.domain.song;
+package com.web.yapp.server.domain;
 
-import com.web.yapp.server.domain.musician.Musician;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

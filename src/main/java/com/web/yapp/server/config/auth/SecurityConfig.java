@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userService(customOAuth2UserService)
                 .and()
                 .defaultSuccessUrl("/")
-                .failureUrl("/loginSuccess");
+                .failureUrl("/home");
 //                .and()
 //                .exceptionHandling()
 //                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/index"));

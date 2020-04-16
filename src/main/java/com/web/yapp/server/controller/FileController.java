@@ -1,6 +1,6 @@
 package com.web.yapp.server.controller;
 
-import com.web.yapp.server.service.S3Uploader;
+import com.web.yapp.server.domain.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

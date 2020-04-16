@@ -1,7 +1,7 @@
 package com.web.yapp.server.config.auth.dto;
 
-import com.web.yapp.server.domain.user.Role;
-import com.web.yapp.server.domain.user.User;
+import com.web.yapp.server.domain.Role;
+import com.web.yapp.server.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 

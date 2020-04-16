@@ -1,4 +1,4 @@
-package com.web.yapp.server.domain.user;
+package com.web.yapp.server.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

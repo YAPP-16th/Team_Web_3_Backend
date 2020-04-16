@@ -2,8 +2,8 @@ package com.web.yapp.server.config.auth;
 
 import com.web.yapp.server.config.auth.dto.OAuthAttributes;
 import com.web.yapp.server.config.auth.dto.SessionUser;
-import com.web.yapp.server.domain.user.User;
-import com.web.yapp.server.domain.user.UserRepository;
+import com.web.yapp.server.domain.User;
+import com.web.yapp.server.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

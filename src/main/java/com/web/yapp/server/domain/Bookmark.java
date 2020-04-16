@@ -1,7 +1,5 @@
-package com.web.yapp.server.domain.bookmark;
+package com.web.yapp.server.domain;
 
-import com.web.yapp.server.domain.musician.Musician;
-import com.web.yapp.server.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
