@@ -38,6 +38,9 @@ public class User {
     @Column(name = "USER_BIRTH") //생일
     private String birthday;
 
+    @Column(name = "USER_PHONE")
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "USER_ROLE", nullable = false)
     private Role role;
