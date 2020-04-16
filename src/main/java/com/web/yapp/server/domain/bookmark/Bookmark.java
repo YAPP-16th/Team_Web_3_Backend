@@ -1,6 +1,6 @@
 package com.web.yapp.server.domain.bookmark;
 
-import com.web.yapp.server.domain.artist.Artist;
+import com.web.yapp.server.domain.musician.Musician;
 import com.web.yapp.server.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +18,8 @@ public class Bookmark {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "ARTIST_ID")
-    private Artist artist;
+    @JoinColumn(name = "MUSICIAN_ID")
+    private Musician musician;
 
     @ManyToOne // 북마크(n) -> 유저(1)
     @JoinColumn(name = "USER_ID")
