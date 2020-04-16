@@ -46,6 +46,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         User user = saveOrUpdate(attributes);
 
+        /* 유저 테이블 저장 */
+
+
+
         httpSession.setAttribute("user", new SessionUser(user)); //세션에 사용자 정보 저장
 
         return new DefaultOAuth2User(

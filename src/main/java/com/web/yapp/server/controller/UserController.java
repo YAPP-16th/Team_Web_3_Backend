@@ -1,7 +1,6 @@
 package com.web.yapp.server.controller;
 
 import com.web.yapp.server.config.auth.dto.SessionUser;
-import com.web.yapp.server.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
     private final HttpSession httpSession;
     /**
      * 구글 로그인 성공시 화면 이동 유저 데이터 가져옴
