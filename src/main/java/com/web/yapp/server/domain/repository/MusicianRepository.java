@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class MusicianRepository{
-    private EntityManager em;
+    private final EntityManager em;
 
     public void save(Musician musician){
         EntityManager em = this.em;
@@ -23,7 +23,7 @@ public class MusicianRepository{
     }
 
     public List<Musician> findByName(String name){
-        return em.createQuery("select m from TUNA_MUSICIAN m where m.MUSICIAN_NAME = :name", Musician.class)
+        return em.createQuery("select m from Musician m where m.MUSICIAN_NAME = :name", Musician.class)
                 .setParameter("name", name)
                 .getResultList();
     }

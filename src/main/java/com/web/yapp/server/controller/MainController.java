@@ -2,6 +2,7 @@ package com.web.yapp.server.controller;
 
 
 
+import com.oracle.tools.packager.Log;
 import com.web.yapp.server.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 
 /**
- *
+ * TUNA MAIN 컨트롤러
  */
 @RequiredArgsConstructor
 @Controller
@@ -24,6 +25,8 @@ public class MainController {
     @GetMapping("/")
     public String home(Model model) {       // 모델에 유저 정보
 
+
+        /*유저 정보에 담긴 값들을 바탕으로 Userservice생성해서 repository와 함께 값을 save시켜버리면 되겠다. */
 
         /**
          * 1. 뮤지션 정보들 로딩 시켜야함.
@@ -35,6 +38,8 @@ public class MainController {
          * 7. 클라이언트에서 페이지네이션 처리할때 페이지 번호를 넘겨준다고 하였으니까 우리가 페이지 넘버에 따라 1페이지 3명,6명 .... 이렇게 값을 넘겨주어야함.
          *
          */
+
+
 
         return "home";
     }

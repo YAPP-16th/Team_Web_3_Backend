@@ -26,9 +26,16 @@ public class MusicianController {
     @GetMapping("/musicians/new")
     public String createMusicianPage(Model model){
         model.addAttribute("memberForm", new MusicianDto());
-        return "musicians/createMusicianPage";
+        return "createMusicianPage";
     }
 
+
+    /**
+     * 뮤지션 생성
+     * @param musicianDto
+     * @param result
+     * @return
+     */
     @PostMapping("/musicians/new")
     public String createMusician(@Valid MusicianDto musicianDto, BindingResult result){
 
@@ -42,7 +49,6 @@ public class MusicianController {
         musician.setName(musicianDto.getName());
         musician.setIntroduction(musicianDto.getIntroduction());
         musician.setProfile_url(musicianDto.getProfile_url());
-
         musicianService.join(musician);
         return "redirect:/";
 
