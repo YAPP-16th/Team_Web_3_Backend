@@ -24,6 +24,12 @@ public class UserController {
         // 유저 세션이 NOT NULL
         if(user != null) {
             model.addAttribute("user", user.getName());
+
+
+            /* 우리가 앱에서 사용할 유저 모델을 생성해야한다. */
+
+
+
         }
         // login.mustache
         return "redirect:/";
