@@ -1,4 +1,4 @@
-package com.web.yapp.server.config.auth.dto;
+package com.web.yapp.server.controller.dto;
 
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.Map;
 
 @Getter
-public class OAuthAttributes {
+public class OAuthAttributesDto {
     private Map<String,Object> attributes;
     private String nameAttributeKey;
     private String name;
@@ -16,9 +16,9 @@ public class OAuthAttributes {
     private String profile_url;
 
     @Builder
-    public OAuthAttributes(Map<String,Object> attributes,
-                           String nameAttributeKey, String name,
-                           String email, String profile_url){
+    public OAuthAttributesDto(Map<String,Object> attributes,
+                              String nameAttributeKey, String name,
+                              String email, String profile_url){
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
@@ -27,13 +27,13 @@ public class OAuthAttributes {
     }
 
     //registrationId에 따른 메서드 호출하는 역할
-    public static OAuthAttributes of(String registrationId, String userNameAttributeName,
-                                     Map<String,Object> attributes){
+    public static OAuthAttributesDto of(String registrationId, String userNameAttributeName,
+                                        Map<String,Object> attributes){
         return ofGoogle(userNameAttributeName, attributes);
     }
 
-    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String,Object> attributes){
-        return OAuthAttributes.builder()
+    private static OAuthAttributesDto ofGoogle(String userNameAttributeName, Map<String,Object> attributes){
+        return OAuthAttributesDto.builder()
                 .name((String)attributes.get("name"))
                 .email((String)attributes.get("email"))
                 .profile_url((String)attributes.get("picture")) //구글에서 주는 picture 값 가져오기. oAuth2User.attributes.picture
@@ -42,7 +42,7 @@ public class OAuthAttributes {
                 .build();
     }
 
-    //private static OAuthAttributes ofNaver(){}
+    //private static OAuthAttributesDto ofNaver(){}
 
     public User toEntity(){
         return User.builder()
