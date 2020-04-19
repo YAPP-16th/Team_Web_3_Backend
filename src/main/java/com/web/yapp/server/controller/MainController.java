@@ -3,7 +3,9 @@ package com.web.yapp.server.controller;
 
 
 import com.oracle.tools.packager.Log;
+import com.sun.media.jfxmedia.logging.Logger;
 import com.web.yapp.server.config.auth.dto.SessionUser;
+import com.web.yapp.server.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,15 @@ import java.io.IOException;
 public class MainController {
     @GetMapping("/")
     public String home(Model model) {       // 모델에 유저 정보
+
+
+        if(model != null){
+
+
+
+            Log.info(String.valueOf(model));
+
+        }
 
 
         /*유저 정보에 담긴 값들을 바탕으로 Userservice생성해서 repository와 함께 값을 save시켜버리면 되겠다. */

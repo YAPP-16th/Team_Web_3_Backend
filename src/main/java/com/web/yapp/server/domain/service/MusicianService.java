@@ -19,7 +19,7 @@ public class MusicianService {
     @Transactional
     public Long join(Musician musician){
 
-//        validateDuplicateMusician(musician);
+        validateDuplicateMusician(musician);
         musicianRepository.save(musician);
         return musician.getId();
     }
@@ -31,6 +31,10 @@ public class MusicianService {
         if(!findMusicians.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
+    }
+
+    public List<Musician> findAllMusician(){
+        return musicianRepository.findAllMusician();
     }
 
 
