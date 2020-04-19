@@ -35,7 +35,9 @@ public class MainController {
         if(user != null){
             Log.info(String.valueOf(user));
 
-            /* 세션 있을때 로직 처리 */
+            /* 비즈니스로직 여기서 처리 데이터 로딩, 세션 처리 완료 로직 처리 */
+
+
 
         }else {
             return "redirect:/users/new";

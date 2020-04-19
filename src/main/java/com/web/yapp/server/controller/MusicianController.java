@@ -51,8 +51,5 @@ public class MusicianController {
         musician.setProfile_url(musicianDto.getProfile_url());
         musicianService.join(musician);
         return "redirect:/";
-
     }
-
-
 }
