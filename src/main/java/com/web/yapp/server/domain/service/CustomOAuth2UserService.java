@@ -1,9 +1,9 @@
-package com.web.yapp.server.config.auth;
+package com.web.yapp.server.domain.service;
 
-import com.web.yapp.server.config.auth.dto.OAuthAttributes;
-import com.web.yapp.server.config.auth.dto.SessionUser;
-import com.web.yapp.server.domain.user.User;
-import com.web.yapp.server.domain.user.UserRepository;
+import com.web.yapp.server.controller.dto.OAuthAttributesDto;
+import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.User;
+import com.web.yapp.server.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,14 +39,18 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         구글의 경우 기본적으로 코드를 지원하지만, 네이버 카카오 등은 기본 지원하지 않음. 구글의 기본 코드는 "sub"
         네이버 로그인과 구글 로그인을 동시 지원할 때 사용됨
         */
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
+        OAuthAttributesDto attributes = OAuthAttributesDto.of(registrationId, userNameAttributeName,
                 oAuth2User.getAttributes());
         //OAuthAtrributes : OAuth2UserService를 통해 가져온 OAuth2User의 attribute를 담을 클래스
         //이후 네이버 등 다른 소셜 로그인도 이 클래스 사용
 
         User user = saveOrUpdate(attributes);
 
-        httpSession.setAttribute("user", new SessionUser(user)); //세션에 사용자 정보 저장
+        /* 유저 테이블 저장 */
+
+
+
+        httpSession.setAttribute("user", new SessionUserDto(user)); //세션에 사용자 정보 저장
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
@@ -56,10 +60,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     //구글 사용자 정보가 업데이트 되었을 때를 대비한 update
-    private User saveOrUpdate(OAuthAttributes attributes){
+    private User saveOrUpdate(OAuthAttributesDto attributes){
         User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(),
-                        attributes.getProfile_url()))
+                        attributes.getProfile_url())
+                )
                 .orElse(attributes.toEntity());
         return userRepository.save(user);
     }

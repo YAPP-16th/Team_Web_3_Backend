@@ -1,14 +1,13 @@
-package com.web.yapp.server.config.auth;
+package com.web.yapp.server.config;
 
+import com.web.yapp.server.domain.Role;
+import com.web.yapp.server.domain.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-
-import static org.springframework.security.config.oauth2.client.CommonOAuth2Provider.GOOGLE;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -25,7 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**").permitAll()
-                //.antMatchers("/api/v1/**").hasRole(Role.USER.name())
+                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
+//                .antMatchers("/").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()
                     .logout()
@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userService(customOAuth2UserService)
                 .and()
                 .defaultSuccessUrl("/")
-                .failureUrl("/loginSuccess");
+                .failureUrl("/home");
 //                .and()
 //                .exceptionHandling()
 //                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/index"));

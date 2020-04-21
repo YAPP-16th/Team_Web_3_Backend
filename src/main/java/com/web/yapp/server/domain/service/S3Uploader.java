@@ -1,4 +1,4 @@
-package com.web.yapp.server.service;
+package com.web.yapp.server.domain.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
