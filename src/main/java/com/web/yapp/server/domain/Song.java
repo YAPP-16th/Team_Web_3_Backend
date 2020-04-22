@@ -1,5 +1,6 @@
 package com.web.yapp.server.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,8 +24,15 @@ public class Song {
     private String title;
 
     @Column(name = "SONG_COVER_URL") //커버이미지 파일 경로
-    private String cover_url;
+    private String coverUrl;
 
     @Column(name = "SONG_URL") //음원파일 경로
-    private String url;
+    private String fileUrl;
+
+    @Builder
+    public Song(String title, String cover_url, String file_url){
+        this.title = title;
+        this.coverUrl = cover_url;
+        this.fileUrl = file_url;
+    }
 }
