@@ -11,15 +11,22 @@ public class SongDto {
     private String title;
     private String coverUrl;
     private String fileUrl;
+    private int represent;
 
     @Builder
-    public SongDto(String title, String coverUrl, String fileUrl){
+    public SongDto(String title, String coverUrl, String fileUrl, int represent){
         this.title = title;
         this.coverUrl = coverUrl;
         this.fileUrl = fileUrl;
+        this.represent = represent;
     }
 
     public Song toEntity(){
-        return Song.
+        return Song.builder()
+                .title(title)
+                .cover_url(coverUrl)
+                .file_url(fileUrl)
+                .represent(represent)
+                .build();
     }
 }
