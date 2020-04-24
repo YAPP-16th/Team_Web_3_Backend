@@ -29,6 +29,9 @@ public class Song {
     @Column(name = "SONG_URL") //음원파일 경로
     private String fileUrl;
 
+    @Column(name = "SONG_MAIN_YN") //대표곡인지 아닌지 구분 0 : 일반 // 1 : 대표
+    private int main;
+
     @Builder
     public Song(String title, String cover_url, String file_url){
         this.title = title;
