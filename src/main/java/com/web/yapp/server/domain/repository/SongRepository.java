@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
-    Optional<Song> findById(Long id);
     //    @Query("SELECT s FROM Song s where ")
 //    List<Song> findByMusicianId(Long id);
 }

@@ -27,16 +27,16 @@ public class Song {
     private String coverUrl;
 
     @Column(name = "SONG_URL") //음원파일 경로
-    private String fileUrl;
+    private String songUrl;
 
     @Column(name = "SONG_RPRSN_YN") //대표곡인지 아닌지 구분 0 : 일반 or 1 : 대표
     private int represent;
 
     @Builder
-    public Song(String title, String cover_url, String file_url, int represent){
+    public Song(String title, String coverUrl, String songUrl, int represent){
         this.title = title;
-        this.coverUrl = cover_url;
-        this.fileUrl = file_url;
+        this.coverUrl = coverUrl;
+        this.songUrl = songUrl;
         this.represent = represent;
     }
 }

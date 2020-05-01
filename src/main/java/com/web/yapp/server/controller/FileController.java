@@ -21,11 +21,5 @@ public class FileController {
         return "upload";
     }
 
-    @PostMapping("/upload") // 업로드 API. 파일 URL 리턴
-    @ResponseBody
-    public String upload(@RequestParam("data") MultipartFile multipartFile) throws IOException {
-        String result = s3Uploader.upload(multipartFile, "static");
-        System.out.println("결과 URL "+result); //결과 URL console에 출력
-        return result;
-    }
+
 }

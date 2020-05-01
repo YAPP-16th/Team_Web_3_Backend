@@ -3,29 +3,31 @@ package com.web.yapp.server.controller.dto;
 import com.web.yapp.server.domain.Song;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class SongDto {
     private String title;
     private String coverUrl;
-    private String fileUrl;
+    private String songUrl;
     private int represent;
 
     @Builder
-    public SongDto(String title, String coverUrl, String fileUrl, int represent){
+    public SongDto(String title, String coverUrl, String songUrl, int represent){
         this.title = title;
         this.coverUrl = coverUrl;
-        this.fileUrl = fileUrl;
+        this.songUrl = songUrl;
         this.represent = represent;
     }
 
     public Song toEntity(){
         return Song.builder()
                 .title(title)
-                .cover_url(coverUrl)
-                .file_url(fileUrl)
+                .coverUrl(coverUrl)
+                .songUrl(songUrl)
                 .represent(represent)
                 .build();
     }
