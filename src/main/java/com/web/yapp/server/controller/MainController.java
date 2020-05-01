@@ -2,12 +2,11 @@ package com.web.yapp.server.controller;
 
 
 
-import com.oracle.tools.packager.Log;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
 import com.web.yapp.server.domain.repository.UserRepository;
-import com.web.yapp.server.domain.service.CustomOAuth2UserService;
+//import com.web.yapp.server.domain.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j      /* 로그 어노테이션 */
 public class MainController {
     private final HttpSession httpSession;
-    private final CustomOAuth2UserService customOAuth2UserService;
+    //private final CustomOAuth2UserService customOAuth2UserService;
 
     @GetMapping("/")
     public String home(Model model) {       // 모델에 유저 정보
@@ -34,7 +33,7 @@ public class MainController {
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
 
 
-        Log.info(String.valueOf(model));
+        log.info(String.valueOf(model));
         /**
          * 유저 세션 정보 유무 확인
          */
@@ -47,7 +46,7 @@ public class MainController {
 
             }
 
-            Log.info(String.valueOf(user));
+            log.info(String.valueOf(user));
 
 
 

@@ -4,6 +4,7 @@ import com.web.yapp.server.controller.dto.SongDto;
 import com.web.yapp.server.domain.Song;
 import com.web.yapp.server.domain.repository.SongRepository;
 import com.web.yapp.server.domain.service.S3Uploader;
+import com.web.yapp.server.domain.service.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,19 +17,19 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/song")
 public class SongController {
+    private final SongService songService;
     private final SongRepository songRepository;
-    private final S3Uploader s3Uploader;
 
-//    @GetMapping("/{songId}") //노래 하나만 받아오기
-//    public Optional<Song> songById(@PathVariable Long songId){ //findbyid
-//        Optional<Song> songDto = songRepository.findById(songId);
-//        return songDto;
-//    }
 
+    /**
+     *
+     * @param musicianId
+     * @return
+     */
     @GetMapping("/musician/{musicianId}") //뮤지션페이지에서 노래 목록 제공
     public List<SongDto> songsByMusician(@PathVariable Long musicianId){
+        return songService.findSongByMusicianId(musicianId);
     }
-
     /*
     * 업로드하면 url반환도 해주고 song save도 될 수있도록 구현하기
     * */

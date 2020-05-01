@@ -33,10 +33,17 @@ public class Song {
     private int represent;
 
     @Builder
-    public Song(String title, String coverUrl, String songUrl, int represent) {
+    public Song(String title, String coverUrl, String songUrl, int represent, Musician musician) {
         this.title = title;
         this.coverUrl = coverUrl;
         this.songUrl = songUrl;
         this.represent = represent;
+        this.musician = musician;
     }
+
+//    public static Song createSong(Musician musician){
+//        Song song = new Song();
+//        song.musician = musician;
+//        return song;
+//    }
 }

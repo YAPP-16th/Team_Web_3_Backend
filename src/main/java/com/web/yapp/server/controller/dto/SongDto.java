@@ -15,13 +15,13 @@ public class SongDto {
     private String songUrl;
     private int represent;
 
-    @Builder
-    public SongDto(String title, String coverUrl, String songUrl, int represent){
-        this.title = title;
-        this.coverUrl = coverUrl;
-        this.songUrl = songUrl;
-        this.represent = represent;
-    }
+//    @Builder
+//    public SongDto(String title, String coverUrl, String songUrl, int represent){
+//        this.title = title;
+//        this.coverUrl = coverUrl;
+//        this.songUrl = songUrl;
+//        this.represent = represent;
+//    }
 
     public Song toEntity(){
         return Song.builder()
@@ -31,4 +31,12 @@ public class SongDto {
                 .represent(represent)
                 .build();
     }
+
+    public SongDto(Song Entity){
+        this.title = Entity.getTitle();
+        this.coverUrl = Entity.getCoverUrl();
+        this.songUrl = Entity.getSongUrl();
+        this.represent = Entity.getRepresent();
+    }
+
 }
