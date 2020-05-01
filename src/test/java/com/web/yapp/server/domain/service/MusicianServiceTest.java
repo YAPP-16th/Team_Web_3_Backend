@@ -27,23 +27,39 @@ public class MusicianServiceTest {
     @Test
     public void createMusician() throws Exception{
 
+        MusicianDto musicianDto = new MusicianDto();
+        musicianDto.setCareer("캐리어");
+        musicianDto.setNickNm("이름");
+        musicianDto.setIntroduction("소개");
+        musicianDto.setProfileUrl("profile url");
+
         Musician musician = new Musician();
 
 //        musician.setId(1L);
-        musician.setCareer("캐리어");
-        musician.setNickNm("이름");
-        musician.setIntroduction("소개");
-        musician.setProfileUrl("프로필 URL");
+            /*
+        빌더패턴 적용
+         */
+//        Musician.builder().career("캐리어")
+//                .nickNm("닉네임")
+//                .introduction("소개")
+//                .profileUrl("프로필 URL")
+//                .build();
+//
 
-        String str1 = musician.getNickNm();
-        String str2 = musician.getIntroduction();
+//        musician.setCareer("캐리어");
+//        musician.setNickNm("이름");
+//        musician.setIntroduction("소개");
+//        musician.setProfileUrl("프로필 URL");
+
+//        String str1 = musician.getNickNm();
+//        String str2 = musician.getIntroduction();
 
 
         // 뮤지션 등록
-        Long saveId = musicianService.join(musician);
+        Long saveId = musicianService.join(musicianDto);
         // 파일업로드 로직
         // 필수 값 null
-
+        musician = musicianDto.toEntity();
 
 
         entityManager.flush();                                          // roleback 값들 확인
@@ -59,22 +75,22 @@ public class MusicianServiceTest {
 
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void validMusician() throws Exception{
-        Musician musician  = new Musician();
-        musician.setCareer("캐리어");
-        musician.setNickNm("이름");
-        musician.setIntroduction("소개");
-        musician.setProfileUrl("프로필 URL");
-
-        Musician musician1  = new Musician();
-        musician1.setCareer("캐리어");
-        musician1.setNickNm("이름1");
-        musician1.setIntroduction("소개");
-        musician1.setProfileUrl("프로필 URL");
-
-        // when
-        musicianService.join(musician);
-        musicianService.join(musician1);         //예외 발생 처리
-    }
+//    @Test(expected = IllegalStateException.class)
+//    public void validMusician() throws Exception{
+//        Musician musician  = new Musician();
+//        musician.setCareer("캐리어");
+//        musician.setNickNm("이름");
+//        musician.setIntroduction("소개");
+//        musician.setProfileUrl("프로필 URL");
+//
+//        Musician musician1  = new Musician();
+//        musician1.setCareer("캐리어");
+//        musician1.setNickNm("이름1");
+//        musician1.setIntroduction("소개");
+//        musician1.setProfileUrl("프로필 URL");
+//
+//        // when
+//        musicianService.join(musician);
+//        musicianService.join(musician1);         //예외 발생 처리
+//    }
 }

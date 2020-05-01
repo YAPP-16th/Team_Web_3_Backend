@@ -30,19 +30,25 @@ public class MusicianController {
 //        return "createMusicianPage";
 //    }
 
-    @RequestMapping("/musicians/info")
-    public List<Musician> getMusicianInfo(@RequestParam("id") Long id,
-                                          @RequestParam("nicknm") String nicknm){
+    /**
+     * 뮤지션 id값 조회
+     * @param id
+     *
+     * @return
+     */
+    @GetMapping("/musicians/{id}")
+    public List<Musician> getMusicianInfo(@PathVariable("id") Long id){
         List<Musician> musicianListInfo = new ArrayList<>();
         Map<String,Object> musicianList = new HashMap<String,Object>();
         musicianListInfo = musicianService.findAllMusician();
         musicianService.findByIdMusician(id);
-        musicianService.findByNameMusician(nicknm);
+//        musicianService.findByNameMusician(nickNm);
 
         musicianList.put("musicianListInfo", musicianListInfo);
         return musicianListInfo;
-
     }
+
+
 
     /**
      * 뮤지션 생성
@@ -50,27 +56,17 @@ public class MusicianController {
      * @param result
      * @return
      */
-    @RequestMapping("/musicians/new")
+    @RequestMapping("/musicians")
     public String createMusician(@Valid MusicianDto musicianDto, BindingResult result){
 
         // @Vaild 체크이후 올바르지 않는 값이 있다면 result에 담겨져 있음.
         if(result.hasErrors()){
             return "musicians/createMusicianPage";      // 페이지 실패처리
         }
-
-        Musician musician = new Musician();
-        musician.setCareer(musicianDto.getCareer());
-        musician.setNickNm(musicianDto.getNickNm());
-        musician.setIntroduction(musicianDto.getIntroduction());
-        musician.setProfileUrl(musicianDto.getProfileUrl());
-        musicianService.join(musician);
+        musicianService.join(musicianDto);
 
         /* 파일업로드 Save + 뮤지션 id 값 */
-
         /* 카테고리 별 Save + 뮤지션 id 값 */
-
-
-
         return "redirect:/";
     }
 }

@@ -28,7 +28,7 @@ public class Song {
     @Column(name = "SONG_ESNTL_URL") //필수 음원파일 경로
     private String songEsntlUrl;
 
-    @Column(name = "SONG_CHC02_URL") //선택 음원파일 경로1
+    @Column(name = "SONG_CHC01_URL") //선택 음원파일 경로1
     private String songChc01Url;
 
     @Column(name = "SONG_CHC02_URL") //선택 음원파일 경로2

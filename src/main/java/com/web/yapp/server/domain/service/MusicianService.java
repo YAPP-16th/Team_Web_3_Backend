@@ -1,6 +1,7 @@
 package com.web.yapp.server.domain.service;
 
 
+import com.web.yapp.server.controller.dto.MusicianDto;
 import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.repository.MusicianRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,20 @@ public class MusicianService {
     private final MusicianRepository musicianRepository;
 
     @Transactional
-    public Long join(Musician musician){
+    public Long join(MusicianDto musicianDto){
+        Musician musician = new Musician();
+        /*
+        빌더패턴 적용
+         */
+        Musician.MusicianBuilder builder = Musician.builder();
+        builder.career(musicianDto.getCareer())
+                .nickNm(musicianDto.getNickNm())
+                .introduction(musicianDto.getIntroduction())
+                .profileUrl(musicianDto.getProfileUrl())
+                .build();
 
 //        validateDuplicateMusician(musician);
+        musician = musicianDto.toEntity();
         musicianRepository.save(musician);
         return musician.getId();
     }

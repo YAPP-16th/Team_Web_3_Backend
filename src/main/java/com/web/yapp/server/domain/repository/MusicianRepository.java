@@ -33,12 +33,12 @@ public class MusicianRepository{
 
     /**
      * 뮤지션 닉네임으로 값 조회
-     * @param nicknm
+     * @param nickNm
      * @return
      */
-    public List<Musician> findByName(String nicknm){
-        return em.createQuery("select m from Musician m where m.name = :nicknm", Musician.class)
-                .setParameter("nicknm", nicknm)
+    public List<Musician> findByName(String nickNm){
+        return em.createQuery("select m from Musician m where m.nickNm = :nickNm", Musician.class)
+                .setParameter("nickNm", nickNm)
                 .getResultList();
     }
 
