@@ -16,8 +16,8 @@ public class Theme {
     @Column(name = "THEME_ID")
     private Long id;
 
-    @Column(name = "THEME_KIND_NM") //경력
-    private String kind_nm;
+    @Column(name = "THEME_KIND_NM") // 카테고리 이름
+    private String themeKindNm;
 
     @ManyToOne
     @JoinColumn(name = "MUSICIAN_ID")
