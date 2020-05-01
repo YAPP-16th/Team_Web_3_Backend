@@ -4,15 +4,16 @@ import com.web.yapp.server.controller.dto.MusicianDto;
 import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.service.MusicianService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MusicianController {
     private final MusicianService musicianService;
@@ -23,12 +24,25 @@ public class MusicianController {
      * @param model
      * @return
      */
-    @GetMapping("/musicians/new")
-    public String createMusicianPage(Model model){
-        model.addAttribute("memberForm", new MusicianDto());
-        return "createMusicianPage";
-    }
+//    @RequestMapping("/musicians/new")
+//    public String createMusicianPage(Model model){
+//        model.addAttribute("memberForm", new MusicianDto());
+//        return "createMusicianPage";
+//    }
 
+    @RequestMapping("/musicians/info")
+    public List<Musician> getMusicianInfo(@RequestParam("id") Long id,
+                                          @RequestParam("nicknm") String nicknm){
+        List<Musician> musicianListInfo = new ArrayList<>();
+        Map<String,Object> musicianList = new HashMap<String,Object>();
+        musicianListInfo = musicianService.findAllMusician();
+        musicianService.findByIdMusician(id);
+        musicianService.findByNameMusician(nicknm);
+
+        musicianList.put("musicianListInfo", musicianListInfo);
+        return musicianListInfo;
+
+    }
 
     /**
      * 뮤지션 생성
@@ -36,7 +50,7 @@ public class MusicianController {
      * @param result
      * @return
      */
-    @PostMapping("/musicians/new")
+    @RequestMapping("/musicians/new")
     public String createMusician(@Valid MusicianDto musicianDto, BindingResult result){
 
         // @Vaild 체크이후 올바르지 않는 값이 있다면 result에 담겨져 있음.
@@ -46,10 +60,17 @@ public class MusicianController {
 
         Musician musician = new Musician();
         musician.setCareer(musicianDto.getCareer());
-        musician.setName(musicianDto.getName());
+        musician.setNickNm(musicianDto.getNickNm());
         musician.setIntroduction(musicianDto.getIntroduction());
-        musician.setProfile_url(musicianDto.getProfile_url());
+        musician.setProfileUrl(musicianDto.getProfileUrl());
         musicianService.join(musician);
+
+        /* 파일업로드 Save + 뮤지션 id 값 */
+
+        /* 카테고리 별 Save + 뮤지션 id 값 */
+
+
+
         return "redirect:/";
     }
 }

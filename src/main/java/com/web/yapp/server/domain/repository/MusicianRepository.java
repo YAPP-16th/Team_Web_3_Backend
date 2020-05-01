@@ -2,7 +2,6 @@ package com.web.yapp.server.domain.repository;
 
 import com.web.yapp.server.domain.Musician;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -33,13 +32,13 @@ public class MusicianRepository{
     }
 
     /**
-     * 이름으로 값 조회
-     * @param name
+     * 뮤지션 닉네임으로 값 조회
+     * @param nicknm
      * @return
      */
-    public List<Musician> findByName(String name){
-        return em.createQuery("select m from Musician m where m.name = :name", Musician.class)
-                .setParameter("name", name)
+    public List<Musician> findByName(String nicknm){
+        return em.createQuery("select m from Musician m where m.name = :nicknm", Musician.class)
+                .setParameter("nicknm", nicknm)
                 .getResultList();
     }
 
