@@ -65,7 +65,7 @@ public class MusicianServiceTest {
         entityManager.flush();                                          // roleback 값들 확인
         Musician one = musicianRepository.findOne(saveId);
         List<Musician> allMusician = musicianRepository.findAllMusician();
-        List<Musician> byName = musicianRepository.findByName(musician.getNickNm());
+        List<Musician> byName = musicianRepository.findByNickNm(musician.getNickNm());
 //
 //        assertEquals(musician, musicianRepository.findOne(saveId));     // join return ID값 조회
 //        assertEquals(musician, one);                                    // ID값 조회

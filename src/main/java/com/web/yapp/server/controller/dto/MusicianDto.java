@@ -1,6 +1,7 @@
 package com.web.yapp.server.controller.dto;
 
 import com.web.yapp.server.domain.Musician;
+import com.web.yapp.server.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,8 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @NoArgsConstructor
 public class MusicianDto {
-
+    private Long id;
+    private User user_id;
     @NotEmpty(message = "뮤지션 경력은 필수입니다.")
     private String career;
     @NotEmpty(message = "뮤지션 이름은 필수입니다.")
@@ -39,8 +41,40 @@ public class MusicianDto {
     private String styExpln02;
     private String styExpln03;
     private String profileUrl;
+
+    public MusicianDto(Musician Entity){
+        this.id = Entity.getId();
+        this.user_id = Entity.getUserId();
+        this.career = Entity.getCareer();
+        this.nickNm = Entity.getNickNm();
+        this.introduction = Entity.getIntroduction();
+        this.celPhone = Entity.getCelPhone();
+        this.portFolioLink = Entity.getPortFolioLink();
+        this.snsNm = Entity.getSnsNm();
+        this.snsType = Entity.getSnsType();
+        this.workStage01 = Entity.getWorkStage01();
+        this.workStage02 = Entity.getWorkStage02();
+        this.workStage03 = Entity.getWorkStage03();
+        this.qstnAns01 = Entity.getQstnAns01();
+        this.qstnAns02 = Entity.getQstnAns02();
+        this.qstnAns03 = Entity.getQstnAns03();
+        this.qstnAns04 = Entity.getQstnAns04();
+        this.qstnAns05 = Entity.getQstnAns05();
+        this.styPrc01 = Entity.getStyPrc01();
+        this.styPrc02 = Entity.getStyPrc02();
+        this.styPrc03 = Entity.getStyPrc03();
+        this.styExpln01 = Entity.getStyExpln01();
+        this.styExpln02 = Entity.getStyExpln02();
+        this.styExpln03 = Entity.getStyExpln03();
+        this.profileUrl = Entity.getProfileUrl();
+
+    }
+
+
     @Builder
-    public MusicianDto(@NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
+    public MusicianDto(Long id,
+                       User user_id,
+                       @NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
                        @NotEmpty(message = "뮤지션 이름은 필수입니다.") String nickNm,
                        @NotEmpty(message = "뮤지션 소개는 필수입니다.") String introduction,
                        String celPhone,
@@ -62,6 +96,8 @@ public class MusicianDto {
                        String styExpln02,
                        String styExpln03,
                        String profileUrl){
+        this.id = id;
+        this.user_id = user_id;
         this.career = career;
         this.nickNm = nickNm;
         this.introduction = introduction;
@@ -89,6 +125,8 @@ public class MusicianDto {
 
     public Musician toEntity(){
         return Musician.builder()
+                .id(id)
+                .user_id(user_id)
                 .career(career)
                 .nickNm(nickNm)
                 .introduction(introduction)
@@ -113,4 +151,5 @@ public class MusicianDto {
                 .profileUrl(profileUrl)
                 .build();
     }
+
 }

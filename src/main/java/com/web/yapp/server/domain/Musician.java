@@ -96,7 +96,9 @@ public class Musician {
 
 
     @Builder
-    public Musician(@NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
+    public Musician(Long id,
+                       User user_id,
+                       @NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
                        @NotEmpty(message = "뮤지션 이름은 필수입니다.") String nickNm,
                        @NotEmpty(message = "뮤지션 소개는 필수입니다.") String introduction,
                        String celPhone,
@@ -118,6 +120,7 @@ public class Musician {
                        String styExpln02,
                        String styExpln03,
                        String profileUrl){
+        this.id = id;
         this.career = career;
         this.nickNm = nickNm;
         this.introduction = introduction;

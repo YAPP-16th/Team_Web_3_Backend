@@ -36,7 +36,7 @@ public class MusicianRepository{
      * @param nickNm
      * @return
      */
-    public List<Musician> findByName(String nickNm){
+    public List<Musician> findByNickNm(String nickNm){
         return em.createQuery("select m from Musician m where m.nickNm = :nickNm", Musician.class)
                 .setParameter("nickNm", nickNm)
                 .getResultList();
