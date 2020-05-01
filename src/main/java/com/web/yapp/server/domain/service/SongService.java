@@ -51,11 +51,13 @@ public class SongService {
         List<Long> idList = new LinkedList<Long>();
         Musician musician = musicianRepository.findOne(musicianId);
 
-        String RPcoverUrl = s3Uploader.upload(multipartFiles.get(0),"static");
-        String RPsongUrl = s3Uploader.upload(multipartFiles.get(1),"static");
-        String RPtitle = multipartFiles.get(1).getOriginalFilename();
-        Song song = new Song();
-        song.builder()
+//        String RPcoverUrl = s3Uploader.upload(multipartFiles.get(0),"static");
+//        String RPsongUrl = s3Uploader.upload(multipartFiles.get(1),"static");
+//        String RPtitle = multipartFiles.get(1).getOriginalFilename();
+        String RPcoverUrl = "co";
+        String RPsongUrl = "song";
+        String RPtitle = "rr";
+        Song song = Song.builder()
                 .title(RPtitle)
                 .coverUrl(RPcoverUrl)
                 .songUrl(RPsongUrl)
