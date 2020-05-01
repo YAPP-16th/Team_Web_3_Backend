@@ -4,19 +4,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "TUNA_ATMOSPHERE")
+@Table(name = "TUNA_SPCL_NOTE")
 @Entity
-public class Atmosphere {
+public class SpecialNote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ATMOSPHERE_ID")
+    @Column(name = "SPCL_NOTE_ID")
     private Long id;
 
-    @Column(name = "ATMOSPHERE_KIND_NM") // 카테고리 이름
-    private String atmoKindNm;
+    @Column(name = "SPCL_NOTE_KIND_NM") // 카테고리 이름
+    private String spclNoteKindNm;
 
     @ManyToOne
     @JoinColumn(name = "MUSICIAN_ID")

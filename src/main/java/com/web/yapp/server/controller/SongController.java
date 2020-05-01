@@ -19,6 +19,11 @@ public class SongController {
     private final SongRepository songRepository;
     private final S3Uploader s3Uploader;
 
+    /**
+     * 
+     * @param songId
+     * @return
+     */
     @GetMapping("/{songId}") //노래 하나만 받아오기
     public Optional<Song> songById(@PathVariable Long songId){ //findbyid
         Optional<Song> songDto = songRepository.findById(songId);

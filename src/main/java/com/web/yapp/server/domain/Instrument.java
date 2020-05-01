@@ -15,8 +15,8 @@ public class Instrument {
     @Column(name = "INSTRUMENT_ID")
     private Long id;
 
-    @Column(name = "INSTRUMENT_KIND_NM") //경력
-    private String kind_nm;
+    @Column(name = "INSTRUMENT_KIND_NM") // 카테고리 이름
+    private String instruKindNm;
 
     @ManyToOne
     @JoinColumn(name = "MUSICIAN_ID")

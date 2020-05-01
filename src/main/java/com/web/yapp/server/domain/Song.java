@@ -33,7 +33,7 @@ public class Song {
     private int represent;
 
     @Builder
-    public Song(String title, String coverUrl, String songUrl, int represent){
+    public Song(String title, String coverUrl, String songUrl, int represent) {
         this.title = title;
         this.coverUrl = coverUrl;
         this.songUrl = songUrl;
