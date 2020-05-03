@@ -45,11 +45,9 @@ public class SongServiceTest {
                 .songUrl("song")
                 .title("title")
                 .build();
-
-        //songRepository.save(song);
         List<MultipartFile> multipartFiles = new LinkedList<MultipartFile>();
         List<Long> li = songService.song(multipartFiles, 1L);
-        //System.out.println(li.get(0));
+        System.out.println("------//////-------"+li.get(0));
     }
 
 }

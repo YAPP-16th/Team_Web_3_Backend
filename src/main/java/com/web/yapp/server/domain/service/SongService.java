@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -46,38 +45,44 @@ public class SongService {
         return new SongDto(song);
     }
 
+    /**
+     *
+     * @param multipartFiles
+     * @param musicianId
+     * @return
+     * @throws IOException
+     */
     @Transactional //대표곡커버, 대표곡, 일반곡1, ... 순서
     public List<Long> song(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
         List<Long> idList = new LinkedList<Long>();
         Musician musician = musicianRepository.findOne(musicianId);
+        String RPcoverUrl = s3Uploader.upload(multipartFiles.get(0),"static");
+        String RPsongUrl = s3Uploader.upload(multipartFiles.get(1),"static");
+        String RPtitle = multipartFiles.get(1).getOriginalFilename();
 
-//        String RPcoverUrl = s3Uploader.upload(multipartFiles.get(0),"static");
-//        String RPsongUrl = s3Uploader.upload(multipartFiles.get(1),"static");
-//        String RPtitle = multipartFiles.get(1).getOriginalFilename();
-        String RPcoverUrl = "co";
-        String RPsongUrl = "song";
-        String RPtitle = "rr";
-        Song song = Song.builder()
+        Song RPsong = Song.builder()
                 .title(RPtitle)
                 .coverUrl(RPcoverUrl)
                 .songUrl(RPsongUrl)
                 .represent(1)
                 .musician(musician)
                 .build();
-        songRepository.save(song);
-        idList.add(song.getId());
 
-        //multipartFiles.stream().skip(2).forEach();
-//        for(int i=2;i<multipartFiles.size();i++){
-//            String title = multipartFiles.get(i).getOriginalFilename();
-//            String songUrl = s3Uploader.upload(multipartFiles.get(i),"static");
-//            Song song1 = new Song();
-//            song1.builder()
-//                    .title(title)
-//                    .songUrl(songUrl)
-//                    .coverUrl("")
-//                    .represent()
-//        }
+        songRepository.save(RPsong);
+        idList.add(RPsong.getId());
+
+        for(int i=2;i<multipartFiles.size();i++){
+            String title = multipartFiles.get(i).getOriginalFilename();
+            String songUrl = s3Uploader.upload(multipartFiles.get(i),"static");
+            Song song = new Song();
+            song.builder()
+                    .title(title)
+                    .songUrl(songUrl)
+                    .coverUrl("")
+                    .represent(0)
+                    .musician(musician)
+                    .build();
+        }
         return idList;
     }
 
