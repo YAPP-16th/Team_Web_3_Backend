@@ -2,7 +2,6 @@ package com.web.yapp.server.controller;
 
 
 
-import com.oracle.tools.packager.Log;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
@@ -34,7 +33,7 @@ public class MainController {
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
 
 
-        Log.info(String.valueOf(model));
+        log.info(String.valueOf(model));
         /**
          * 유저 세션 정보 유무 확인
          */
@@ -47,7 +46,7 @@ public class MainController {
 
             }
 
-            Log.info(String.valueOf(user));
+            log.info(String.valueOf(user));
 
 
 
