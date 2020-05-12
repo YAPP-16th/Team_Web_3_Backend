@@ -59,22 +59,22 @@ public class MusicianServiceTest {
 
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void validMusician() throws Exception{
-        Musician musician  = new Musician();
-        musician.setCareer("캐리어");
-        musician.setNickNm("이름");
-        musician.setIntroduction("소개");
-        musician.setProfileUrl("프로필 URL");
-
-        Musician musician1  = new Musician();
-        musician1.setCareer("캐리어");
-        musician1.setNickNm("이름1");
-        musician1.setIntroduction("소개");
-        musician1.setProfileUrl("프로필 URL");
-
-        // when
-        musicianService.join(musician);
-        musicianService.join(musician1);         //예외 발생 처리
-    }
+//    @Test(expected = IllegalStateException.class)
+//    public void validMusician() throws Exception{
+//        Musician musician  = new Musician();
+//        musician.setCareer("캐리어");
+//        musician.setNickNm("이름");
+//        musician.setIntroduction("소개");
+//        musician.setProfileUrl("프로필 URL");
+//
+//        Musician musician1  = new Musician();
+//        musician1.setCareer("캐리어");
+//        musician1.setNickNm("이름1");
+//        musician1.setIntroduction("소개");
+//        musician1.setProfileUrl("프로필 URL");
+//
+//        // when
+//        musicianService.join(musician);
+//        musicianService.join(musician1);         //예외 발생 처리
+//    }
 }
