@@ -24,7 +24,6 @@ public class FileController {
 
     @PostMapping("/upload") //업로드 테스트 API
     public void upload(@RequestParam("data") List<MultipartFile> multipartFiles, String title, Long musicainId) throws IOException {
-        System.out.println("------------이름 : "+multipartFiles.get(0).getOriginalFilename());
         String coverUrl = s3Uploader.upload(multipartFiles.get(0), "static");
         System.out.println("cover"+coverUrl);
     }
