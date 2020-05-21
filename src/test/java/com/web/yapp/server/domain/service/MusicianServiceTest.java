@@ -1,8 +1,9 @@
 package com.web.yapp.server.domain.service;
 
 
-import com.web.yapp.server.controller.dto.MusicianDto;
-import com.web.yapp.server.domain.Musician;
+import com.sun.tools.javah.Gen;
+import com.web.yapp.server.controller.dto.*;
+import com.web.yapp.server.domain.*;
 import com.web.yapp.server.domain.repository.MusicianRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.Assert.*;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -54,9 +58,35 @@ public class MusicianServiceTest {
 //        String str1 = musician.getNickNm();
 //        String str2 = musician.getIntroduction();
 
+        Map<String,Object> map = new HashMap<>();
+        map.put("a","a");
+        map.put("b","a");
+        map.put("c","a");
 
+        AtmosphereDto mItem = new AtmosphereDto(); // <-- instantiate a new Item
+        mItem.setAtmoKindNm("Hammer");
+
+        GenreDto mItem1 = new GenreDto(); // <-- instantiate a new Item
+        mItem1.setGenreKindNm("Hammer");
+
+        InstrumentDto mItem2 = new InstrumentDto(); // <-- instantiate a new Item
+        mItem2.setInstruKindNm("Hammer");
+
+        ThemeDto mItem3 = new ThemeDto(); // <-- instantiate a new Item
+        mItem3.setThemeKindNm("Hammer");
+
+
+
+        List<AtmosphereDto> atmosphereList = new ArrayList<>();
+        List<GenreDto> genreList = new ArrayList<>();
+        List<InstrumentDto> instrumentList= new ArrayList<>();
+        List<ThemeDto> themeList1 = new ArrayList<>();
+        atmosphereList.add(mItem);
+        genreList.add(mItem1);
+        instrumentList.add(mItem2);
+        themeList1.add(mItem3);
         // 뮤지션 등록
-        Long saveId = musicianService.join(musicianDto);
+        Long saveId = musicianService.saveRegister(musicianDto,atmosphereList,genreList,instrumentList,themeList1);
         // 파일업로드 로직
         // 필수 값 null
         musician = musicianDto.toEntity();

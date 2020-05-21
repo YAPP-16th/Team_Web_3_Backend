@@ -23,7 +23,7 @@ public class SpecialNote {
 
     @ManyToOne
     @JoinColumn(name = "MUSICIAN_ID")
-    private Musician musician;
+    private Musician musicianId;
 
     /*
     Request_form_id fk가 와야하는데 정확히 모르겠음.

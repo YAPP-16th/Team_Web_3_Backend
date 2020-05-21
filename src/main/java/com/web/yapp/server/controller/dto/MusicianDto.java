@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class MusicianDto {
     private Long id;
-    private User user_id;
+    private User userId;
     @NotEmpty(message = "뮤지션 경력은 필수입니다.")
     private String career;
     @NotEmpty(message = "뮤지션 이름은 필수입니다.")
@@ -44,7 +44,7 @@ public class MusicianDto {
 
     public MusicianDto(Musician Entity){
         this.id = Entity.getId();
-        this.user_id = Entity.getUserId();
+        this.userId = Entity.getUserId();
         this.career = Entity.getCareer();
         this.nickNm = Entity.getNickNm();
         this.introduction = Entity.getIntroduction();
@@ -73,7 +73,7 @@ public class MusicianDto {
 
     @Builder
     public MusicianDto(Long id,
-                       User user_id,
+                       User userId,
                        @NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
                        @NotEmpty(message = "뮤지션 이름은 필수입니다.") String nickNm,
                        @NotEmpty(message = "뮤지션 소개는 필수입니다.") String introduction,
@@ -97,7 +97,7 @@ public class MusicianDto {
                        String styExpln03,
                        String profileUrl){
         this.id = id;
-        this.user_id = user_id;
+        this.userId = userId;
         this.career = career;
         this.nickNm = nickNm;
         this.introduction = introduction;
@@ -126,7 +126,7 @@ public class MusicianDto {
     public Musician toEntity(){
         return Musician.builder()
                 .id(id)
-                .user_id(user_id)
+                .userId(userId)
                 .career(career)
                 .nickNm(nickNm)
                 .introduction(introduction)

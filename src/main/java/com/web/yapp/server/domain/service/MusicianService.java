@@ -1,15 +1,16 @@
 package com.web.yapp.server.domain.service;
 
 
-import com.web.yapp.server.controller.dto.MusicianDto;
-import com.web.yapp.server.controller.dto.SessionUserDto;
-import com.web.yapp.server.domain.Musician;
-import com.web.yapp.server.domain.repository.MusicianRepository;
+import com.web.yapp.server.controller.dto.*;
+//import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.*;
+import com.web.yapp.server.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,24 +18,82 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MusicianService {
     private final MusicianRepository musicianRepository;
+    private final AtmosphereRepository atmosphereRepository;
+    private final InstrumentRepository instrumentRepository;
+    private final GenreRepository genreRepository;
+    private final ThemeRepository themeRepository;
 
+    /**
+     * 뮤지션 등록
+     * @param musicianDto
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
+     * @return
+     */
     @Transactional
-    public Long join(MusicianDto musicianDto){
-        Musician musician = new Musician();
-        /*
-        빌더패턴 적용
+    public Long saveRegister(MusicianDto musicianDto,
+                             List<AtmosphereDto> atmoList,
+                             List<GenreDto> genreList,
+                             List<InstrumentDto> instruList,
+                             List<ThemeDto> themeList){
+
+        /**
+         * 뮤지 카테고리를 제외한 등록
          */
-//        Musician.MusicianBuilder builder = Musician.builder();
-//        builder.career(musicianDto.getCareer())
-//                .nickNm(musicianDto.getNickNm())
-//                .introduction(musicianDto.getIntroduction())
-//                .profileUrl(musicianDto.getProfileUrl())
-//                .build();
-
-//        validateDuplicateMusician(musician);
-
+        Musician musician = new Musician();
         musician = musicianDto.toEntity();
         musicianRepository.save(musician);
+
+        /**
+         * 카테고리 등록 분위기
+         */
+        if(atmoList != null ){
+            for (AtmosphereDto item:atmoList) {
+                Atmosphere atmosphereEntity = Atmosphere.builder()
+                        .musicianId(musician)
+                        .atmoKindNm(item.getAtmoKindNm())
+                        .build();
+                atmosphereRepository.save(atmosphereEntity);
+            }
+        }
+        /**
+         * 카테고리 등록 장르
+         */
+        if(genreList != null ){
+            for (GenreDto item:genreList) {
+                Genre genreEntity = Genre.builder()
+                        .musicianId(musician)
+                        .genreKindNm(item.getGenreKindNm())
+                        .build();
+                genreRepository.save(genreEntity);
+            }
+        }
+        /**
+         * 카테고리 등록 악기
+         */
+        if(instruList != null ){
+            for (InstrumentDto item:instruList) {
+                Instrument instruEntity = Instrument.builder()
+                        .musicianId(musician)
+                        .instruKindNm(item.getInstruKindNm())
+                        .build();
+                instrumentRepository.save(instruEntity);
+            }
+        }
+        /**
+         * 카테고리 등록 분위기
+         */
+        if(themeList != null ){
+            for (ThemeDto item:themeList) {
+                Theme themeEntity = Theme.builder()
+                        .musicianId(musician)
+                        .themeKindNm(item.getThemeKindNm())
+                        .build();
+                themeRepository.save(themeEntity);
+            }
+        }
         return musician.getId();
     }
     //중복 회원 체크
@@ -47,6 +106,24 @@ public class MusicianService {
         }
     }
 
+    /**
+     * 뮤지션 큐레이션 조회
+     * @return
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
+     */
+    public List<MusicianDto> findCurationMusician(List<AtmosphereDto> atmoList, List<GenreDto> genreList, List<InstrumentDto> instruList, List<ThemeDto> themeList){
+        return musicianRepository.findAllMusician().stream()
+                .map(MusicianDto::new)
+                .collect(Collectors.toList());
+
+    }
+    /**
+     * 뮤지션 전체 조회
+     * @return
+     */
     public List<MusicianDto> findAllMusician(){
         return musicianRepository.findAllMusician().stream()
                 .map(MusicianDto::new)
@@ -54,11 +131,21 @@ public class MusicianService {
 
     }
 
+    /**
+     * 뮤지션 ID 조회
+     * @param id
+     * @return
+     */
+
     public MusicianDto findByIdMusician(Long id){
         return new MusicianDto(musicianRepository.findOne(id));
     }
 
-
+    /**
+     * 뮤지션 닉네임 조회
+     * @param nickNm
+     * @return
+     */
     public List<MusicianDto> findByNickNmMusician(String nickNm) {
         return musicianRepository.findByNickNm(nickNm).stream()
                 .map(MusicianDto::new)

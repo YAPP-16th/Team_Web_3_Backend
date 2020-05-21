@@ -1,9 +1,7 @@
 package com.web.yapp.server.domain.service;
 
-import com.web.yapp.server.domain.Atmosphere;
-import com.web.yapp.server.domain.Genre;
-import com.web.yapp.server.domain.Instrument;
-import com.web.yapp.server.domain.Theme;
+import com.web.yapp.server.controller.dto.MusicianDto;
+import com.web.yapp.server.domain.*;
 import com.web.yapp.server.domain.repository.AtmosphereRepository;
 import com.web.yapp.server.domain.repository.GenreRepository;
 import com.web.yapp.server.domain.repository.InstrumentRepository;
@@ -32,7 +30,8 @@ public class CategoryService {
         return genreRepository.findByAllGenre();
     }
 
-    public List<Instrument> findByInstrument(){
+    public List<Instrument> findByInstrument()
+    {
         return instrumentRepository.findByAllInstrument();
     }
 

@@ -12,6 +12,7 @@ import java.util.List;
 public class MusicianRepository{
     private final EntityManager em;
 
+
     /**
      * 뮤지션 값 저장
      * @param musician
@@ -48,6 +49,16 @@ public class MusicianRepository{
      * @return
      */
     public List<Musician> findAllMusician(){
+        List<Musician> musicianAllInfo = em.createQuery("select m from Musician m" , Musician.class)
+                .getResultList();
+        return musicianAllInfo;
+    }
+
+    /**
+     * 큐레이션 값 조회
+     * @return
+     */
+    public List<Musician> findCurationMusician(){
         List<Musician> musicianAllInfo = em.createQuery("select m from Musician m" , Musician.class)
                 .getResultList();
         return musicianAllInfo;

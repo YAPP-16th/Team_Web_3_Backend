@@ -1,10 +1,10 @@
 package com.web.yapp.server.controller;
 
-import com.web.yapp.server.controller.dto.MusicianDto;
-import com.web.yapp.server.controller.dto.SessionUserDto;
-import com.web.yapp.server.domain.Musician;
+import com.web.yapp.server.controller.dto.*;
+//import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.service.MusicianService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 public class MusicianController {
@@ -28,11 +29,11 @@ public class MusicianController {
      * @param model
      * @return
      */
-//    @RequestMapping("/musicians/new")
-//    public String createMusicianPage(Model model){
-//        model.addAttribute("memberForm", new MusicianDto());
-//        return "createMusicianPage";
-//    }
+    @RequestMapping("/musicians/new")
+    public String createMusicianPage(Model model){
+        model.addAttribute("memberForm", new MusicianDto());
+        return "createMusicianPage";
+    }
 
     /**
      *  뮤지션 값 전체조회
@@ -82,23 +83,53 @@ public class MusicianController {
      * @return
      */
     @PostMapping("/musicians")
-    public String createMusician(@Valid MusicianDto musicianDto, BindingResult result){
-        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+    public List<Map<String, Object>> createMusician(@Valid MusicianDto musicianDto,
+                                                    BindingResult result,
+                                                    @RequestBody(required = false) List<AtmosphereDto> atmoList,
+                                                    @RequestBody(required = false) List<GenreDto> genreList,
+                                                    @RequestBody(required = false) List<InstrumentDto> instruList,
+                                                    @RequestBody(required = false) List<ThemeDto> themeList
+                                 ){
+        List<Map<String,Object>> resultMapList = new ArrayList<>();
+        Map<String,Object> paramMap = new HashMap<>();
 
+//        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+        Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList);
+
+        if(musicianId != null){
+            paramMap.put("Success", "1");
+        }else {
+            paramMap.put("Success", "0");;
+        }
         // 로그인정보가 Null이 아닐경우만 로직처리
-        if(user != null){
-            musicianService.join(musicianDto);
-        }
-
-        // @Vaild 체크이후 올바르지 않는 값이 있다면 result에 담겨져 있음.
-        if(result.hasErrors()){
-            return "musicians/createMusicianPage";      // 페이지 실패처리
-        }
-
-
-
+        //        if(user != null){
+        //
+        //        }
+        //
+        //        // @Vaild 체크이후 올바르지 않는 값이 있다면 result에 담겨져 있음.
+        //        if(result.hasErrors()){
+        //            return "musicians/createMusicianPage";      // 페이지 실패처리
+        //        }
         /* 파일업로드 Save + 뮤지션 id 값 */
         /* 카테고리 별 Save + 뮤지션 id 값 */
-        return "redirect:/";
+        resultMapList.add(paramMap);
+        return resultMapList;
     }
+
+    @GetMapping("/musicians/curation")
+    public List<Map<String,Object>> getMusicianCurationInfo(@RequestParam(value="분위기 리스트", required = false) List<AtmosphereDto> atmoList,
+                                                            @RequestParam(value="장르 리스트", required = false) List<GenreDto> genreList,
+                                                            @RequestParam(value="악기 리스트", required = false) List<InstrumentDto> instruList,
+                                                            @RequestParam(value="테마 리스트", required = false) List<ThemeDto> themeList){
+
+        List<Map<String,Object>> musicianCurationMapList = new ArrayList<>();
+        Map<String,Object> musicianCurationMap = new HashMap<String,Object>();
+        musicianCurationMap.put("musicianCurationMapList",musicianService.findCurationMusician(atmoList,genreList,instruList,themeList));
+        musicianCurationMapList.add(musicianCurationMap);
+        return musicianCurationMapList;
+
+    }
+
+
+
 }

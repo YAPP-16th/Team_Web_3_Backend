@@ -22,10 +22,10 @@ public class Musician {
     @JoinColumn(name = "USER_ID")
     private User userId;
 
-    @Column(name = "MUSICIAN_NICKNAME", nullable = false)        // 1Step 뮤지션 닉네임
+    @Column(name = "MUSICIAN_NICKNAME")        // 1Step 뮤지션 닉네임
     private String nickNm;
 
-    @Column(name = "MUSICIAN_INTRODUCTION", nullable = false) // 1step 뮤지션 프로필 문구
+    @Column(name = "MUSICIAN_INTRODUCTION") // 1step 뮤지션 프로필 문구
     private String introduction;
 
     @Column(name = "MUSICIAN_CAREER") // 1step 뮤지션 경력 경력
@@ -97,7 +97,7 @@ public class Musician {
 
     @Builder
     public Musician(Long id,
-                       User user_id,
+                       User userId,
                        @NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
                        @NotEmpty(message = "뮤지션 이름은 필수입니다.") String nickNm,
                        @NotEmpty(message = "뮤지션 소개는 필수입니다.") String introduction,
@@ -121,6 +121,7 @@ public class Musician {
                        String styExpln03,
                        String profileUrl){
         this.id = id;
+        this.userId = userId;
         this.career = career;
         this.nickNm = nickNm;
         this.introduction = introduction;
