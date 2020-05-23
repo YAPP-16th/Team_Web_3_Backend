@@ -85,16 +85,17 @@ public class MusicianController {
     @PostMapping("/musicians")
     public List<Map<String, Object>> createMusician(@Valid MusicianDto musicianDto,
                                                     BindingResult result,
-                                                    @RequestBody(required = false) List<TagDto> atmoList,
-                                                    @RequestBody(required = false) List<GenreDto> genreList,
-                                                    @RequestBody(required = false) List<InstrumentDto> instruList,
-                                                    @RequestBody(required = false) List<ThemeDto> themeList
+                                                    @RequestBody(required = false) List<String> atmoList,
+                                                    @RequestBody(required = false) List<String> genreList,
+                                                    @RequestBody(required = false) List<String> instruList,
+                                                    @RequestBody(required = false) List<String> themeList,
+                                                    @RequestBody(required = false) List<String> spclNoteList
                                  ){
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> paramMap = new HashMap<>();
 
 //        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
-        Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList);
+        Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList,spclNoteList);
 
         if(musicianId != null){
             paramMap.put("Success", "1");
