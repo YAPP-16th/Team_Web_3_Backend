@@ -1,5 +1,6 @@
 package com.web.yapp.server.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class Song {
     private String title;
 
     @Column(name = "SONG_COVER_URL") //커버이미지 파일 경로
+/* feature/api
     private String cover_url;
 
     @Column(name = "SONG_ESNTL_URL") //필수 음원파일 경로
@@ -40,3 +42,29 @@ public class Song {
 
 
 }
+*/
+
+    private String coverUrl;
+
+    @Column(name = "SONG_URL") //음원파일 경로
+    private String songUrl;
+
+    @Column(name = "SONG_RPRSN_YN") //대표곡인지 아닌지 구분 0 : 일반 or 1 : 대표
+    private int represent;
+
+    @Builder
+    public Song(String title, String coverUrl, String songUrl, int represent, Musician musician) {
+        this.title = title;
+        this.coverUrl = coverUrl;
+        this.songUrl = songUrl;
+        this.represent = represent;
+        this.musician = musician;
+    }
+
+//    public static Song createSong(Musician musician){
+//        Song song = new Song();
+//        song.musician = musician;
+//        return song;
+//    }
+}
+
