@@ -17,7 +17,7 @@ public class Tag {
     private long id;
 
     @Column(name = "TAG_NM")
-    private String tagNm;
+    private String tagNM;
 
     /*
     * 0 : 특이사항(작업)
@@ -30,8 +30,8 @@ public class Tag {
     private int category;
 
     @Builder
-    public Tag(String tagNm, Integer category){
-        this.tagNm = tagNm;
+    public Tag(String tagNM, Integer category){
+        this.tagNM = tagNM;
         this.category = category;
     }
 

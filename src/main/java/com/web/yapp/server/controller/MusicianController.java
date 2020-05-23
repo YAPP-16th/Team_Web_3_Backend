@@ -85,7 +85,7 @@ public class MusicianController {
     @PostMapping("/musicians")
     public List<Map<String, Object>> createMusician(@Valid MusicianDto musicianDto,
                                                     BindingResult result,
-                                                    @RequestBody(required = false) List<AtmosphereDto> atmoList,
+                                                    @RequestBody(required = false) List<TagDto> atmoList,
                                                     @RequestBody(required = false) List<GenreDto> genreList,
                                                     @RequestBody(required = false) List<InstrumentDto> instruList,
                                                     @RequestBody(required = false) List<ThemeDto> themeList
