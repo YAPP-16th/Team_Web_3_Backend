@@ -1,5 +1,6 @@
 package com.web.yapp.server.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,10 +21,21 @@ public class Genre {
 
     @ManyToOne
     @JoinColumn(name = "MUSICIAN_ID")
-    private Musician musician;
+    private Musician musicianId;
 
     /*
     Request_form_id fk가 와야하는데 정확히 모르겠음.
      */
+
+    @Builder
+    public Genre(Long id,
+                      String genreKindNm,
+                      Musician musicianId
+    ){
+        this.id = id;
+        this.genreKindNm = genreKindNm;
+        this.musicianId = musicianId;
+
+    }
 
 }

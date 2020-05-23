@@ -1,13 +1,14 @@
 package com.web.yapp.server.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "TUNA_MUSICIAN")
 @Entity
@@ -21,10 +22,10 @@ public class Musician {
     @JoinColumn(name = "USER_ID")
     private User userId;
 
-    @Column(name = "MUSICIAN_NICKNAME", nullable = false)        // 1Step 뮤지션 닉네임
+    @Column(name = "MUSICIAN_NICKNAME")        // 1Step 뮤지션 닉네임
     private String nickNm;
 
-    @Column(name = "MUSICIAN_INTRODUCTION", nullable = false) // 1step 뮤지션 프로필 문구
+    @Column(name = "MUSICIAN_INTRODUCTION") // 1step 뮤지션 프로필 문구
     private String introduction;
 
     @Column(name = "MUSICIAN_CAREER") // 1step 뮤지션 경력 경력
@@ -93,4 +94,55 @@ public class Musician {
     @Column(name = "MUSICIAN_PROFILE_URL") //프로필 사진 url
     private String profileUrl;
 
+
+    @Builder
+    public Musician(Long id,
+                       User userId,
+                       @NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
+                       @NotEmpty(message = "뮤지션 이름은 필수입니다.") String nickNm,
+                       @NotEmpty(message = "뮤지션 소개는 필수입니다.") String introduction,
+                       String celPhone,
+                       String portFolioLink,
+                       String snsNm,
+                       Long snsType,
+                       String workStage01,
+                       String workStage02,
+                       String workStage03,
+                       String qstnAns01,
+                       String qstnAns02,
+                       String qstnAns03,
+                       String qstnAns04,
+                       String qstnAns05,
+                       Long styPrc01,
+                       Long styPrc02,
+                       Long styPrc03,
+                       String styExpln01,
+                       String styExpln02,
+                       String styExpln03,
+                       String profileUrl){
+        this.id = id;
+        this.userId = userId;
+        this.career = career;
+        this.nickNm = nickNm;
+        this.introduction = introduction;
+        this.celPhone = celPhone;
+        this.portFolioLink = portFolioLink;
+        this.snsNm = snsNm;
+        this.snsType = snsType;
+        this.workStage01 = workStage01;
+        this.workStage02 = workStage02;
+        this.workStage03 = workStage03;
+        this.qstnAns01 = qstnAns01;
+        this.qstnAns02 = qstnAns02;
+        this.qstnAns03 = qstnAns03;
+        this.qstnAns04 = qstnAns04;
+        this.qstnAns05 = qstnAns05;
+        this.styPrc01 = styPrc01;
+        this.styPrc02 = styPrc02;
+        this.styPrc03 = styPrc03;
+        this.styExpln01 = styExpln01;
+        this.styExpln02 = styExpln02;
+        this.styExpln03 = styExpln03;
+        this.profileUrl = profileUrl;
+    }
 }
