@@ -62,8 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService)
                 .and()
-                .defaultSuccessUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000")
-                .failureUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000");
+                .defaultSuccessUrl("/");
+//                .defaultSuccessUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000")
+//                .failureUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000");
 //                .and()
 //                .exceptionHandling()
 //                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/index"));
