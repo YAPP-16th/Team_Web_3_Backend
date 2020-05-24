@@ -3,7 +3,7 @@ package com.web.yapp.server.controller;
 
 
 
-import com.oracle.tools.packager.Log;
+//import com.oracle.tools.packager.Log;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
@@ -87,8 +87,8 @@ public class MainController {
          */
 
 
-
-        return "home";
+        log.info("메인 컨트롤러 ");
+        return "redirect:ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
     }
 
 
