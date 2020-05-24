@@ -34,3 +34,4 @@ out/
 ### oauth Setting ###
 
 application-oauth.properties
+application-aws.properties
