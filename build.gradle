@@ -38,7 +38,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
     compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.boot:spring-boot-starter-security-core'
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.3.2.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'   // p6spy 실제로 쿼리로 들어가는 데이터 확인 가능
     compile('org.springframework.cloud:spring-cloud-starter-aws') //파일업로드
