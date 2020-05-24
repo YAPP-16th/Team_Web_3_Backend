@@ -12,6 +12,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreRepository {
     private final EntityManager em;
+    /**
+     * 장르 값 저장
+     * @param genre
+     */
+    public void save(Genre genre){
+        EntityManager em = this.em;
+        em.persist(genre);
+    }
     public List<Genre> findByAllGenre() {
         List<Genre> genreAllInfo = em.createQuery("select m from Genre m" , Genre.class)
                 .getResultList();

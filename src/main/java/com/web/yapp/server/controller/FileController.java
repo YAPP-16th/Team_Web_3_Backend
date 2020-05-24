@@ -3,14 +3,13 @@ package com.web.yapp.server.controller;
 import com.web.yapp.server.domain.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
+@CrossOrigin("*")
 @RequiredArgsConstructor
 @Controller
 public class FileController {
@@ -21,11 +20,9 @@ public class FileController {
         return "upload";
     }
 
-    @PostMapping("/upload") // 업로드 API. 파일 URL 리턴
-    @ResponseBody
-    public String upload(@RequestParam("data") MultipartFile multipartFile) throws IOException {
-        String result = s3Uploader.upload(multipartFile, "static");
-        System.out.println("결과 URL "+result); //결과 URL console에 출력
-        return result;
+    @PostMapping("/upload") //업로드 테스트 API
+    public void upload(@RequestParam("data") List<MultipartFile> multipartFiles, String title, Long musicainId) throws IOException {
+        String coverUrl = s3Uploader.upload(multipartFiles.get(0), "static");
+        System.out.println("cover"+coverUrl);
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 public class MusicianRepository{
     private final EntityManager em;
 
+
     /**
      * 뮤지션 값 저장
      * @param musician
@@ -33,12 +34,12 @@ public class MusicianRepository{
 
     /**
      * 뮤지션 닉네임으로 값 조회
-     * @param nicknm
+     * @param nickNm
      * @return
      */
-    public List<Musician> findByName(String nicknm){
-        return em.createQuery("select m from Musician m where m.name = :nicknm", Musician.class)
-                .setParameter("nicknm", nicknm)
+    public List<Musician> findByNickNm(String nickNm){
+        return em.createQuery("select m from Musician m where m.nickNm = :nickNm", Musician.class)
+                .setParameter("nickNm", nickNm)
                 .getResultList();
     }
 
@@ -48,6 +49,16 @@ public class MusicianRepository{
      * @return
      */
     public List<Musician> findAllMusician(){
+        List<Musician> musicianAllInfo = em.createQuery("select m from Musician m" , Musician.class)
+                .getResultList();
+        return musicianAllInfo;
+    }
+
+    /**
+     * 큐레이션 값 조회
+     * @return
+     */
+    public List<Musician> findCurationMusician(){
         List<Musician> musicianAllInfo = em.createQuery("select m from Musician m" , Musician.class)
                 .getResultList();
         return musicianAllInfo;
