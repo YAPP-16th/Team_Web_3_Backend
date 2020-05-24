@@ -49,7 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("localhost:8080", "localhost:3000","13.209.105.111:3000","13.209.105.111:8080","ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080","ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000").permitAll()
+                .antMatchers("localhost:8080", "localhost:3000","13.209.105.111:3000","13.209.105.111:8080",
+                        "ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080",
+                        "http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000").permitAll()
                 .antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**,/musicians/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
 //                .antMatchers("/").hasRole(Role.USER.name())
