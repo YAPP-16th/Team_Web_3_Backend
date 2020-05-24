@@ -88,7 +88,7 @@ public class MainController {
 
 
         log.info("메인 컨트롤러 ");
-        return "redirect:ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
+        return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
     }
 
 
