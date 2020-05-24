@@ -53,16 +53,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**,/musicians/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
 //                .antMatchers("/").hasRole(Role.USER.name())
-                .anyRequest().authenticated()
+                .anyRequest().authenticated();
+        http.formLogin()
+                .defaultSuccessUrl("/")
                 .and()
                     .logout()
                     .logoutSuccessUrl("/")
                 .and()
                     .oauth2Login()
                     .userInfoEndpoint()
-                    .userService(customOAuth2UserService)
-                .and()
-                .defaultSuccessUrl("/");
+                    .userService(customOAuth2UserService);
 //                .defaultSuccessUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000")
 //                .failureUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000");
 //                .and()
