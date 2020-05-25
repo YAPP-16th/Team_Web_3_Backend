@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -88,17 +90,37 @@ public class MusicianService {
 
     /**
      * 뮤지션 큐레이션 조회
+     * @param tagList
      * @return
-     * @param atmoList
-     * @param genreList
-     * @param instruList
-     * @param themeList
      */
-    public List<MusicianDto> findCurationMusician(List<AtmosphereDto> atmoList, List<GenreDto> genreList, List<InstrumentDto> instruList, List<ThemeDto> themeList){
-        return musicianRepository.findAllMusician().stream()
+    public List<MusicianDto> findCurationMusician(List<String> tagList){
+
+        List<Musician> musicianList = new LinkedList<Musician>();
+        Map<Musician,Integer> map = new HashMap<>();
+
+        for (int i=0;i<tagList.size();i++){
+            if(tagList.get(i).equals("선택안함")) continue;
+            Tag tag = tagRepository.findTagByTagNM(tagList.get(i));
+            Long tagId = tag.getId();
+            List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
+
+            for(int j=0;j<musicians.size();j++){
+                //Long musicianId = musicians.get(j).getId();
+                Musician musician = musicians.get(i); //musician객체로 중복체크 되는지
+                int value = map.containsKey(musician) ? map.get(musician)+1 : 1 ;
+                map.put(musician,value);
+            }
+        }
+
+        for( Map.Entry<Musician, Integer> elem : map.entrySet() ){
+           if(elem.getValue() == tagList.size()){
+               musicianList.add(elem.getKey());
+           }
+        }
+
+        return musicianList.stream()
                 .map(MusicianDto::new)
                 .collect(Collectors.toList());
-
     }
     /**
      * 뮤지션 전체 조회

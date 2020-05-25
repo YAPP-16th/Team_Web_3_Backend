@@ -118,19 +118,7 @@ public class MusicianController {
     }
 
     @GetMapping("/musicians/curation")
-    public List<Map<String,Object>> getMusicianCurationInfo(@RequestParam(value="분위기 리스트", required = false) List<AtmosphereDto> atmoList,
-                                                            @RequestParam(value="장르 리스트", required = false) List<GenreDto> genreList,
-                                                            @RequestParam(value="악기 리스트", required = false) List<InstrumentDto> instruList,
-                                                            @RequestParam(value="테마 리스트", required = false) List<ThemeDto> themeList){
-
-        List<Map<String,Object>> musicianCurationMapList = new ArrayList<>();
-        Map<String,Object> musicianCurationMap = new HashMap<String,Object>();
-        musicianCurationMap.put("musicianCurationMapList",musicianService.findCurationMusician(atmoList,genreList,instruList,themeList));
-        musicianCurationMapList.add(musicianCurationMap);
-        return musicianCurationMapList;
-
+    public List<MusicianDto> getMusicianCurationInfo(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
+        return musicianService.findCurationMusician(tagList);
     }
-
-
-
 }

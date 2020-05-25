@@ -14,9 +14,8 @@ import java.util.List;
 public class MusicianTagRepository {
     private final EntityManager em;
 
-    //특정 태그가진 뮤지션리스트
-    public List<Tag> findTagByMusician(Long tagId){
-        return em.createQuery("select mt from MusicianTag mt where mt.id = :tagId")
+    public List<Musician> findMusicianByTag(Long tagId){
+        return em.createQuery("select mt.musician from MusicianTag mt where mt.id = :tagId")
                 .setParameter("tagId",tagId)
                 .getResultList();
     }

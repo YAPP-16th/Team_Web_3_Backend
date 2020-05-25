@@ -12,7 +12,7 @@ public class TagRepository {
     private final EntityManager em;
 
     public Tag findTagByTagNM(String tagNM){
-        return em.createQuery("select t from Tag t where t.tagNm = :tagNM",Tag.class)
+        return em.createQuery("select t from Tag t where t.tagNM = :tagNM",Tag.class)
                 .setParameter("tagNM",tagNM)
                 .getSingleResult();
     }
