@@ -89,11 +89,12 @@ public class MusicianService {
     }
 
     /**
-     * 뮤지션 큐레이션 조회
+     * 뮤지션 큐레이션, 탐색 조회
+     * 태그리스트 받아와서 검색
      * @param tagList
      * @return
      */
-    public List<MusicianDto> findCurationMusician(List<String> tagList){
+    public List<MusicianDto> findMusicianByTags(List<String> tagList){
 
         List<Musician> musicianList = new LinkedList<Musician>();
         Map<Musician,Integer> map = new HashMap<>();

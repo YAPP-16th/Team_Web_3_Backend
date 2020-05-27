@@ -119,6 +119,8 @@ public class MusicianController {
 
     @GetMapping("/musicians/curation")
     public List<MusicianDto> getMusicianCurationInfo(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
-        return musicianService.findCurationMusician(tagList);
+        return musicianService.findMusicianByTags(tagList);
     }
+
+    
 }
