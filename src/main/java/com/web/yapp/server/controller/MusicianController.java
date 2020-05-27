@@ -122,5 +122,8 @@ public class MusicianController {
         return musicianService.findMusicianByTags(tagList);
     }
 
-    
+    @GetMapping("/musicians/search")
+    public List<MusicianDto> searchMusician(){
+
+    }
 }

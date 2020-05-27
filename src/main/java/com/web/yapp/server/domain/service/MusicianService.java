@@ -95,7 +95,6 @@ public class MusicianService {
      * @return
      */
     public List<MusicianDto> findMusicianByTags(List<String> tagList){
-
         List<Musician> musicianList = new LinkedList<Musician>();
         Map<Musician,Integer> map = new HashMap<>();
 
@@ -105,16 +104,26 @@ public class MusicianService {
             Long tagId = tag.getId();
             List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
 
-            for(int j=0;j<musicians.size();j++){
-                //Long musicianId = musicians.get(j).getId();
-                Musician musician = musicians.get(i); //musician객체로 중복체크 되는지
+            //제한없음 태그를 가진 뮤지션도 모두 불러오기
+            Tag possibleTag = tagRepository.findTagByTagNM("제한없음");
+            Long possibleTagId = possibleTag.getId();
+            List<Musician> possibleMuiscians = musicianTagRepository.findMusicianByTag(possibleTagId);
+
+            for (Musician musician : musicians
+            ) {
                 int value = map.containsKey(musician) ? map.get(musician)+1 : 1 ;
                 map.put(musician,value);
             }
+
+            for (Musician musician : possibleMuiscians
+                 ) {
+                map.put(musician, 0);
+            }
+
         }
 
         for( Map.Entry<Musician, Integer> elem : map.entrySet() ){
-           if(elem.getValue() == tagList.size()){
+           if(elem.getValue() == tagList.size() || elem.getValue() == 0){ //선택한 태그를 모두가지고 있는 뮤지션이면
                musicianList.add(elem.getKey());
            }
         }
