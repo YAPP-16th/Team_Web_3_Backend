@@ -48,6 +48,8 @@ public class MusicianController {
         musicianList.put("musicianListAllInfo", musicianListAllInfo);
         return musicianList;
     }
+
+    // 뮤지션 상세프로필과 마이페이지 별도로 API 필요
     /**
      * 뮤지션 id값 조회
      * @param id
@@ -118,7 +120,8 @@ public class MusicianController {
     }
 
     /**
-     * 큐레이션, 탐색 API 
+     * 카테고리 구분없이 태그한꺼번에 리스트로 받기
+     * 큐레이션, 탐색 API
      * @param tagList
      * @return
      */
