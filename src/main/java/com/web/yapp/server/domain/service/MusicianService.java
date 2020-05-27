@@ -163,4 +163,49 @@ public class MusicianService {
                 .map(MusicianDto::new)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 뮤지션이 가진 태그 조회
+     * @param musicianId
+     * @return
+     * /*
+     *     * 0 : 특이사항(작업)
+     *     * 1 : 테마
+     *     * 2 : 장르
+     *     * 3 : 분위기
+     *     * 4 : 악기
+     *     *
+     */
+    public Map<String, Object> findTagByMusician(Long musicianId){
+        List<TagDto> tags = musicianTagRepository.findTagByMusician(musicianId).stream()
+                .map(TagDto::new)
+                .collect(Collectors.toList());
+        Map<String,Object> map = new HashMap<String, Object>();
+        List<String> themeList = new LinkedList<String>();
+        List<String> genreList = new LinkedList<String>();
+        List<String> atmoList = new LinkedList<String>();
+        List<String> instruList = new LinkedList<String>();
+        for (TagDto t:tags
+             ) {
+            switch (t.getCategory()){
+                case 1:
+                    themeList.add(t.getTagNM());
+                    break;
+                case 2:
+                    genreList.add(t.getTagNM());
+                    break;
+                case 3:
+                    atmoList.add(t.getTagNM());
+                    break;
+                default:
+                    instruList.add(t.getTagNM());
+                    break;
+            }
+        }
+        map.put("theme",themeList);
+        map.put("genre",genreList);
+        map.put("atmo",atmoList);
+        map.put("instru",instruList);
+        return map;
+    }
 }

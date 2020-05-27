@@ -14,12 +14,19 @@ import java.util.List;
 public class MusicianTagRepository {
     private final EntityManager em;
 
+    //태그로 뮤지션 조회하기
     public List<Musician> findMusicianByTag(Long tagId){
-        return em.createQuery("select mt.musician from MusicianTag mt where mt.id = :tagId")
+        return em.createQuery("select mt.musician from MusicianTag mt where mt.tag.id = :tagId", Musician.class)
                 .setParameter("tagId",tagId)
                 .getResultList();
     }
 
+    //뮤지션이 가진 태그 조회하기
+    public List<Tag> findTagByMusician(Long musicianId){
+        return em.createQuery("select mt.tag from MusicianTag mt where mt.musician.id = :musicianId", Tag.class)
+                .setParameter("musicianId",musicianId)
+                .getResultList();
+    }
     public void save(MusicianTag musicianTag){
         EntityManager em = this.em;
         em.persist(musicianTag);

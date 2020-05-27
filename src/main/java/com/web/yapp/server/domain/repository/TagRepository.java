@@ -16,4 +16,10 @@ public class TagRepository {
                 .setParameter("tagNM",tagNM)
                 .getSingleResult();
     }
+
+    public Tag findTagById(Long tagId){
+        return em.createQuery("select t from Tag t where t.id = :tagId",Tag.class)
+                .setParameter("tagId",tagId)
+                .getSingleResult();
+    }
 }

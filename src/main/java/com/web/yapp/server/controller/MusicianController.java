@@ -129,4 +129,14 @@ public class MusicianController {
     public List<MusicianDto> getMusicianByTags(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
         return musicianService.findMusicianByTags(tagList);
     }
+
+    /**
+     * 뮤지션이 가진 태그 조회
+     * @param id
+     * @return
+     */
+    @GetMapping("/musicians/tag/{id}")
+    public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
+        return musicianService.findTagByMusician(id);
+    }
 }
