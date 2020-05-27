@@ -117,13 +117,13 @@ public class MusicianController {
         return resultMapList;
     }
 
-    @GetMapping("/musicians/curation")
-    public List<MusicianDto> getMusicianCurationInfo(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
-        return musicianService.findMusicianByTags(tagList);
-    }
-
+    /**
+     * 큐레이션, 탐색 API 
+     * @param tagList
+     * @return
+     */
     @GetMapping("/musicians/search")
-    public List<MusicianDto> searchMusician(){
-
+    public List<MusicianDto> getMusicianByTags(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
+        return musicianService.findMusicianByTags(tagList);
     }
 }
