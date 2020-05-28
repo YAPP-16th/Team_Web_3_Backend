@@ -19,20 +19,13 @@ public class Tag {
     @Column(name = "TAG_NM")
     private String tagNM;
 
-    /*
-    * 0 : 특이사항(작업)
-    * 1 : 테마
-    * 2 : 장르
-    * 3 : 분위기
-    * 4 : 악기
-    * */
     @Column(name = "TAG_CATEGORY")
-    private int category;
+    private String categoryNM;
 
     @Builder
-    public Tag(String tagNM, Integer category){
+    public Tag(String tagNM, String categoryNM){
         this.tagNM = tagNM;
-        this.category = category;
+        this.categoryNM = categoryNM;
     }
 
 }
