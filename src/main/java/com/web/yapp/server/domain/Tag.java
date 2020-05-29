@@ -19,7 +19,7 @@ public class Tag {
     @Column(name = "TAG_NM")
     private String tagNM;
 
-    @Column(name = "TAG_CATEGORY")
+    @Column(name = "TAG_CATEGORY_NM")
     private String categoryNM;
 
     @Builder

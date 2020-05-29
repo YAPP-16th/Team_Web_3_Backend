@@ -22,4 +22,9 @@ public class TagRepository {
                 .setParameter("tagId",tagId)
                 .getSingleResult();
     }
+
+    public void save(Tag tag){
+        EntityManager em = this.em;
+        em.persist(tag);
+    }
 }
