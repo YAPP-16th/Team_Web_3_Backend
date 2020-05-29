@@ -3,6 +3,7 @@ package com.web.yapp.server.domain.repository;
 import com.web.yapp.server.domain.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
@@ -23,6 +24,7 @@ public class TagRepository {
                 .getSingleResult();
     }
 
+    @Transactional
     public void save(Tag tag){
         EntityManager em = this.em;
         em.persist(tag);
