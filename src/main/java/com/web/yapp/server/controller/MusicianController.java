@@ -167,8 +167,6 @@ public class MusicianController {
 
     @RequestMapping(value = "/musicians/new", method=RequestMethod.GET)
     public List<Object> getMusicianNew(){
-
-
         List<Object> musicianChoiceInfoMap = new ArrayList<>();
         musicianChoiceInfoMap = musicianService.findMusicianByNew();
         return musicianChoiceInfoMap;
