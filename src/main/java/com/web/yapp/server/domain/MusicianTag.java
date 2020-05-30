@@ -28,10 +28,14 @@ public class MusicianTag {
     @Column(name = "MU_TAG_MAP_RPRSN") // 대표 : 1 , 일반 : 0
     private int represent;
 
+    @Column(name = "MU_TAG_CATEGORY_NM")
+    private String categoryNM;
+
     @Builder
-    public MusicianTag(Musician musician, Tag tag, int represent){
+    public MusicianTag(Musician musician, Tag tag, int represent, String categoryNM){
         this.musician = musician;
         this.tag = tag;
         this.represent = represent;
+        this.categoryNM = categoryNM;
     }
 }

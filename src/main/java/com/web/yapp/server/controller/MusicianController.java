@@ -2,7 +2,9 @@ package com.web.yapp.server.controller;
 
 import com.web.yapp.server.controller.dto.*;
 //import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.service.MusicianService;
+import com.web.yapp.server.domain.service.MusicianTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class MusicianController {
+    private final MusicianTagService musicianTagService;
     private final MusicianService musicianService;
     private final HttpSession httpSession;
 
@@ -83,9 +86,12 @@ public class MusicianController {
 
 
     /**
-     * 뮤지션 생성
-     * @param musicianDto
-     * @param result
+     *
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
+     * @param spclNoteList
      * @return
      */
     @RequestMapping(value = "/musicians", method=RequestMethod.POST)
@@ -100,7 +106,7 @@ public class MusicianController {
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> paramMap = new HashMap<>();
 
-//        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
         Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList,spclNoteList);
 
         if(musicianId != null){
@@ -124,14 +130,18 @@ public class MusicianController {
     }
 
     /**
-     * 카테고리 구분없이 태그한꺼번에 리스트로 받기
-     * 큐레이션, 탐색 API
-     * @param tagList
+     *
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
      * @return
      */
-    @RequestMapping(value = "/musicians/search", method=RequestMethod.GET)
-    public List<MusicianDto> getMusicianByTags(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
-        return musicianService.findMusicianByTags(tagList);
+    @GetMapping("/musicians/curation") //뮤지션 + 작업태그 돌려주기
+    public Map<String,Object> musicianCuration(@RequestParam List<String> atmoList, @RequestParam List<String> genreList,
+                                               @RequestParam List<String> instruList, @RequestParam List<String> themeList) {
+
+        return musicianService.musicianCuration(atmoList, genreList, instruList, themeList);
     }
 
     /**
@@ -141,7 +151,7 @@ public class MusicianController {
      */
     @RequestMapping(value = "/musicians/tag/{id}", method=RequestMethod.GET)
     public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
-        return musicianService.findTagByMusician(id);
+        return musicianTagService.findTagByMusician(id);
     }
 
 

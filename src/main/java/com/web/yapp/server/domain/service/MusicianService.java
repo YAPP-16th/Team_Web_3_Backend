@@ -8,6 +8,7 @@ import com.web.yapp.server.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,8 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MusicianService {
     private final MusicianRepository musicianRepository;
-    private final MusicianTagRepository musicianTagRepository;
-    private final TagRepository tagRepository;
+    private final MusicianTagService musicianTagService;
+    private final SongService songService;
 
     /**
      * 뮤지션 등록
@@ -41,42 +42,19 @@ public class MusicianService {
                              List<String> themeList,
                              List<String> spclNoteList){
 
-        /**
-         * 뮤지 카테고리를 제외한 등록
-         */
         Musician musician = new Musician();
         musician = musicianDto.toEntity();
         musicianRepository.save(musician);
-        saveMusicianTag(atmoList, musician);
-        saveMusicianTag(genreList, musician);
-        saveMusicianTag(instruList, musician);
-        saveMusicianTag(themeList, musician);
-        saveMusicianTag(spclNoteList, musician);
+
+        musicianTagService.saveMusicianTag(atmoList, musician, "분위기");
+        musicianTagService.saveMusicianTag(genreList, musician, "장르");
+        musicianTagService.saveMusicianTag(instruList, musician,"악기");
+        musicianTagService.saveMusicianTag(themeList, musician,"테마");
+        musicianTagService.saveMusicianTag(spclNoteList, musician,"작업");
 
         return musician.getId();
     }
 
-    public void saveMusicianTag(List<String> tagList, Musician musician){
-        for(int i=0;i<tagList.size();i++){
-            String tagNM = tagList.get(i);
-            Tag tag = tagRepository.findTagByTagNM(tagNM);
-            MusicianTag musicianTag;
-            musicianTag = MusicianTag.builder()
-                    .musician(musician)
-                    .tag(tag)
-                    .represent(0)
-                    .build();
-
-            if(i==0)  { //대표태그
-                musicianTag = MusicianTag.builder()
-                        .musician(musician)
-                        .tag(tag)
-                        .represent(1)
-                        .build();
-            }
-            musicianTagRepository.save(musicianTag);
-        }
-    }
 
     //중복 회원 체크
     private void validateDuplicateMusician(Musician musician) {
@@ -87,6 +65,7 @@ public class MusicianService {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
+
 
     /**
      * 뮤지션 큐레이션, 탐색 조회
@@ -134,9 +113,6 @@ public class MusicianService {
     }
 
 
-
-
-
     /**
      * 뮤지션 전체 조회
      * @return
@@ -169,50 +145,46 @@ public class MusicianService {
                 .collect(Collectors.toList());
     }
 
+
     /**
-     * 뮤지션이 가진 태그 조회
-     * @param musicianId
+     * 큐레이션
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
      * @return
-     * /*
-     *     * 0 : 특이사항(작업)
-     *     * 1 : 테마
-     *     * 2 : 장르
-     *     * 3 : 분위기
-     *     * 4 : 악기
-     *     *
      */
-    public Map<String, Object> findTagByMusician(Long musicianId){
-        List<TagDto> tags = musicianTagRepository.findTagByMusician(musicianId).stream()
-                .map(TagDto::new)
-                .collect(Collectors.toList());
-        Map<String,Object> map = new HashMap<String, Object>();
-        List<String> themeList = new LinkedList<String>();
-        List<String> genreList = new LinkedList<String>();
-        List<String> atmoList = new LinkedList<String>();
-        List<String> instruList = new LinkedList<String>();
-        for (TagDto t:tags
+    public Map<String,Object> musicianCuration(List<String> atmoList, List<String> genreList, List<String> instruList, List<String> themeList){
+        HashMap<String,Object> map = new HashMap<>();
+        List<Musician> musicians = new LinkedList<Musician>();
+        List<String> spclNoteTagNMList = new LinkedList<String>();
+        List<String> RPTag = new LinkedList<String>(); //태그 카테고리 순서대로 주기
+        List<MusicianSearchResponseDto> musicianResponseDtos = new LinkedList<MusicianSearchResponseDto>();
 
-             ) {
-            switch (t.getCategoryNM()){
-                case "테마":
+        musicians.addAll(musicianTagService.findMusicianByTags(atmoList));
+        musicians.addAll(musicianTagService.findMusicianByTags(genreList));
+        musicians.addAll(musicianTagService.findMusicianByTags(instruList));
+        musicians.addAll(musicianTagService.findMusicianByTags(themeList));
 
-                    themeList.add(t.getTagNM());
-                    break;
-                case "장르":
-                    genreList.add(t.getTagNM());
-                    break;
-                case "분위기":
-                    atmoList.add(t.getTagNM());
-                    break;
-                default:
-                    instruList.add(t.getTagNM());
-                    break;
-            }
+        for (Musician musician : musicians
+        ) {
+            spclNoteTagNMList = musicianTagService.findSpclNoteTagByMusician(musician.getId());
+            RPTag = musicianTagService.findRPTagByMusician(musician.getId());
+            MusicianDto musicianDto = new MusicianDto(musician);
+            SongDto songDto =  songService.findRPSongByMuscianId(musician.getId());
+
+            MusicianSearchResponseDto musicianSearchResponseDto
+                    = MusicianSearchResponseDto.builder()
+                    .musicianDto(musicianDto)
+                    .songDto(songDto)
+                    .spclNoteTags(spclNoteTagNMList)
+                    .RPtags(RPTag)
+                    .build();
+            musicianResponseDtos.add(musicianSearchResponseDto);
+
         }
-        map.put("theme",themeList);
-        map.put("genre",genreList);
-        map.put("atmo",atmoList);
-        map.put("instru",instruList);
+
+        map.put("musician",musicianResponseDtos);
         return map;
     }
 

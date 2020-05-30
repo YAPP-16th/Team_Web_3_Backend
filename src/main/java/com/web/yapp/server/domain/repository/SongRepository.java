@@ -19,7 +19,7 @@ public class SongRepository {
      * @return
      */
     public List<Song> findSongByMusician(Long musicianId){
-        return em.createQuery("select s from Song s where s.musician = :musicianId",Song.class)
+        return em.createQuery("select s from Song s where s.musician.id = :musicianId",Song.class)
                 .setParameter("musicianId",musicianId)
                 .getResultList();
     }
@@ -30,7 +30,7 @@ public class SongRepository {
      * @return
      */
     public Song findRPSongByMusician(Long musicianId){
-        return em.createQuery("select s from Song s where s.musician = :musicianId",Song.class)
+        return em.createQuery("select s from Song s where s.musician.id = :musicianId and s.represent = 1",Song.class)
                 .setParameter("musicianId",musicianId)
                 .getSingleResult();
     }
