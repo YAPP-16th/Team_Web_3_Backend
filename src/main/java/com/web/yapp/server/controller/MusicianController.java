@@ -27,12 +27,14 @@ public class MusicianController {
 
 
 
+
+
     /**
      * 뮤지션 생성 페이지 이동 컨트롤러
      * @param model
      * @return
      */
-    @RequestMapping("/musicians/new")
+    @RequestMapping(value = "/musicians/new", method=RequestMethod.POST)
     public String createMusicianPage(Model model){
         model.addAttribute("memberForm", new MusicianDto());
         return "createMusicianPage";
@@ -43,7 +45,7 @@ public class MusicianController {
      *
      * @return
      */
-    @GetMapping("/musicians")
+    @RequestMapping(value = "/musicians", method=RequestMethod.GET)
     public Map<String,Object> getMusicianAllInfo(){
         List<MusicianDto> musicianListAllInfo = new ArrayList<>();
         Map<String,Object> musicianList = new HashMap<String,Object>();
@@ -57,9 +59,9 @@ public class MusicianController {
      * 뮤지션 id값 조회
      * @param id
      *
-     * @return
+     * @returnS
      */
-    @GetMapping("/musicians/v1/{id}")
+    @RequestMapping(value = "/musicians/v1/{id}", method=RequestMethod.GET)
     public Map<String,Object> getMusicianIdInfo(@PathVariable("id") Long id){
         MusicianDto musicianListIdInfo = new MusicianDto();
         Map<String,Object> musicianList = new HashMap<String,Object>();
@@ -73,7 +75,7 @@ public class MusicianController {
      * @param nickNm
      * @return
      */
-    @GetMapping("/musicians/v2/{nickNm}")
+    @RequestMapping(value = "/musicians/v2/{nickNm}", method=RequestMethod.GET)
     public Map<String,Object> getMusicianNickNmInfo(@PathVariable("nickNm") String nickNm){
         List<MusicianDto> musicianListNickNmInfo = new ArrayList<>();
         Map<String,Object> musicianList = new HashMap<String,Object>();
@@ -81,6 +83,7 @@ public class MusicianController {
         musicianList.put("musicianListNickNmInfo",musicianListNickNmInfo);
         return musicianList;
     }
+
 
     /**
      *
@@ -91,7 +94,7 @@ public class MusicianController {
      * @param spclNoteList
      * @return
      */
-    @PostMapping("/musicians")
+    @RequestMapping(value = "/musicians", method=RequestMethod.POST)
     public List<Map<String, Object>> createMusician(@Valid MusicianDto musicianDto,
                                                     BindingResult result,
                                                     @RequestBody(required = false) List<String> atmoList,
@@ -99,7 +102,7 @@ public class MusicianController {
                                                     @RequestBody(required = false) List<String> instruList,
                                                     @RequestBody(required = false) List<String> themeList,
                                                     @RequestBody(required = false) List<String> spclNoteList
-                                 ){
+    ){
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> paramMap = new HashMap<>();
 
@@ -146,8 +149,36 @@ public class MusicianController {
      * @param id
      * @return
      */
-    @GetMapping("/musicians/tag/{id}")
+    @RequestMapping(value = "/musicians/tag/{id}", method=RequestMethod.GET)
     public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
         return musicianTagService.findTagByMusician(id);
+    }
+
+
+
+    /**
+     * 뮤지션 리스너들의 선택
+     *
+     */
+
+    @RequestMapping(value = "/musicians/choice", method=RequestMethod.GET)
+    public List<Object> getMusicianChoice(){
+
+        List<Object> musicianChoiceInfoMap = new ArrayList<>();
+
+        musicianChoiceInfoMap = musicianService.findMusicianByChoice();
+        return musicianChoiceInfoMap;
+    }
+
+    /**
+     * 등장 새로운 뮤지션
+     *
+     */
+
+    @RequestMapping(value = "/musicians/new", method=RequestMethod.GET)
+    public List<Object> getMusicianNew(){
+        List<Object> musicianChoiceInfoMap = new ArrayList<>();
+        musicianChoiceInfoMap = musicianService.findMusicianByNew();
+        return musicianChoiceInfoMap;
     }
 }
