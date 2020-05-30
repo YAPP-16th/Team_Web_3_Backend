@@ -17,22 +17,15 @@ public class Tag {
     private long id;
 
     @Column(name = "TAG_NM")
-    private String tagNm;
+    private String tagNM;
 
-    /*
-    * 0 : 특이사항(작업)
-    * 1 : 테마
-    * 2 : 장르
-    * 3 : 분위기
-    * 4 : 악기
-    * */
-    @Column(name = "TAG_CATEGORY")
-    private int category;
+    @Column(name = "TAG_CATEGORY_NM")
+    private String categoryNM;
 
     @Builder
-    public Tag(String tagNm, Integer category){
-        this.tagNm = tagNm;
-        this.category = category;
+    public Tag(String tagNM, String categoryNM){
+        this.tagNM = tagNM;
+        this.categoryNM = categoryNM;
     }
 
 }

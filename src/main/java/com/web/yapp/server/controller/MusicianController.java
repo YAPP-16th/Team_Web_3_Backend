@@ -48,6 +48,8 @@ public class MusicianController {
         musicianList.put("musicianListAllInfo", musicianListAllInfo);
         return musicianList;
     }
+
+    // 뮤지션 상세프로필과 마이페이지 별도로 API 필요
     /**
      * 뮤지션 id값 조회
      * @param id
@@ -85,16 +87,17 @@ public class MusicianController {
     @PostMapping("/musicians")
     public List<Map<String, Object>> createMusician(@Valid MusicianDto musicianDto,
                                                     BindingResult result,
-                                                    @RequestBody(required = false) List<AtmosphereDto> atmoList,
-                                                    @RequestBody(required = false) List<GenreDto> genreList,
-                                                    @RequestBody(required = false) List<InstrumentDto> instruList,
-                                                    @RequestBody(required = false) List<ThemeDto> themeList
+                                                    @RequestBody(required = false) List<String> atmoList,
+                                                    @RequestBody(required = false) List<String> genreList,
+                                                    @RequestBody(required = false) List<String> instruList,
+                                                    @RequestBody(required = false) List<String> themeList,
+                                                    @RequestBody(required = false) List<String> spclNoteList
                                  ){
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> paramMap = new HashMap<>();
 
 //        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
-        Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList);
+        Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList,spclNoteList);
 
         if(musicianId != null){
             paramMap.put("Success", "1");
@@ -116,20 +119,24 @@ public class MusicianController {
         return resultMapList;
     }
 
-    @GetMapping("/musicians/curation")
-    public List<Map<String,Object>> getMusicianCurationInfo(@RequestParam(value="분위기 리스트", required = false) List<AtmosphereDto> atmoList,
-                                                            @RequestParam(value="장르 리스트", required = false) List<GenreDto> genreList,
-                                                            @RequestParam(value="악기 리스트", required = false) List<InstrumentDto> instruList,
-                                                            @RequestParam(value="테마 리스트", required = false) List<ThemeDto> themeList){
-
-        List<Map<String,Object>> musicianCurationMapList = new ArrayList<>();
-        Map<String,Object> musicianCurationMap = new HashMap<String,Object>();
-        musicianCurationMap.put("musicianCurationMapList",musicianService.findCurationMusician(atmoList,genreList,instruList,themeList));
-        musicianCurationMapList.add(musicianCurationMap);
-        return musicianCurationMapList;
-
+    /**
+     * 카테고리 구분없이 태그한꺼번에 리스트로 받기
+     * 큐레이션, 탐색 API
+     * @param tagList
+     * @return
+     */
+    @GetMapping("/musicians/search")
+    public List<MusicianDto> getMusicianByTags(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
+        return musicianService.findMusicianByTags(tagList);
     }
 
-
-
+    /**
+     * 뮤지션이 가진 태그 조회
+     * @param id
+     * @return
+     */
+    @GetMapping("/musicians/tag/{id}")
+    public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
+        return musicianService.findTagByMusician(id);
+    }
 }
