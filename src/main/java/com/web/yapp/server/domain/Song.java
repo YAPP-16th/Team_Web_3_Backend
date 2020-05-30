@@ -49,7 +49,7 @@ public class Song {
     @Column(name = "SONG_URL") //음원파일 경로
     private String songUrl;
 
-    @Column(name = "SONG_RPRSN_YN") //대표곡인지 아닌지 구분 0 : 일반 or 1 : 대표
+    @Column(name = "SONG_RPRSN") //대표곡인지 아닌지 구분 0 : 일반 or 1 : 대표
     private int represent;
 
     @Builder
