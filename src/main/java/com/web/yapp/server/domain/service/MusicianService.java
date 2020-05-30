@@ -191,15 +191,17 @@ public class MusicianService {
         List<String> atmoList = new LinkedList<String>();
         List<String> instruList = new LinkedList<String>();
         for (TagDto t:tags
-        ) {
-            switch (t.getCategory()){
-                case 1:
+
+             ) {
+            switch (t.getCategoryNM()){
+                case "테마":
+
                     themeList.add(t.getTagNM());
                     break;
-                case 2:
+                case "장르":
                     genreList.add(t.getTagNM());
                     break;
-                case 3:
+                case "분위기":
                     atmoList.add(t.getTagNM());
                     break;
                 default:
