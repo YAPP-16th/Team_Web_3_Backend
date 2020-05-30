@@ -120,16 +120,18 @@ public class MusicianController {
     }
 
     /**
-     * 큐레이션, 탐색 API
-     * @param tagList
+     *
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
      * @return
-     * 뮤지션, 작업태그 모두
      */
-
-    @GetMapping("/musicians/curation")
-    public List<MusicianDto> musicianCuration(@RequestParam List<String> atmoList, @RequestParam List<String> genreList,
+    @GetMapping("/musicians/curation") //뮤지션 + 작업태그 돌려주기
+    public Map<String,Object> musicianCuration(@RequestParam List<String> atmoList, @RequestParam List<String> genreList,
                                                @RequestParam List<String> instruList, @RequestParam List<String> themeList) {
-        return musicianService.findMusicianByTags();
+
+        return musicianService.musicianCuration(atmoList, genreList, instruList, themeList);
     }
 
     /**
