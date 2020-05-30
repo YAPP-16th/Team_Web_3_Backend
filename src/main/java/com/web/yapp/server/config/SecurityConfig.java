@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -35,10 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .allowedHeaders("*")
                         .allowCredentials(true)
                         .maxAge(MAX_AGE_SECS);
-//                registry.addMapping("/**")
-//                        .allowedOrigins("http://localhost:3000", "http://localhost:8080")
-//                        .allowedMethods("*")
-//                        .allowedHeaders("Authorization", "Content-Type");
             }
         };
     }
@@ -49,8 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("localhost:8080", "localhost:3000","13.209.105.111:3000","13.209.105.111:8080",
-                        "ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080",
+                .antMatchers("localhost:8080", "localhost:3000","ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080",
                         "http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000").permitAll()
                 .antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**,/musicians/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
@@ -70,5 +68,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .exceptionHandling()
 //                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/index"));
+    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
