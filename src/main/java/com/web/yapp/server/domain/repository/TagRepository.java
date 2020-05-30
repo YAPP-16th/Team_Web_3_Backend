@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 @RequiredArgsConstructor
 @Repository
@@ -13,9 +14,14 @@ public class TagRepository {
     private final EntityManager em;
 
     public Tag findTagByTagNM(String tagNM){
-        return em.createQuery("select t from Tag t where t.tagNM = :tagNM",Tag.class)
-                .setParameter("tagNM",tagNM)
-                .getSingleResult();
+        try {
+            return em.createQuery("select t from Tag t where t.tagNM = :tagNM",Tag.class)
+                    .setParameter("tagNM",tagNM)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            System.out.println("태그 없음");
+        }
+        return new Tag();
     }
 
     public Tag findTagById(Long tagId){

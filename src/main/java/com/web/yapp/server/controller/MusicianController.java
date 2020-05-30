@@ -2,7 +2,9 @@ package com.web.yapp.server.controller;
 
 import com.web.yapp.server.controller.dto.*;
 //import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.service.MusicianService;
+import com.web.yapp.server.domain.service.MusicianTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,8 +21,11 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class MusicianController {
+    private final MusicianTagService musicianTagService;
     private final MusicianService musicianService;
     private final HttpSession httpSession;
+
+
 
 
 
@@ -29,7 +34,7 @@ public class MusicianController {
      * @param model
      * @return
      */
-    @RequestMapping("/musicians/new")
+    @RequestMapping(value = "/musicians/new", method=RequestMethod.POST)
     public String createMusicianPage(Model model){
         model.addAttribute("memberForm", new MusicianDto());
         return "createMusicianPage";
@@ -40,7 +45,7 @@ public class MusicianController {
      *
      * @return
      */
-    @GetMapping("/musicians")
+    @RequestMapping(value = "/musicians", method=RequestMethod.GET)
     public Map<String,Object> getMusicianAllInfo(){
         List<MusicianDto> musicianListAllInfo = new ArrayList<>();
         Map<String,Object> musicianList = new HashMap<String,Object>();
@@ -54,9 +59,9 @@ public class MusicianController {
      * 뮤지션 id값 조회
      * @param id
      *
-     * @return
+     * @returnS
      */
-    @GetMapping("/musicians/v1/{id}")
+    @RequestMapping(value = "/musicians/v1/{id}", method=RequestMethod.GET)
     public Map<String,Object> getMusicianIdInfo(@PathVariable("id") Long id){
         MusicianDto musicianListIdInfo = new MusicianDto();
         Map<String,Object> musicianList = new HashMap<String,Object>();
@@ -70,7 +75,7 @@ public class MusicianController {
      * @param nickNm
      * @return
      */
-    @GetMapping("/musicians/v2/{nickNm}")
+    @RequestMapping(value = "/musicians/v2/{nickNm}", method=RequestMethod.GET)
     public Map<String,Object> getMusicianNickNmInfo(@PathVariable("nickNm") String nickNm){
         List<MusicianDto> musicianListNickNmInfo = new ArrayList<>();
         Map<String,Object> musicianList = new HashMap<String,Object>();
@@ -78,13 +83,18 @@ public class MusicianController {
         musicianList.put("musicianListNickNmInfo",musicianListNickNmInfo);
         return musicianList;
     }
+
+
     /**
-     * 뮤지션 생성
-     * @param musicianDto
-     * @param result
+     *
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
+     * @param spclNoteList
      * @return
      */
-    @PostMapping("/musicians")
+    @RequestMapping(value = "/musicians", method=RequestMethod.POST)
     public List<Map<String, Object>> createMusician(@Valid MusicianDto musicianDto,
                                                     BindingResult result,
                                                     @RequestBody(required = false) List<String> atmoList,
@@ -92,11 +102,11 @@ public class MusicianController {
                                                     @RequestBody(required = false) List<String> instruList,
                                                     @RequestBody(required = false) List<String> themeList,
                                                     @RequestBody(required = false) List<String> spclNoteList
-                                 ){
+    ){
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> paramMap = new HashMap<>();
 
-//        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
         Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList,spclNoteList);
 
         if(musicianId != null){
@@ -120,14 +130,18 @@ public class MusicianController {
     }
 
     /**
-     * 카테고리 구분없이 태그한꺼번에 리스트로 받기
-     * 큐레이션, 탐색 API
-     * @param tagList
+     *
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
      * @return
      */
-    @GetMapping("/musicians/search")
-    public List<MusicianDto> getMusicianByTags(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
-        return musicianService.findMusicianByTags(tagList);
+    @GetMapping("/musicians/curation") //뮤지션 + 작업태그 돌려주기
+    public Map<String,Object> musicianCuration(@RequestParam List<String> atmoList, @RequestParam List<String> genreList,
+                                               @RequestParam List<String> instruList, @RequestParam List<String> themeList) {
+
+        return musicianService.musicianCuration(atmoList, genreList, instruList, themeList);
     }
 
     /**
@@ -135,8 +149,36 @@ public class MusicianController {
      * @param id
      * @return
      */
-    @GetMapping("/musicians/tag/{id}")
+    @RequestMapping(value = "/musicians/tag/{id}", method=RequestMethod.GET)
     public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
-        return musicianService.findTagByMusician(id);
+        return musicianTagService.findTagByMusician(id);
+    }
+
+
+
+    /**
+     * 뮤지션 리스너들의 선택
+     *
+     */
+
+    @RequestMapping(value = "/musicians/choice", method=RequestMethod.GET)
+    public List<Object> getMusicianChoice(){
+
+        List<Object> musicianChoiceInfoMap = new ArrayList<>();
+
+        musicianChoiceInfoMap = musicianService.findMusicianByChoice();
+        return musicianChoiceInfoMap;
+    }
+
+    /**
+     * 등장 새로운 뮤지션
+     *
+     */
+
+    @RequestMapping(value = "/musicians/new", method=RequestMethod.GET)
+    public List<Object> getMusicianNew(){
+        List<Object> musicianChoiceInfoMap = new ArrayList<>();
+        musicianChoiceInfoMap = musicianService.findMusicianByNew();
+        return musicianChoiceInfoMap;
     }
 }
