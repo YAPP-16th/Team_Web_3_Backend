@@ -116,22 +116,27 @@ public class MusicianService {
             }
 
             for (Musician musician : possibleMuiscians
-                 ) {
+            ) {
                 map.put(musician, 0);
             }
 
         }
 
         for( Map.Entry<Musician, Integer> elem : map.entrySet() ){
-           if(elem.getValue() == tagList.size() || elem.getValue() == 0){ //선택한 태그를 모두가지고 있는 뮤지션이면
-               musicianList.add(elem.getKey());
-           }
+            if(elem.getValue() == tagList.size() || elem.getValue() == 0){ //선택한 태그를 모두가지고 있는 뮤지션이면
+                musicianList.add(elem.getKey());
+            }
         }
 
         return musicianList.stream()
                 .map(MusicianDto::new)
                 .collect(Collectors.toList());
     }
+
+
+
+
+
     /**
      * 뮤지션 전체 조회
      * @return
@@ -186,9 +191,11 @@ public class MusicianService {
         List<String> atmoList = new LinkedList<String>();
         List<String> instruList = new LinkedList<String>();
         for (TagDto t:tags
+
              ) {
             switch (t.getCategoryNM()){
                 case "테마":
+
                     themeList.add(t.getTagNM());
                     break;
                 case "장르":
@@ -208,4 +215,26 @@ public class MusicianService {
         map.put("instru",instruList);
         return map;
     }
+
+    /**
+     * 리스너들의 선택
+     * @return
+     */
+    public List<Object> findMusicianByChoice(){
+
+        return musicianRepository.findMusicianByChoice().stream()
+                .map(MusicianDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 등장 새로운 뮤지션
+     * @return
+     */
+    public List<Object> findMusicianByNew(){
+        return musicianRepository.findMusicianByNew().stream()
+                .map(MusicianDto::new)
+                .collect(Collectors.toList());
+    }
+
 }
