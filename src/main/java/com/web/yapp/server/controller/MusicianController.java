@@ -2,7 +2,9 @@ package com.web.yapp.server.controller;
 
 import com.web.yapp.server.controller.dto.*;
 //import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.service.MusicianService;
+import com.web.yapp.server.domain.service.MusicianTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class MusicianController {
+    private final MusicianTagService musicianTagService;
     private final MusicianService musicianService;
     private final HttpSession httpSession;
 
@@ -78,10 +81,14 @@ public class MusicianController {
         musicianList.put("musicianListNickNmInfo",musicianListNickNmInfo);
         return musicianList;
     }
+
     /**
-     * 뮤지션 생성
-     * @param musicianDto
-     * @param result
+     *
+     * @param atmoList
+     * @param genreList
+     * @param instruList
+     * @param themeList
+     * @param spclNoteList
      * @return
      */
     @PostMapping("/musicians")
@@ -92,7 +99,6 @@ public class MusicianController {
                                                     @RequestBody(required = false) List<String> themeList,
                                                     @RequestBody(required = false) List<String> spclNoteList
                                  ){
-        System.out.println("태그:"+atmoList.get(0));
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> paramMap = new HashMap<>();
 
@@ -139,8 +145,8 @@ public class MusicianController {
      * @param id
      * @return
      */
-//    @GetMapping("/musicians/tag/{id}")
-//    public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
-//        return musicianService.findTagByMusician(id);
-//    }
+    @GetMapping("/musicians/tag/{id}")
+    public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
+        return musicianTagService.findTagByMusician(id);
+    }
 }
