@@ -1,6 +1,5 @@
 HELP.md
 .gradle
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -34,3 +33,4 @@ out/
 ### oauth Setting ###
 application-oauth.properties
 application-aws.properties
+application-db.properties

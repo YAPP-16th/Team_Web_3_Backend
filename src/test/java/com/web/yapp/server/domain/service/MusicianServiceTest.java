@@ -1,33 +1,30 @@
-//package com.web.yapp.server.domain.service;
-//
-//
-//import com.sun.tools.javah.Gen;
-//import com.web.yapp.server.controller.dto.*;
-//import com.web.yapp.server.domain.*;
-//import com.web.yapp.server.domain.repository.MusicianRepository;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.transaction.annotation.Transactional;
-//import static org.junit.Assert.*;
-//import javax.persistence.EntityManager;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-//@Transactional
-//
-//public class MusicianServiceTest {
-//
-//    @Autowired MusicianService musicianService;
-//    @Autowired MusicianRepository musicianRepository;
-//    @Autowired EntityManager entityManager;
-//
+package com.web.yapp.server.domain.service;
+
+
+import com.sun.tools.javah.Gen;
+import com.web.yapp.server.controller.dto.*;
+import com.web.yapp.server.domain.*;
+import com.web.yapp.server.domain.repository.MusicianRepository;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+import static org.junit.Assert.*;
+import javax.persistence.EntityManager;
+import java.util.*;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
+
+public class MusicianServiceTest {
+
+    @Autowired MusicianService musicianService;
+    @Autowired MusicianRepository musicianRepository;
+    @Autowired EntityManager entityManager;
+
 //    @Test
 //    public void createMusician() throws Exception{
 //
@@ -104,23 +101,34 @@
 //
 //
 //    }
+
+//    @Test(expected = IllegalStateException.class)
+//    public void validMusician() throws Exception{
+//        Musician musician  = new Musician();
+//        musician.setCareer("캐리어");
+//        musician.setNickNm("이름");
+//        musician.setIntroduction("소개");
+//        musician.setProfileUrl("프로필 URL");
 //
-////    @Test(expected = IllegalStateException.class)
-////    public void validMusician() throws Exception{
-////        Musician musician  = new Musician();
-////        musician.setCareer("캐리어");
-////        musician.setNickNm("이름");
-////        musician.setIntroduction("소개");
-////        musician.setProfileUrl("프로필 URL");
-////
-////        Musician musician1  = new Musician();
-////        musician1.setCareer("캐리어");
-////        musician1.setNickNm("이름1");
-////        musician1.setIntroduction("소개");
-////        musician1.setProfileUrl("프로필 URL");
-////
-////        // when
-////        musicianService.join(musician);
-////        musicianService.join(musician1);         //예외 발생 처리
-////    }
-//}
+//        Musician musician1  = new Musician();
+//        musician1.setCareer("캐리어");
+//        musician1.setNickNm("이름1");
+//        musician1.setIntroduction("소개");
+//        musician1.setProfileUrl("프로필 URL");
+//
+//        // when
+//        musicianService.join(musician);
+//        musicianService.join(musician1);         //예외 발생 처리
+//    }
+
+
+//    @Test
+//    public void curation() throws Exception{
+//        List<MusicianDto> list = new LinkedList<MusicianDto>();
+//        List<String> taglist = new LinkedList<String>();
+//        taglist.add("기타");
+//        taglist.add("힙합");
+//        list = musicianService.findCurationMusician(taglist);
+//        System.out.println("========="+list.get(0).getNickNm());
+//    }
+}

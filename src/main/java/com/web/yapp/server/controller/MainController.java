@@ -2,10 +2,13 @@ package com.web.yapp.server.controller;
 
 
 
-import com.oracle.tools.packager.Log;
+
+//import com.oracle.tools.packager.Log;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
+import com.web.yapp.server.domain.Tag;
 import com.web.yapp.server.domain.User;
+import com.web.yapp.server.domain.repository.TagRepository;
 import com.web.yapp.server.domain.repository.UserRepository;
 import com.web.yapp.server.domain.service.CategoryService;
 import com.web.yapp.server.domain.service.CustomOAuth2UserService;
@@ -28,8 +31,6 @@ import javax.servlet.http.HttpSession;
 public class MainController {
     private final HttpSession httpSession;
 //    private final CustomOAuth2UserService customOAuth2UserService;
-
-    private final CategoryService categoryService;
 
     @GetMapping("/")
     public String home(Model model) {       // 모델에 유저 정보
@@ -86,8 +87,8 @@ public class MainController {
          */
 
 
-
-        return "home";
+        log.info("메인 컨트롤러 ");
+        return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
     }
 
 
