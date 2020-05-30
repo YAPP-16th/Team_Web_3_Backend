@@ -79,7 +79,7 @@ public class MusicianTagService {
 
     /**
      * 태그리스트로 뮤지션 조회
-     * 큐레이션, 탐색에 필요 
+     * 큐레이션, 탐색에 필요
      * @param tagList
      * @return
      */
@@ -87,6 +87,10 @@ public class MusicianTagService {
         List<Musician> musicianList = new LinkedList<Musician>();
         Map<Musician,Integer> map = new HashMap<>();
 
+        for (String nm:tagList
+             ) {
+            System.out.println("////////태그이름"+nm);
+        }
         for (int i=0;i<tagList.size();i++){
             if(tagList.get(i).equals("선택안함")) break; //선택안함이면 필터링 과정 필요 없음
             Tag tag = tagRepository.findTagByTagNM(tagList.get(i));

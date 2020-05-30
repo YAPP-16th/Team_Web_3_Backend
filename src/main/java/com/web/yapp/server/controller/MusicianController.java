@@ -85,25 +85,25 @@ public class MusicianController {
      * @return
      */
     @PostMapping("/musicians")
-    public List<Map<String, Object>> createMusician(@Valid MusicianDto musicianDto,
-                                                    BindingResult result,
+    public List<Map<String, Object>> createMusician(
                                                     @RequestBody(required = false) List<String> atmoList,
                                                     @RequestBody(required = false) List<String> genreList,
                                                     @RequestBody(required = false) List<String> instruList,
                                                     @RequestBody(required = false) List<String> themeList,
                                                     @RequestBody(required = false) List<String> spclNoteList
                                  ){
+        System.out.println("태그:"+atmoList.get(0));
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> paramMap = new HashMap<>();
 
 //        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
-        Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList,spclNoteList);
+        //Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList,spclNoteList);
 
-        if(musicianId != null){
-            paramMap.put("Success", "1");
-        }else {
-            paramMap.put("Success", "0");;
-        }
+//        if(musicianId != null){
+//            paramMap.put("Success", "1");
+//        }else {
+//            paramMap.put("Success", "0");;
+//        }
         // 로그인정보가 Null이 아닐경우만 로직처리
         //        if(user != null){
         //
@@ -139,8 +139,8 @@ public class MusicianController {
      * @param id
      * @return
      */
-    @GetMapping("/musicians/tag/{id}")
-    public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
-        return musicianService.findTagByMusician(id);
-    }
+//    @GetMapping("/musicians/tag/{id}")
+//    public Map<String, Object> getTagsByMusician(@PathVariable("id") Long id){
+//        return musicianService.findTagByMusician(id);
+//    }
 }

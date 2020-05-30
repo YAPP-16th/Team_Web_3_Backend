@@ -23,9 +23,9 @@ public class MusicianTagRepository {
 
     //작업태그 조회
     public List<Tag> findSpclNoteTagByMusician(Long musicianId){
-        String spclNote = "작업";
+        //String spclNote = "작업";
         return em.createQuery("select mt.tag from MusicianTag " +
-                "mt where mt.musician.id = :musicianId and mt.categoryNM = :spclNote ",Tag.class)
+                "mt where mt.musician.id = :musicianId and mt.categoryNM = '작업'",Tag.class)
                 .setParameter("musicianId",musicianId)
                 .getResultList();
     }
