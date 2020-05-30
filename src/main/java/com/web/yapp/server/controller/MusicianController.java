@@ -120,14 +120,16 @@ public class MusicianController {
     }
 
     /**
-     * 카테고리 구분없이 태그한꺼번에 리스트로 받기
      * 큐레이션, 탐색 API
      * @param tagList
      * @return
+     * 뮤지션, 작업태그 모두
      */
-    @GetMapping("/musicians/search")
-    public List<MusicianDto> getMusicianByTags(@RequestParam(value="태그 리스트", required = false) List<String> tagList) {
-        return musicianService.findMusicianByTags(tagList);
+
+    @GetMapping("/musicians/curation")
+    public List<MusicianDto> musicianCuration(@RequestParam List<String> atmoList, @RequestParam List<String> genreList,
+                                               @RequestParam List<String> instruList, @RequestParam List<String> themeList) {
+        return musicianService.findMusicianByTags();
     }
 
     /**

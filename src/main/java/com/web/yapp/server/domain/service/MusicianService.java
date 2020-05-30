@@ -8,6 +8,7 @@ import com.web.yapp.server.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -91,14 +92,15 @@ public class MusicianService {
     /**
      * 뮤지션 큐레이션, 탐색 조회
      * 태그리스트 받아와서 검색
-     * @param tagList
+     *
      * @return
      */
-    public List<MusicianDto> findMusicianByTags(List<String> tagList){
+    public List<MusicianDto> findMusicianByTags(List<String> atmoList, List<String> genreList,
+                                                List<String> instruList, List<String> themeList){
         List<Musician> musicianList = new LinkedList<Musician>();
         Map<Musician,Integer> map = new HashMap<>();
 
-        for (int i=0;i<tagList.size();i++){
+        for (int i=0;i<atmoList.size();i++){
             if(tagList.get(i).equals("선택안함")) continue;
             Tag tag = tagRepository.findTagByTagNM(tagList.get(i));
             Long tagId = tag.getId();
