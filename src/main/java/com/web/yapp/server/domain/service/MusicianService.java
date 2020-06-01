@@ -68,52 +68,6 @@ public class MusicianService {
 
 
     /**
-     * 뮤지션 큐레이션, 탐색 조회
-     * 태그리스트 받아와서 검색
-     * @param tagList
-     * @return
-     */
-    public List<MusicianDto> findMusicianByTags(List<String> tagList){
-        List<Musician> musicianList = new LinkedList<Musician>();
-        Map<Musician,Integer> map = new HashMap<>();
-
-        for (int i=0;i<tagList.size();i++){
-            if(tagList.get(i).equals("선택안함")) continue;
-            Tag tag = tagRepository.findTagByTagNM(tagList.get(i));
-            Long tagId = tag.getId();
-            List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
-
-            //제한없음 태그를 가진 뮤지션도 모두 불러오기
-            Tag possibleTag = tagRepository.findTagByTagNM("제한없음");
-            Long possibleTagId = possibleTag.getId();
-            List<Musician> possibleMuiscians = musicianTagRepository.findMusicianByTag(possibleTagId);
-
-            for (Musician musician : musicians
-            ) {
-                int value = map.containsKey(musician) ? map.get(musician)+1 : 1 ;
-                map.put(musician,value);
-            }
-
-            for (Musician musician : possibleMuiscians
-            ) {
-                map.put(musician, 0);
-            }
-
-        }
-
-        for( Map.Entry<Musician, Integer> elem : map.entrySet() ){
-            if(elem.getValue() == tagList.size() || elem.getValue() == 0){ //선택한 태그를 모두가지고 있는 뮤지션이면
-                musicianList.add(elem.getKey());
-            }
-        }
-
-        return musicianList.stream()
-                .map(MusicianDto::new)
-                .collect(Collectors.toList());
-    }
-
-
-    /**
      * 뮤지션 전체 조회
      * @return
      */
