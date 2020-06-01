@@ -132,3 +132,4 @@
 ////        System.out.println("========="+list.get(0).getNickNm());
 ////    }
 //}
+
