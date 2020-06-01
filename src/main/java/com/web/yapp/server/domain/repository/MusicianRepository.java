@@ -59,10 +59,29 @@ public class MusicianRepository{
      * @return
      */
     public List<Musician> findCurationMusician(){
-        List<Musician> musicianAllInfo = em.createQuery("select m from Musician m" , Musician.class)
+        List<Musician> musicianCurationInfo = em.createQuery("select m from Musician m" , Musician.class)
                 .getResultList();
-        return musicianAllInfo;
+        return musicianCurationInfo;
     }
 
+    /**
+     * 새로 등장한 뮤지션
+     */
+    public List<Musician> findMusicianByChoice(){
+        List<Musician> musicianChoiceInfo = em.createQuery("select count(m.id) as cnt from Musician m where cnt < 20 order by m.id"  , Musician.class)
+                .getResultList();
+        return musicianChoiceInfo;
 
+
+    }
+
+    /**
+     * 리스너들의 선택
+     */
+
+    public List<Musician> findMusicianByNew(){
+        List<Musician> musicianNewInfo = em.createQuery("select m from Musician m, Bookmark b where m.id = b.id" , Musician.class)
+                .getResultList();
+        return musicianNewInfo;
+    }
 }
