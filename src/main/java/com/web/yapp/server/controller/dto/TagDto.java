@@ -10,17 +10,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TagDto {
     private String tagNM;
-    private int category;
+    private String categoryNM;
 
     public Tag toEntity(){
         return Tag.builder()
                 .tagNM(tagNM)
-                .category(category)
+                .categoryNM(categoryNM)
                 .build();
     }
 
     public TagDto(Tag Entity){
         this.tagNM = Entity.getTagNM();
-        this.category = Entity.getCategory();
+        this.categoryNM = Entity.getCategoryNM();
     }
 }

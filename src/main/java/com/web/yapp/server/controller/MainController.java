@@ -4,12 +4,6 @@ package com.web.yapp.server.controller;
 
 
 //import com.oracle.tools.packager.Log;
-import com.web.yapp.server.controller.dto.SessionUserDto;
-import com.web.yapp.server.domain.Role;
-import com.web.yapp.server.domain.User;
-import com.web.yapp.server.domain.repository.UserRepository;
-import com.web.yapp.server.domain.service.CategoryService;
-import com.web.yapp.server.domain.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -29,8 +23,6 @@ import javax.servlet.http.HttpSession;
 public class MainController {
     private final HttpSession httpSession;
 //    private final CustomOAuth2UserService customOAuth2UserService;
-
-    private final CategoryService categoryService;
 
     @GetMapping("/")
     public String home(Model model) {       // 모델에 유저 정보
