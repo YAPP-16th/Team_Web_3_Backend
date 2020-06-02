@@ -12,7 +12,8 @@ import javax.persistence.EntityManager;
 public class BookmarkRepository {
     private final EntityManager em;
 
-    public void save(){
-
+    public void save(Bookmark bookmark){
+        EntityManager em = this.em;
+        em.persist(bookmark);
     }
 }

@@ -94,6 +94,7 @@ public class Musician {
     @Column(name = "MUSICIAN_PROFILE_URL") //프로필 사진 url
     private String profileUrl;
 
+    
 
     @Builder
     public Musician(Long id,
