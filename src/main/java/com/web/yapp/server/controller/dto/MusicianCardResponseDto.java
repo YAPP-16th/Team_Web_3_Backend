@@ -11,19 +11,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class MusicianCardResponseDto {
-    private MusicianDto musicianDto;
-    private SongDto songDto;
-    private List<String> spclNoteTags;
-    private List<String> RPtags;
-    private int bookmarkCount; //좋아요 갯수
+    private SimpleMusicianResponseDto simpleMusicianResponseDto;
+    private Long bookmarkCount; //좋아요 갯수
 
     @Builder
-    public MusicianCardResponseDto(MusicianDto musicianDto, SongDto songDto,
-                                   List<String> spclNoteTags, List<String> RPtags, int bookmarkCount){
-        this.musicianDto = musicianDto;
-        this.songDto = songDto;
-        this.spclNoteTags = spclNoteTags;
-        this.RPtags = RPtags;
+    public MusicianCardResponseDto(SimpleMusicianResponseDto simpleMusicianResponseDto, Long bookmarkCount){
         this.bookmarkCount = bookmarkCount;
     }
 
