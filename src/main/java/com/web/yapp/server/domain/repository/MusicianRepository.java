@@ -83,8 +83,13 @@ public class MusicianRepository{
         return musicianNewInfo;
     }
 
-    public void updateBookmarkCount(Long musicianId){
-        em.createQuery("update m. from Musician m where m.id = :musicianId") //set 넣어서 수정하기 
+    public void upBookmarkCount(Long musicianId){
+        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount+1 where m.id = :musicianId")
+                .setParameter("musicianId",musicianId);
+    }
+
+    public void downBookmarkCount(Long musicianId){
+        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount-1 where m.id = :musicianId")
                 .setParameter("musicianId",musicianId);
     }
 

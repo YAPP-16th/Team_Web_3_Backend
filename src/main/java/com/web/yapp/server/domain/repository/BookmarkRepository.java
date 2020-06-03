@@ -16,4 +16,8 @@ public class BookmarkRepository {
         EntityManager em = this.em;
         em.persist(bookmark);
     }
+
+    public void delete(Long userId, Long musicianId){
+
+    }
 }

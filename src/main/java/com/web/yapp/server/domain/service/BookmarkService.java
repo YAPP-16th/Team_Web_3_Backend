@@ -25,11 +25,18 @@ public class BookmarkService {
                 .musician(musician)
                 .build();
         bookmarkRepository.save(bookmark);
-        updateBookmarkCount(musician);
+        upBookmarkCount(musician);
     }
 
-    public void updateBookmarkCount(Musician musician){
-        musicianRepository.
+    public void deleteBookmark(Long userId, Long musicianId){
 
+    }
+
+    public void upBookmarkCount(Musician musician){
+        musicianRepository.upBookmarkCount(musician.getId());
+    }
+
+    public void downBookmarkCount(Musician musician){
+        musicianRepository.downBookmarkCount(musician.getId());
     }
 }
