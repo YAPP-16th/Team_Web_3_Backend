@@ -26,8 +26,40 @@ public class Contract {
     @Column(name = "CONTRACT_USAGE")
     private String usage;
 
+    @Column(name = "CONTRACT_COPYRIGHT")
     private String copyright;
 
-    //private
+    @Column(name = "CONTRACT_INTENTION")
+    private String intention;
+
+    @Column(name = "CONTRACT_MUSIC_LENGTH")
+    private String musicLength;
+
+    @Column(name = "CONTRACT_MIN_FEE")
+    private int minFee;
+
+    @Column(name = "CONTRACT_MAX_FEE")
+    private int maxFee;
+
+    @Column(name = "CONTRACT_STATUS")
+    private int status; //의뢰상태
+
+    @Column(name = "CONTRACT_DEADLINE")
+    private String deadline;
+
+    @Column(name = "CONTRACT_DOCUMENT_URL1")
+    private String docuUrl1;
+
+    @Column(name = "CONTRACT_DOCUMENT_URL2")
+    private String docuUrl2;
+
+    @Column(name = "CONTRACT_DOCUMENT_URL3")
+    private String docuUrl3;
+
+    @Column(name = "CONTRACT_DOCUMENT_URL4")
+    private String docuUrl4;
+
+    @Column(name = "CONTRACT_DOCUMENT_URL5")
+    private String docuUrl5;
 
 }
