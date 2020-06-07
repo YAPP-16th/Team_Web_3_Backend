@@ -58,6 +58,9 @@ public class MusicianService {
         return musician.getId();
     }
 
+    public Map<String, Object> getMainResponse(){
+
+    }
 
     //중복 회원 체크
     private void validateDuplicateMusician(Musician musician) {
@@ -143,8 +146,8 @@ public class MusicianService {
      * 리스너들의 선택
      * @return
      */
-    public List<MusicianCardResponseDto> findMusicianByChoice(){
-        List<Musician> musicians = musicianRepository.findMusicianByChoice();
+    public List<MusicianCardResponseDto> findMusicianByBookmark(){
+        List<Musician> musicians = musicianRepository.findMusicianByBookmark();
         return getMusicianCardResponseDto(musicians);
     }
 

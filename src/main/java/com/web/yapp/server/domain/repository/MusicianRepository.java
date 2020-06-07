@@ -67,7 +67,7 @@ public class MusicianRepository{
     /**
      * 새로 등장한 뮤지션
      */
-    public List<Musician> findMusicianByChoice(){
+    public List<Musician> findMusicianByBookmark(){
         List<Musician> musicianChoiceInfo = em.createQuery("select m from Musician m order by m.bookmarkCount desc"  , Musician.class)
                 .getResultList();
         return musicianChoiceInfo;
