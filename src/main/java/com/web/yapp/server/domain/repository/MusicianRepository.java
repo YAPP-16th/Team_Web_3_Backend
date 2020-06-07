@@ -77,8 +77,8 @@ public class MusicianRepository{
      * 리스너들의 선택
      */
 
-    public List<Musician> findMusicianByNew(){ //날짜순 정렬 필요, jpa auditing 추가해야함
-        List<Musician> musicianNewInfo = em.createQuery("select m from Musician m" , Musician.class)
+    public List<Musician> findMusicianByNew(){ 
+        List<Musician> musicianNewInfo = em.createQuery("select m from Musician m order by m.createdDate asc" , Musician.class)
                 .getResultList();
         return musicianNewInfo;
     }

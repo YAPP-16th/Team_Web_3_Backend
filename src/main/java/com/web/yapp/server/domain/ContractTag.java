@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
+@Table(name = "TUNA_CON_TAG_MAP")
+@Entity
 public class ContractTag extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
