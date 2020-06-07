@@ -89,6 +89,7 @@ public class MusicianService {
         return new MusicianDto(musicianRepository.findOne(id));
     }
 
+
     /**
      * 뮤지션 닉네임 조회
      * @param nickNm
@@ -112,31 +113,24 @@ public class MusicianService {
     public Map<String,Object> musicianCuration(List<String> atmoList, List<String> genreList, List<String> instruList, List<String> themeList){
         HashMap<String,Object> map = new HashMap<>();
         List<Musician> musicians = new LinkedList<Musician>();
-        List<String> spclNoteTagNMList = new LinkedList<String>();
-        List<String> RPTag = new LinkedList<String>(); //태그 카테고리 순서대로 주기
-        List<MusicianSearchResponseDto> musicianResponseDtos = new LinkedList<MusicianSearchResponseDto>();
+        List<SimpleMusicianResponseDto> musicianResponseDtos = new LinkedList<SimpleMusicianResponseDto>();
+        HashMap<Musician,Integer> curationResult = new HashMap<>();
 
-        musicians.addAll(musicianTagService.findMusicianByTags(atmoList));
-        musicians.addAll(musicianTagService.findMusicianByTags(genreList));
-        musicians.addAll(musicianTagService.findMusicianByTags(instruList));
-        musicians.addAll(musicianTagService.findMusicianByTags(themeList));
+        List<Musician> atmoMusician = musicianTagService.findMusicianByTags(atmoList);
+        List<Musician> genreMusician = musicianTagService.findMusicianByTags(genreList);
+        List<Musician> instruMusician = musicianTagService.findMusicianByTags(instruList);
+        List<Musician> themeMusician = musicianTagService.findMusicianByTags(themeList);
 
-        for (Musician musician : musicians
-        ) {
-            spclNoteTagNMList = musicianTagService.findSpclNoteTagByMusician(musician.getId());
-            RPTag = musicianTagService.findRPTagByMusician(musician.getId());
-            MusicianDto musicianDto = new MusicianDto(musician);
-            SongDto songDto =  songService.findRPSongByMuscianId(musician.getId());
+        for (Musician musician : atmoMusician) { curationResult.put(musician,0);}
+        for (Musician musician : genreMusician) { curationResult.put(musician,0);}
+        for (Musician musician : instruMusician) { curationResult.put(musician,0);}
+        for (Musician musician : themeMusician) { curationResult.put(musician,0);}
 
-            MusicianSearchResponseDto musicianSearchResponseDto
-                    = MusicianSearchResponseDto.builder()
-                    .musicianDto(musicianDto)
-                    .songDto(songDto)
-                    .spclNoteTags(spclNoteTagNMList)
-                    .RPtags(RPTag)
-                    .build();
-            musicianResponseDtos.add(musicianSearchResponseDto);
-
+        for( Map.Entry<Musician, Integer> elem : curationResult.entrySet() ){
+            Musician musician = elem.getKey();
+            SimpleMusicianResponseDto simpleMusicianResponseDto
+                    = getSimpleMusicianResponseDto(musician);
+            musicianResponseDtos.add(simpleMusicianResponseDto);
         }
 
         map.put("musician",musicianResponseDtos);
@@ -147,21 +141,56 @@ public class MusicianService {
      * 리스너들의 선택
      * @return
      */
-    public List<Object> findMusicianByChoice(){
-
-        return musicianRepository.findMusicianByChoice().stream()
-                .map(MusicianDto::new)
-                .collect(Collectors.toList());
+    public List<MusicianCardResponseDto> findMusicianByChoice(){
+        List<Musician> musicians = musicianRepository.findMusicianByChoice();
+        return getMusicianCardResponseDto(musicians);
     }
 
     /**
      * 등장 새로운 뮤지션
      * @return
      */
-    public List<Object> findMusicianByNew(){
-        return musicianRepository.findMusicianByNew().stream()
-                .map(MusicianDto::new)
-                .collect(Collectors.toList());
+    public List<MusicianCardResponseDto> findMusicianByNew(){ //좋아요 눌린 여부도 필요?
+        List<Musician> musicians = musicianRepository.findMusicianByNew();
+        return getMusicianCardResponseDto(musicians);
     }
 
+    /**
+     * 메인 뮤지션 카드( 뮤지션, 노래, 작업태그, 대표태그, 좋아요 개수)
+     * @param musicians
+     * @return
+     */
+    public List<MusicianCardResponseDto> getMusicianCardResponseDto(List<Musician> musicians){
+        List<MusicianCardResponseDto> musicianCardResponseDtoList = new LinkedList<MusicianCardResponseDto>();
+        for (Musician musician: musicians
+        ) {
+            SimpleMusicianResponseDto simpleMusicianResponseDto = getSimpleMusicianResponseDto(musician);
+            Long bookmarkCount = musician.getBookmarkCount();
+            MusicianCardResponseDto musicianCardResponseDto = MusicianCardResponseDto.builder()
+                    .simpleMusicianResponseDto(simpleMusicianResponseDto)
+                    .bookmarkCount(bookmarkCount)
+                    .build();
+            musicianCardResponseDtoList.add(musicianCardResponseDto);
+        }
+        return musicianCardResponseDtoList;
+    }
+
+    /**
+     * 뮤지션, 노래, 작업태그, 대표태그 정보
+     * @param musician
+     * @return
+     */
+    public SimpleMusicianResponseDto getSimpleMusicianResponseDto(Musician musician){
+        MusicianDto musicianDto = new MusicianDto(musician);
+        SongDto songDto = songService.findRPSongByMuscianId(musician.getId());
+        List<String> spclNoteTagNMList = musicianTagService.findSpclNoteTagByMusician(musician.getId());
+        List<String> RPTag = musicianTagService.findRPTagByMusician(musician.getId());
+
+        return SimpleMusicianResponseDto.builder()
+                .musicianDto(musicianDto)
+                .songDto(songDto)
+                .spclNoteTags(spclNoteTagNMList)
+                .RPtags(RPTag)
+                .build();
+    }
 }
