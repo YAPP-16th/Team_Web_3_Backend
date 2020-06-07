@@ -58,8 +58,18 @@ public class MusicianService {
         return musician.getId();
     }
 
+    /**
+     * Main Response
+     * [Session userDto or Musician Dto, 리스너의 선택, 등장 새로운 뮤지션]
+     * 유저, 뮤지션 정보 가져오는 방법 수정 필요 
+     * @return
+     */
     public Map<String, Object> getMainResponse(){
-
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("newMusician",findMusicianByNew());
+        map.put("bestMusician",findMusicianByBookmark());
+        map.put("user",httpSession.getAttribute("user"));
+        return  map;
     }
 
     //중복 회원 체크
