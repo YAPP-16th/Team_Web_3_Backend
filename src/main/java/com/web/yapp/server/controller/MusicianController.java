@@ -26,9 +26,6 @@ public class MusicianController {
     private final HttpSession httpSession;
 
 
-
-
-
     /**
      * 뮤지션 생성 페이지 이동 컨트롤러
      * @param model
@@ -161,24 +158,24 @@ public class MusicianController {
      *
      */
 
-    @RequestMapping(value = "/musicians/choice", method=RequestMethod.GET)
-    public List<Object> getMusicianChoice(){
-
-        List<Object> musicianChoiceInfoMap = new ArrayList<>();
-
-        musicianChoiceInfoMap = musicianService.findMusicianByChoice();
-        return musicianChoiceInfoMap;
-    }
+//    @RequestMapping(value = "/musicians/choice", method=RequestMethod.GET)
+//    public List<Object> getMusicianChoice(){
+//
+//        List<Object> musicianChoiceInfoMap = new ArrayList<>();
+//
+//        musicianChoiceInfoMap = musicianService.findMusicianByChoice();
+//        return musicianChoiceInfoMap;
+//    }
 
     /**
      * 등장 새로운 뮤지션
      *
      */
 
-    @RequestMapping(value = "/musicians/new", method=RequestMethod.GET)
-    public List<Object> getMusicianNew(){
-        List<Object> musicianChoiceInfoMap = new ArrayList<>();
-        musicianChoiceInfoMap = musicianService.findMusicianByNew();
-        return musicianChoiceInfoMap;
-    }
+//    @RequestMapping(value = "/musicians/new", method=RequestMethod.GET)
+//    public List<Object> getMusicianNew(){
+//        List<Object> musicianChoiceInfoMap = new ArrayList<>();
+//        musicianChoiceInfoMap = musicianService.findMusicianByNew();
+//        return musicianChoiceInfoMap;
+//    }
 }

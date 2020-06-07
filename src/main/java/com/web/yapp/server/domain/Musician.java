@@ -94,6 +94,8 @@ public class Musician {
     @Column(name = "MUSICIAN_PROFILE_URL") //프로필 사진 url
     private String profileUrl;
 
+    @Column(name = "MUSICIAN_BOOKMARK_COUNT")
+    private Long bookmarkCount;
 
     @Builder
     public Musician(Long id,
@@ -119,7 +121,8 @@ public class Musician {
                        String styExpln01,
                        String styExpln02,
                        String styExpln03,
-                       String profileUrl){
+                       String profileUrl,
+                    Long bookmarkCount){
         this.id = id;
         this.userId = userId;
         this.career = career;
@@ -144,5 +147,6 @@ public class Musician {
         this.styExpln02 = styExpln02;
         this.styExpln03 = styExpln03;
         this.profileUrl = profileUrl;
+        this.bookmarkCount = bookmarkCount;
     }
 }

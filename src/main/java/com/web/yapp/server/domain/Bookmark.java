@@ -1,5 +1,6 @@
 package com.web.yapp.server.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,5 +23,11 @@ public class Bookmark {
     @ManyToOne // 북마크(n) -> 유저(1)
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @Builder
+    public Bookmark(User user, Musician musician){
+        this.user = user;
+        this.musician = musician;
+    }
 
 }

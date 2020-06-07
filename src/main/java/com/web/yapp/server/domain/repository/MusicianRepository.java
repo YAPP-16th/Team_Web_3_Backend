@@ -68,20 +68,29 @@ public class MusicianRepository{
      * 새로 등장한 뮤지션
      */
     public List<Musician> findMusicianByChoice(){
-        List<Musician> musicianChoiceInfo = em.createQuery("select count(m.id) as cnt from Musician m where cnt < 20 order by m.id"  , Musician.class)
+        List<Musician> musicianChoiceInfo = em.createQuery("select m from Musician m order by m.bookmarkCount desc"  , Musician.class)
                 .getResultList();
         return musicianChoiceInfo;
-
-
     }
 
     /**
      * 리스너들의 선택
      */
 
-    public List<Musician> findMusicianByNew(){
-        List<Musician> musicianNewInfo = em.createQuery("select m from Musician m, Bookmark b where m.id = b.id" , Musician.class)
+    public List<Musician> findMusicianByNew(){ //날짜순 정렬 필요, jpa auditing 추가해야함
+        List<Musician> musicianNewInfo = em.createQuery("select m from Musician m" , Musician.class)
                 .getResultList();
         return musicianNewInfo;
     }
+
+    public void upBookmarkCount(Long musicianId){
+        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount+1 where m.id = :musicianId")
+                .setParameter("musicianId",musicianId);
+    }
+
+    public void downBookmarkCount(Long musicianId){
+        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount-1 where m.id = :musicianId")
+                .setParameter("musicianId",musicianId);
+    }
+
 }

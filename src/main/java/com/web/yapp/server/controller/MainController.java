@@ -25,7 +25,7 @@ public class MainController {
 //    private final CustomOAuth2UserService customOAuth2UserService;
 
     @GetMapping("/")
-    public String home(Model model) {       // 모델에 유저 정보
+    public String home(Model model, HttpSession session) {       // 모델에 유저 정보
 
 
 //        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
@@ -78,9 +78,10 @@ public class MainController {
          *
          */
 
-
+        session.setAttribute("login","locallogin");
         log.info("메인 컨트롤러 ");
-        return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
+        //return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
+        return "redirect:http://localhost:3000";
     }
 
 
