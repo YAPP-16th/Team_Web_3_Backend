@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
+import sun.plugin.dom.core.Element;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -60,62 +61,30 @@ public class MusicianService {
 
     /**
      * Main Response
-     * [Session userDto or Musician Dto, 리스너의 선택, 등장 새로운 뮤지션]
-     * 유저, 뮤지션 정보 가져오는 방법 수정 필요 
+     * [Session userDto or MusicianDto, 리스너의 선택, 등장 새로운 뮤지션]
+     * sessionUser 바인딩 필요
      * @return
      */
     public Map<String, Object> getMainResponse(){
         HashMap<String, Object> map = new HashMap<>();
         map.put("newMusician",findMusicianByNew());
         map.put("bestMusician",findMusicianByBookmark());
-        map.put("user",httpSession.getAttribute("user"));
-        return  map;
-    }
-
-    //중복 회원 체크
-    private void validateDuplicateMusician(Musician musician) {
-        // EXCEPTION
-        List<Musician> findMusicians = musicianRepository.findByNickNm(musician.getNickNm());           // 유니크 제약조건을 먹어주는게 동시회원가입을 막을 수 있다.
-
-        if(!findMusicians.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
-    }
-
-
-    /**
-     * 뮤지션 전체 조회
-     * @return
-     */
-    public List<MusicianDto> findAllMusician(){
-        return musicianRepository.findAllMusician().stream()
-                .map(MusicianDto::new)
-                .collect(Collectors.toList());
-
+        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
+        if(sessionUserDto.getRole().equals("ROLE_USER")) map.put("user",sessionUserDto);
+        else if(sessionUserDto.getRole().equals("ROLE_MUSICIAN")) map.put("musician", findMusicianByUserNm());
+        return map;
     }
 
     /**
-     * 뮤지션 ID 조회
-     * @param id
+     * sessionUser의 이름으로 MusicianDto 가져오기
      * @return
      */
-
-    public MusicianDto findByIdMusician(Long id){
-        return new MusicianDto(musicianRepository.findOne(id));
+    public MusicianDto findMusicianByUserNm(){
+        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
+        String userName = sessionUserDto.getName();
+        Musician musician = musicianRepository.findByUserNm(userName);
+        return new MusicianDto(musician);
     }
-
-
-    /**
-     * 뮤지션 닉네임 조회
-     * @param nickNm
-     * @return
-     */
-    public List<MusicianDto> findByNickNmMusician(String nickNm) {
-        return musicianRepository.findByNickNm(nickNm).stream()
-                .map(MusicianDto::new)
-                .collect(Collectors.toList());
-    }
-
 
     /**
      * 큐레이션
@@ -221,5 +190,49 @@ public class MusicianService {
                 .spclNoteTags(spclNoteTagNMList)
                 .RPtags(RPTag)
                 .build();
+    }
+
+    //중복 회원 체크
+    private void validateDuplicateMusician(Musician musician) {
+        // EXCEPTION
+        List<Musician> findMusicians = musicianRepository.findByNickNm(musician.getNickNm());           // 유니크 제약조건을 먹어주는게 동시회원가입을 막을 수 있다.
+
+        if(!findMusicians.isEmpty()){
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+    }
+
+
+    /**
+     * 뮤지션 전체 조회
+     * @return
+     */
+    public List<MusicianDto> findAllMusician(){
+        return musicianRepository.findAllMusician().stream()
+                .map(MusicianDto::new)
+                .collect(Collectors.toList());
+
+    }
+
+    /**
+     * 뮤지션 ID 조회
+     * @param id
+     * @return
+     */
+
+    public MusicianDto findByIdMusician(Long id){
+        return new MusicianDto(musicianRepository.findOne(id));
+    }
+
+
+    /**
+     * 뮤지션 닉네임 조회
+     * @param nickNm
+     * @return
+     */
+    public List<MusicianDto> findByNickNmMusician(String nickNm) {
+        return musicianRepository.findByNickNm(nickNm).stream()
+                .map(MusicianDto::new)
+                .collect(Collectors.toList());
     }
 }

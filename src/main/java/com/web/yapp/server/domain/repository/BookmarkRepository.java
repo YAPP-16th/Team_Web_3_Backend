@@ -22,10 +22,9 @@ public class BookmarkRepository {
     }
 
     public Bookmark chkBookmark(String userName, Long musicianId){
-        Bookmark bookmark = em.createQuery("select b from Bookmark  b where b.user.name = :userName and b.musician.id = :musicianId",Bookmark.class)
+        return em.createQuery("select b from Bookmark  b where b.user.name = :userName and b.musician.id = :musicianId",Bookmark.class)
                 .setParameter("userName",userName)
                 .setParameter("musicianId", musicianId)
                 .getSingleResult();
-        return bookmark;
     }
 }

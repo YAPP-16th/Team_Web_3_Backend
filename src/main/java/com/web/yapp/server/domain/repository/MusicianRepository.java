@@ -43,6 +43,12 @@ public class MusicianRepository{
                 .getResultList();
     }
 
+    public Musician findByUserNm(String userNm){
+        return em.createQuery("select m from Musician m where m.userId.name = :userNm", Musician.class)
+                .setParameter("userNm", userNm)
+                .getSingleResult();
+    }
+
 
     /**
      * 모든값 조회
