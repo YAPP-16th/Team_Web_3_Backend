@@ -155,7 +155,7 @@ public class MusicianService {
     }
 
     /**
-     * 메인 뮤지션 카드( 뮤지션, 노래, 작업태그, 대표태그, 좋아요 개수)
+     * 메인 뮤지션 카드( 뮤지션, 노래, 작업태그, 대표태그, 좋아요 개수, 좋아요 T/F)
      * @param musicians
      * @return
      */
