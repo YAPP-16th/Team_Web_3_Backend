@@ -77,7 +77,7 @@ public class MusicianRepository{
      * 리스너들의 선택
      */
 
-    public List<Musician> findMusicianByNew(){ 
+    public List<Musician> findMusicianByNew(){
         List<Musician> musicianNewInfo = em.createQuery("select m from Musician m order by m.createdDate asc" , Musician.class)
                 .getResultList();
         return musicianNewInfo;
