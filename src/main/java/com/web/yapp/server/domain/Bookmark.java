@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "TUNA_BOOKMARK")
 @Entity
-public class Bookmark {
+public class Bookmark extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOKMARK_ID")

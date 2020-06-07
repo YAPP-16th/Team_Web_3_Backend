@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "TUNA_CONTRACT")
 @Entity
-public class Contract {
+public class Contract extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CONTRACT_ID")
