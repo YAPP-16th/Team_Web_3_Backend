@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,8 +22,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MusicianService {
     private final MusicianRepository musicianRepository;
+    private final BookmarkRepository bookmarkRepository;
     private final MusicianTagService musicianTagService;
     private final SongService songService;
+    private final HttpSession httpSession;
 
     /**
      * 뮤지션 등록
@@ -168,10 +171,24 @@ public class MusicianService {
             MusicianCardResponseDto musicianCardResponseDto = MusicianCardResponseDto.builder()
                     .simpleMusicianResponseDto(simpleMusicianResponseDto)
                     .bookmarkCount(bookmarkCount)
+                    .alreadyBookmark(chkBookmark(musician))
                     .build();
             musicianCardResponseDtoList.add(musicianCardResponseDto);
         }
         return musicianCardResponseDtoList;
+    }
+
+    /**
+     * sessionUser 바인딩 처리 필요
+     * @param musician
+     * @return
+     */
+    public boolean chkBookmark(Musician musician){
+        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
+        String userName = sessionUserDto.getName();
+        Bookmark bookmark = bookmarkRepository.chkBookmark(userName, musician.getId());
+        Boolean alreadyBookmark = bookmark == null ? false : true;
+        return alreadyBookmark;
     }
 
     /**
