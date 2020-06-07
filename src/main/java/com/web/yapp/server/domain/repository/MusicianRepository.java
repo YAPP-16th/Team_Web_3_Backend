@@ -75,6 +75,8 @@ public class MusicianRepository{
      */
     public List<Musician> findMusicianByBookmark(){
         List<Musician> musicianChoiceInfo = em.createQuery("select m from Musician m order by m.bookmarkCount desc"  , Musician.class)
+                .setFirstResult(0)
+                .setMaxResults(9)
                 .getResultList();
         return musicianChoiceInfo;
     }
@@ -85,6 +87,8 @@ public class MusicianRepository{
 
     public List<Musician> findMusicianByNew(){
         List<Musician> musicianNewInfo = em.createQuery("select m from Musician m order by m.createdDate asc" , Musician.class)
+                .setFirstResult(0)
+                .setMaxResults(9)
                 .getResultList();
         return musicianNewInfo;
     }
