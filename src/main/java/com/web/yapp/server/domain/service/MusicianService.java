@@ -8,8 +8,6 @@ import com.web.yapp.server.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
-import sun.plugin.dom.core.Element;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;

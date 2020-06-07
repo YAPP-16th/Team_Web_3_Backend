@@ -4,17 +4,20 @@ import com.web.yapp.server.controller.dto.MusicianSearchResponseDto;
 import com.web.yapp.server.domain.Tag;
 import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.repository.TagRepository;
+import com.web.yapp.server.domain.service.MusicianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
 public class TestController {
     private final TagRepository tagRepository;
     private final MusicianTagRepository musicianTagRepository;
+    private final MusicianService musicianService;
 
     @GetMapping("/test")
     public void test(){
@@ -36,5 +39,9 @@ public class TestController {
 
     }
 
+    @GetMapping("/main")
+    public Map<String,Object> main(){
+        return musicianService.getMainResponse();
+    }
 
 }
