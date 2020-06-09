@@ -1,7 +1,9 @@
 package com.web.yapp.server.controller;
 
 import com.web.yapp.server.controller.dto.MusicianSearchResponseDto;
+import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.Tag;
+import com.web.yapp.server.domain.repository.MusicianRepository;
 import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.repository.TagRepository;
 import com.web.yapp.server.domain.service.MusicianService;
@@ -18,6 +20,7 @@ public class TestController {
     private final TagRepository tagRepository;
     private final MusicianTagRepository musicianTagRepository;
     private final MusicianService musicianService;
+    private final MusicianRepository musicianRepository;
 
     @GetMapping("/test")
     public void test(){
@@ -40,8 +43,9 @@ public class TestController {
     }
 
     @GetMapping("/main")
-    public Map<String,Object> main(){
+    public Map<String, Object> main(){
         return musicianService.getMainResponse();
     }
+
 
 }

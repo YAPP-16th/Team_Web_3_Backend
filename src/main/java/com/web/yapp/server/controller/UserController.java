@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @CrossOrigin("*")
@@ -30,17 +32,21 @@ public class UserController {
 //        if(user != null) {
 //            model.addAttribute("user", user.getName());
 //
-//
 //            /* 우리가 앱에서 사용할 유저 모델을 생성해야한다. */
-//
-//
-//
 //        }
         // login.mustache
         return "redirect:/";
     }
 
 
+//    @GetMapping("/user")
+//    public int getUserId(HttpServletRequest request){
+//        Cookie[] cookies = request.getCookies();
+//        for (Cookie cookie : cookies) {
+//            if("LastVisit".equals(cookie.getName())) {
+//                lastVisit = cookie.getValue();
+//            }
+//    }
 
 
 }

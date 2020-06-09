@@ -84,13 +84,12 @@ public class MusicianRepository{
     /**
      * 리스너들의 선택
      */
-
     public List<Musician> findMusicianByNew(){
-        List<Musician> musicianNewInfo = em.createQuery("select m from Musician m order by m.createdDate asc" , Musician.class)
+        List<Musician> musicians = em.createQuery("select m from Musician m order by m.createdDate asc " , Musician.class)
                 .setFirstResult(0)
                 .setMaxResults(9)
                 .getResultList();
-        return musicianNewInfo;
+        return musicians;
     }
 
     public void upBookmarkCount(Long musicianId){

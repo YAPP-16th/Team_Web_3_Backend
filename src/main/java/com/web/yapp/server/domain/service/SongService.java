@@ -42,6 +42,8 @@ public class SongService {
     @Transactional(readOnly = true)
     public SongDto findRPSongByMuscianId(Long musicianId){
         Song song = songRepository.findRPSongByMusician(musicianId);
+        System.out.println("mid:"+musicianId);
+        System.out.println("title:"+song.getTitle());
         return new SongDto(song);
     }
 

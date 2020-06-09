@@ -17,6 +17,7 @@ public class MusicianCardResponseDto {
 
     @Builder
     public MusicianCardResponseDto(SimpleMusicianResponseDto simpleMusicianResponseDto, Long bookmarkCount, Boolean alreadyBookmark){
+        this.simpleMusicianResponseDto = simpleMusicianResponseDto;
         this.bookmarkCount = bookmarkCount;
         this.alreadyBookmark = alreadyBookmark;
     }

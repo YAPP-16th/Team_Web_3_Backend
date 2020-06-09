@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 @RequiredArgsConstructor
 @Repository
@@ -22,9 +23,15 @@ public class BookmarkRepository {
     }
 
     public Bookmark chkBookmark(String userName, Long musicianId){
-        return em.createQuery("select b from Bookmark  b where b.user.name = :userName and b.musician.id = :musicianId",Bookmark.class)
-                .setParameter("userName",userName)
-                .setParameter("musicianId", musicianId)
-                .getSingleResult();
+        try{
+            return em.createQuery("select b from Bookmark  b where b.user.name = :userName and b.musician.id = :musicianId",Bookmark.class)
+                    .setParameter("userName",userName)
+                    .setParameter("musicianId", musicianId)
+                    .getSingleResult();
+        }catch (NoResultException e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }
