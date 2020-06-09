@@ -147,19 +147,12 @@ public class MusicianService {
         for (Musician musician: musicians
         ) {
             SimpleMusicianResponseDto simpleMusicianResponseDto = getSimpleMusicianResponseDto(musician);
-            System.out.println("simple mid:"+simpleMusicianResponseDto.getMusicianDto().getId());
-            System.out.println("simple rptag"+simpleMusicianResponseDto.getRPtags().get(0));
-            System.out.println("simple title:"+simpleMusicianResponseDto.getSongDto().getTitle());
-            System.out.println("sdto1:"+simpleMusicianResponseDto);
-
             Long bookmarkCount = musician.getBookmarkCount();
             MusicianCardResponseDto musicianCardResponseDto = MusicianCardResponseDto.builder()
                     .simpleMusicianResponseDto(simpleMusicianResponseDto)
                     .bookmarkCount(bookmarkCount)
                     .alreadyBookmark(chkBookmark(musician))
                     .build();
-            System.out.println("mdto:"+musicianCardResponseDto);
-            System.out.println("sdto:"+musicianCardResponseDto.getSimpleMusicianResponseDto());
             musicianCardResponseDtoList.add(musicianCardResponseDto);
         }
         return musicianCardResponseDtoList;
@@ -189,10 +182,6 @@ public class MusicianService {
         SongDto songDto = songService.findRPSongByMuscianId(musician.getId());
         List<String> spclNoteTagNMList = musicianTagService.findSpclNoteTagByMusician(musician.getId());
         List<String> RPTag = musicianTagService.findRPTagByMusician(musician.getId());
-        System.out.println("mid:"+musician.getId());
-        System.out.println("songtitle"+songDto.getTitle());
-        System.out.println("작업태그"+spclNoteTagNMList.get(0));
-        System.out.println("대표태그"+RPTag.get(0));
 
         return SimpleMusicianResponseDto.builder()
                 .musicianDto(musicianDto)
