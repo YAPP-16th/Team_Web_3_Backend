@@ -4,31 +4,80 @@ package com.web.yapp.server.controller;
 
 
 //import com.oracle.tools.packager.Log;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * TUNA MAIN 컨트롤러
  */
 @CrossOrigin("*")
+@SessionAttributes
 @RequiredArgsConstructor
 @Controller
 @Slf4j      /* 로그 어노테이션 */
 public class MainController {
     private final HttpSession httpSession;
+
 //    private final CustomOAuth2UserService customOAuth2UserService;
 
     @GetMapping("/")
-    public String home(Model model, HttpSession session) {       // 모델에 유저 정보
+    public String home(Model model, HttpSession session, HttpServletResponse response) {       // 모델에 유저 정보
+
+        List<HashMap<String, Object>> accessTokenList = new ArrayList<HashMap<String,Object>>();
+        HashMap<String, Object> resultMap = new HashMap<String,Object>();
+
+        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+        String accessToken =  (String) httpSession.getAttribute("accessToken");
 
 
-//        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+
+
+
+        // 토큰이 있는 경우(사용자 정보랑 값 넣어서 리턴)
+        if(accessToken != null ){
+
+
+        }else {
+
+        }
+
+        //System.out.println("accessToken => " + obj);
+
+//        accessTokenList.addAll(obj);
+        /*ObjectMapper mapper = new ObjectMapper();
+        //Converting the Object to JSONString
+        String jsonString = mapper.writeValueAsString(obj);
+        System.out.println(jsonString);*/
+
+
+        //log.info(String.valueOf(accessTokenListMap));
+/*
+        if(!"".equals(obj.get("tokenValue"))){
+            log.info(String.valueOf(obj.get("tokenValue")));
+        }*/
+        /*if(jsonString.){
+
+        }*/
+
+
+
+
 
 
         /**
@@ -79,9 +128,42 @@ public class MainController {
          */
 
         session.setAttribute("login","locallogin");
+        session.setAttribute("user", user);
+        httpSession.setAttribute("user",user);
         log.info("메인 컨트롤러 ");
+       /* Cookie cookie = new Cookie("user", user);
+        cookie.setValue(user);
+        cookie.setMaxAge(3600); // 쿠키 유효기간 설정 (초 단위)
+        response.addCookie(cookie);*/
+//        model.addAttribute("httpSession", httpSession);
+
         //return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
+
+        Cookie cookie = new Cookie("accessToken", accessToken);
+        cookie.setMaxAge(3600); // 쿠키 유효기간 설정 (초 단위)
+        response.addCookie(cookie);
+
         return "redirect:http://localhost:3000";
+    }
+
+    @GetMapping("/authToken")
+    public HashMap<String, Object> authToken(Model model, HttpSession session) {       // 모델에 유저 정보
+        HashMap<String, Object> resultMap = new HashMap<String,Object>();
+
+        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+        String accessToken =  (String) httpSession.getAttribute("accessToken");
+        try {
+            if(accessToken != null || accessToken != "" ){
+                resultMap.put("success", "1");
+                resultMap.put("user", user);
+                resultMap.put("accessToken", accessToken);
+            }else {
+                resultMap.put("success", "0");
+            }
+        } catch (Exception e ) {
+            e.printStackTrace();
+        }
+        return resultMap;
     }
 
 
