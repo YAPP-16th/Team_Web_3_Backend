@@ -3,10 +3,12 @@ package com.web.yapp.server.controller.dto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
 @Getter
+@Setter
 public class SessionUserDto implements Serializable {
     private String name;
     private String email;

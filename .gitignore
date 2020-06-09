@@ -31,7 +31,6 @@ out/
 .vscode/
 
 ### oauth Setting ###
-
 application-oauth.properties
 application-aws.properties
 application-db.properties
