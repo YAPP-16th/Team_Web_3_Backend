@@ -144,7 +144,7 @@ public class MainController {
 
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         String accessToken =  (String) httpSession.getAttribute("accessToken");
-        Long userId = userService.findUserIdEmail(sessionUserDto.getEmail());
+        Long userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
         try {
             if(accessToken != null || accessToken != "" ){
                 resultMap.put("success", "1");

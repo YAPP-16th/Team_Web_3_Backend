@@ -13,7 +13,7 @@ import java.util.Optional;
 public class UserRepository{
     private final EntityManager em;
 
-    public User findByEmail(String email){
+    public User findUserByEmail(String email){
         return em.createQuery("select u from User u where u.email = :email", User.class)
                 .setParameter("email",email)
                 .getSingleResult();

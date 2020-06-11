@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 public class ContractService {
     private final ContractRepository contractRepository;
 
-    public void createContract(){
-        Contract contract = Contract
-                //.buider
-        contractRepository.save(contract);
-    }
+//    public void createContract(){
+//        Contract contract = Contract
+//                //.buider
+//        contractRepository.save(contract);
+//    }
 }

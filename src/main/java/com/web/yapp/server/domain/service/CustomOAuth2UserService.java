@@ -26,13 +26,7 @@ import java.util.Collections;
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final HttpSession httpSession;
-    private final UserRepository userRepository;
-
-//    public String getToken(OAuth2UserRequest userRequest){
-//        OAuth2AccessToken token = userRequest.getAccessToken();
-//        String tokenValue = token.getTokenValue();
-//        return tokenValue;
-//    }
+    private final UserService userService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest)
@@ -80,12 +74,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 //                        attributes.getProfile_url())
 //                )
 //                .orElse(attributes.toEntity());
-        User user = User.builder()
-                .email(attributes.getEmail())
-                .name(attributes.getName())
-                .profile_url(attributes.getProfile_url())
-                .build();
-        userRepository.save(user);
+        userService.createUser(attributes.getEmail(),attributes.getName(),attributes.getProfile_url());
+        User user = userService.findUserByEmail(attributes.getEmail());
         return user;
     }
 }
