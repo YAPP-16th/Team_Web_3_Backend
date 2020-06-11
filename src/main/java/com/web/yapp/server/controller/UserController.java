@@ -2,6 +2,9 @@ package com.web.yapp.server.controller;
 
 //import com.web.yapp.server.controller.dto.OAuthAttributesDto;
 //import com.web.yapp.server.controller.dto.SessionUserDto;
+
+import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +20,15 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class UserController {
     private final HttpSession httpSession;
+
     /**
      * 구글 로그인 성공시 화면 이동 유저 데이터 가져옴
+     *
      * @param model
      * @return
      */
     @GetMapping("/users/new")
-    public String createForm(Model model){
+    public String createForm(Model model) {
         // 유저 세션 가져옴
 //        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
 //
@@ -39,14 +44,18 @@ public class UserController {
     }
 
 
-//    @GetMapping("/user")
-//    public int getUserId(HttpServletRequest request){
-//        Cookie[] cookies = request.getCookies();
-//        for (Cookie cookie : cookies) {
-//            if("LastVisit".equals(cookie.getName())) {
-//                lastVisit = cookie.getValue();
-//            }
-//    }
+    @GetMapping("/authToken")
+    public int getUserId(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
 
+
+        for (Cookie cookie : cookies) {
+            if ("accessToken".equals(cookie.getName())) {
+                //accessToken = cookie.getValue();
+            }
+        }
+        return 0;
+    }
 
 }

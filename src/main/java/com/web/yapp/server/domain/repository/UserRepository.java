@@ -1,11 +1,26 @@
 package com.web.yapp.server.domain.repository;
 
 import com.web.yapp.server.domain.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+@RequiredArgsConstructor
+@Repository
+public class UserRepository{
+    private final EntityManager em;
 
+    public User findByEmail(String email){
+        return em.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email",email)
+                .getSingleResult();
+    }
+
+    public void save(User user){
+        EntityManager em = this.em;
+        em.persist(user);
+    }
 }
