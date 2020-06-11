@@ -23,4 +23,10 @@ public class UserRepository{
         EntityManager em = this.em;
         em.persist(user);
     }
+
+    public User findUserById(Long userId){
+        return em.createQuery("select u from User u where u.id = :userId",User.class)
+                .setParameter("userId",userId)
+                .getSingleResult();
+    }
 }
