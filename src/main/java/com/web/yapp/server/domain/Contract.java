@@ -32,9 +32,6 @@ public class Contract extends BaseTimeEntity{
     @Column(name = "CONTRACT_INTENTION")
     private String intention;
 
-    @Column(name = "CONTRACT_MUSIC_LENGTH")
-    private String musicLength;
-
     @Column(name = "CONTRACT_MIN_FEE")
     private int minFee;
 

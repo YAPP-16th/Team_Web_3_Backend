@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class ContractDto {
+public class ContractResponseDto {
     private String usage;
     private String copyright;
     private String intention;
@@ -15,7 +15,7 @@ public class ContractDto {
     private int minFee;
     private int maxFee;
     private int status; //의뢰상태
-    private String deadline;
+    
     private String docuUrl1;
     private String docuUrl2;
     private String docuUrl3;
