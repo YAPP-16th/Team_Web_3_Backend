@@ -1,5 +1,6 @@
 package com.web.yapp.server.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -81,5 +82,31 @@ public class Contract extends BaseTimeEntity{
 
     @Column(name = "CONTRACT_DOCUMENT_URL5")
     private String docuUrl5;
+
+    @Builder
+    public Contract(User user, Musician musician, String usage, String copyright, String intention,
+                    int minFee, int maxFee, String minTime, String maxTime, String playTimeChangable, String status, String startDate,
+                    String dueDate, String kakaoId, String phoneNumber, String docuUrl1, String docuUrl2, String docuUrl3, String docuUrl4, String docuUrl5){
+        this.user = user;
+        this.musician = musician;
+        this.usage = usage;
+        this.copyright = copyright;
+        this.intention = intention;
+        this.minFee = minFee;
+        this.maxFee = maxFee;
+        this.minTime = minTime;
+        this.maxTime = maxTime;
+        this.playTimeChangable = playTimeChangable;
+        this.status = status;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        this.kakaoId = kakaoId;
+        this.phoneNumber = phoneNumber;
+        this.docuUrl1 = docuUrl1;
+        this.docuUrl2 = docuUrl2;
+        this.docuUrl3 = docuUrl3;
+        this.docuUrl4 = docuUrl4;
+        this.docuUrl5 = docuUrl5;
+    }
 
 }

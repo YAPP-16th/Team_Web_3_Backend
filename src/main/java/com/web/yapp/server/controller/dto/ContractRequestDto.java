@@ -1,5 +1,6 @@
 package com.web.yapp.server.controller.dto;
 
+import com.web.yapp.server.domain.Contract;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,4 +31,8 @@ public class ContractRequestDto {
     private String docuUrl3;
     private String docuUrl4;
     private String docuUrl5;
+
+    public Contract toEntity(){
+        return Contract
+    }
 }

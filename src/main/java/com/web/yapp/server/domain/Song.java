@@ -24,26 +24,6 @@ public class Song extends BaseTimeEntity{
     private String title;
 
     @Column(name = "SONG_COVER_URL") //커버이미지 파일 경로
-/* feature/api
-    private String cover_url;
-
-    @Column(name = "SONG_ESNTL_URL") //필수 음원파일 경로
-    private String songEsntlUrl;
-
-    @Column(name = "SONG_CHC01_URL") //선택 음원파일 경로1
-    private String songChc01Url;
-
-    @Column(name = "SONG_CHC02_URL") //선택 음원파일 경로2
-    private String songChc02Url;
-
-    @Column(name = "SONG_CHC03_URL") //선택 음원파일 경로3
-    private String songChc03Url;
-
-
-
-}
-*/
-
     private String coverUrl;
 
     @Column(name = "SONG_URL") //음원파일 경로
@@ -60,11 +40,5 @@ public class Song extends BaseTimeEntity{
         this.represent = represent;
         this.musician = musician;
     }
-
-//    public static Song createSong(Musician musician){
-//        Song song = new Song();
-//        song.musician = musician;
-//        return song;
-//    }
 }
 
