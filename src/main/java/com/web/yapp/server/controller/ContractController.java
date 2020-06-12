@@ -1,6 +1,5 @@
 package com.web.yapp.server.controller;
 
-import com.web.yapp.server.controller.dto.ContractResponseDto;
 import com.web.yapp.server.domain.service.ContractService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
