@@ -47,8 +47,13 @@ public class Contract extends BaseTimeEntity{
     @Column(name = "CONTRACT_PLAY_TIME_CHANGEABLE")
     private String playTimeChangable;
 
+    /*
+    1. 뮤지션수락
+    2. 뮤지션거절
+    3. 유저(의뢰취소)
+     */
     @Column(name = "CONTRACT_STATUS")
-    private int status; //의뢰상태
+    private String status; //의뢰상태
 
     @Column(name = "CONTRACT_START_DATE")
     private String startDate;
@@ -56,10 +61,10 @@ public class Contract extends BaseTimeEntity{
     @Column(name = "CONTRACT_DUE_DATE")
     private String dueDate;
 
-    @Column(name = "CONTRACT_KAKAOID")
+    @Column(name = "CONTRACT_KAKAO_ID")
     private String kakaoId;
 
-    @Column(name = "CONTRACT_PHONENUMBER")
+    @Column(name = "CONTRACT_PHONE_NUMBER")
     private String phoneNumber;
 
     @Column(name = "CONTRACT_DOCUMENT_URL1")
