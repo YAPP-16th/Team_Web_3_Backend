@@ -41,8 +41,14 @@ public class Contract extends BaseTimeEntity{
     @Column(name = "CONTRACT_MAX_FEE")
     private int maxFee;
 
-    @Column(name = "CONTRACT_FEE_CHANGABLE")
-    private String feeChangable;
+    @Column(name = "CONTRACT_PLAY_MIN_TIME")
+    private String minTime;
+
+    @Column(name = "CONTRACT_PALY_MAX_TIME")
+    private String maxTime;
+
+    @Column(name = "CONTRACT_PLAY_TIME_CHANGEABLE")
+    private String playTimeChangable;
 
     @Column(name = "CONTRACT_STATUS")
     private int status; //의뢰상태
@@ -52,9 +58,6 @@ public class Contract extends BaseTimeEntity{
 
     @Column(name = "CONTRACT_DUE_DATE")
     private String dueDate;
-
-    @Column(name = "CONTRACT_DATE_CHANGABLE")
-    private String dateChangable;
 
     @Column(name = "CONTRACT_KAKAOID")
     private String kakaoId;
