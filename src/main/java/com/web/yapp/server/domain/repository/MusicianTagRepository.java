@@ -31,7 +31,6 @@ public class MusicianTagRepository {
      * @return
      */
     public List<Tag> findSpclNoteTagByMusician(Long musicianId){
-        //String spclNote = "작업";
         return em.createQuery("select mt.tag from MusicianTag " +
                 "mt where mt.musician.id = :musicianId and mt.categoryNM = '작업'",Tag.class)
                 .setParameter("musicianId",musicianId)

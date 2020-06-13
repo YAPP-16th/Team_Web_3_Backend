@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Table(name = "TUNA_MUSICIAN")
 @Entity
-public class Musician {
+public class Musician extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MUSICIAN_ID")

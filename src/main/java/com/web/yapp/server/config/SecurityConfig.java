@@ -60,29 +60,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080/musicians","http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000","http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000/musician/**").permitAll()
                 .antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**,/musicians/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
-//                .antMatchers("/").hasRole(Role.USER.name())
                 .anyRequest().authenticated().and()
                 .cors().and()
                 .csrf().disable()
-
                 .sessionManagement()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true);
+
         http.formLogin()
-                //.defaultSuccessUrl("http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000")
-                //.and()
-                //.formLogin()
-                //.loginPage("http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000").permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .and()
-                .oauth2Login();
-        http.formLogin()
-                //.defaultSuccessUrl("http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000")
-                //.and()
-                //.formLogin()
-                //.loginPage("http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000").permitAll()
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
@@ -90,13 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
-
-
-//                .defaultSuccessUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000")
-//                .failureUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000");
-//                .and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/index"));
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

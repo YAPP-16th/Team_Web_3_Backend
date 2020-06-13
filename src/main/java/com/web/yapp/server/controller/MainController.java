@@ -7,6 +7,9 @@ package com.web.yapp.server.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
+import com.web.yapp.server.domain.User;
+import com.web.yapp.server.domain.service.MusicianService;
+import com.web.yapp.server.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +36,8 @@ import java.util.Map;
 @Slf4j      /* 로그 어노테이션 */
 public class MainController {
     private final HttpSession httpSession;
-
-//    private final CustomOAuth2UserService customOAuth2UserService;
+    private final UserService userService;
+    private final MusicianService musicianService;
 
     @GetMapping("/")
     public String home(Model model, HttpSession session, HttpServletResponse response) {       // 모델에 유저 정보
@@ -44,10 +47,6 @@ public class MainController {
 
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
         String accessToken =  (String) httpSession.getAttribute("accessToken");
-
-
-
-
 
         // 토큰이 있는 경우(사용자 정보랑 값 넣어서 리턴)
         if(accessToken != null ){
@@ -74,11 +73,6 @@ public class MainController {
         /*if(jsonString.){
 
         }*/
-
-
-
-
-
 
         /**
          * 뮤지션 카테고리별 큐레이션 조회
@@ -147,15 +141,16 @@ public class MainController {
     }
 
     @GetMapping("/authToken")
-    public HashMap<String, Object> authToken(Model model, HttpSession session) {       // 모델에 유저 정보
+    public HashMap<String, Object> authToken() {       // 모델에 유저 정보
         HashMap<String, Object> resultMap = new HashMap<String,Object>();
 
-        SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
+        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         String accessToken =  (String) httpSession.getAttribute("accessToken");
+        Long userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
         try {
             if(accessToken != null || accessToken != "" ){
                 resultMap.put("success", "1");
-                resultMap.put("user", user);
+                resultMap.put("userId", userId);
                 resultMap.put("accessToken", accessToken);
             }else {
                 resultMap.put("success", "0");
@@ -166,6 +161,10 @@ public class MainController {
         return resultMap;
     }
 
+    @GetMapping("/main")
+    public Map<String, Object> main(){
+        return musicianService.getMainResponse();
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.web.yapp.server.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "TUNA_CONTRACT")
 @Entity
-public class Contract {
+public class Contract extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CONTRACT_ID")
@@ -32,20 +33,40 @@ public class Contract {
     @Column(name = "CONTRACT_INTENTION")
     private String intention;
 
-    @Column(name = "CONTRACT_MUSIC_LENGTH")
-    private String musicLength;
-
     @Column(name = "CONTRACT_MIN_FEE")
     private int minFee;
 
     @Column(name = "CONTRACT_MAX_FEE")
     private int maxFee;
 
-    @Column(name = "CONTRACT_STATUS")
-    private int status; //의뢰상태
+    @Column(name = "CONTRACT_PLAY_MIN_TIME")
+    private String minTime;
 
-    @Column(name = "CONTRACT_DEADLINE")
-    private String deadline;
+    @Column(name = "CONTRACT_PALY_MAX_TIME")
+    private String maxTime;
+
+    @Column(name = "CONTRACT_PLAY_TIME_CHANGEABLE")
+    private String playTimeChangable;
+
+    /*
+    1. 뮤지션수락
+    2. 뮤지션거절
+    3. 유저(의뢰취소)
+     */
+    @Column(name = "CONTRACT_STATUS")
+    private String status; //의뢰상태
+
+    @Column(name = "CONTRACT_START_DATE")
+    private String startDate;
+
+    @Column(name = "CONTRACT_DUE_DATE")
+    private String dueDate;
+
+    @Column(name = "CONTRACT_KAKAO_ID")
+    private String kakaoId;
+
+    @Column(name = "CONTRACT_PHONE_NUMBER")
+    private String phoneNumber;
 
     @Column(name = "CONTRACT_DOCUMENT_URL1")
     private String docuUrl1;
@@ -61,5 +82,31 @@ public class Contract {
 
     @Column(name = "CONTRACT_DOCUMENT_URL5")
     private String docuUrl5;
+
+    @Builder
+    public Contract(User user, Musician musician, String usage, String copyright, String intention,
+                    int minFee, int maxFee, String minTime, String maxTime, String playTimeChangable, String status, String startDate,
+                    String dueDate, String kakaoId, String phoneNumber, String docuUrl1, String docuUrl2, String docuUrl3, String docuUrl4, String docuUrl5){
+        this.user = user;
+        this.musician = musician;
+        this.usage = usage;
+        this.copyright = copyright;
+        this.intention = intention;
+        this.minFee = minFee;
+        this.maxFee = maxFee;
+        this.minTime = minTime;
+        this.maxTime = maxTime;
+        this.playTimeChangable = playTimeChangable;
+        this.status = status;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        this.kakaoId = kakaoId;
+        this.phoneNumber = phoneNumber;
+        this.docuUrl1 = docuUrl1;
+        this.docuUrl2 = docuUrl2;
+        this.docuUrl3 = docuUrl3;
+        this.docuUrl4 = docuUrl4;
+        this.docuUrl5 = docuUrl5;
+    }
 
 }

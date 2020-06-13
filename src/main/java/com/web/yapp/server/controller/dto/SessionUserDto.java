@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-
+/*
+* SessionUserDto 필드 추가 필요
+* */
 @Getter
 @Setter
 public class SessionUserDto implements Serializable {

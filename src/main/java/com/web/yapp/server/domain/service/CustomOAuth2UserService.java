@@ -26,13 +26,7 @@ import java.util.Collections;
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final HttpSession httpSession;
-    private final UserRepository userRepository;
-
-//    public String getToken(OAuth2UserRequest userRequest){
-//        OAuth2AccessToken token = userRequest.getAccessToken();
-//        String tokenValue = token.getTokenValue();
-//        return tokenValue;
-//    }
+    private final UserService userService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest)
@@ -57,7 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         //OAuthAtrributes : OAuth2UserService를 통해 가져온 OAuth2User의 attribute를 담을 클래스
         //이후 네이버 등 다른 소셜 로그인도 이 클래스 사용
 
-        User user = saveOrUpdate(attributes);
+        User user = save(attributes);
 
         /* 유저 테이블 저장 */
 
@@ -74,13 +68,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 
 
-    //구글 사용자 정보가 업데이트 되었을 때를 대비한 update
-    private User saveOrUpdate(OAuthAttributesDto attributes){
-        User user = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(),
-                        attributes.getProfile_url())
-                )
-                .orElse(attributes.toEntity());
-        return userRepository.save(user);
+    private User save(OAuthAttributesDto attributes){
+//        User user = userRepository.findByEmail(attributes.getEmail())
+//                .map(entity -> entity.update(attributes.getName(),
+//                        attributes.getProfile_url())
+//                )
+//                .orElse(attributes.toEntity());
+        userService.createUser(attributes.getEmail(),attributes.getName(),attributes.getProfile_url());
+        User user = userService.findUserByEmail(attributes.getEmail());
+        return user;
     }
 }
