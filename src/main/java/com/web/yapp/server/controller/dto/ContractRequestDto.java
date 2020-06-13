@@ -1,6 +1,8 @@
 package com.web.yapp.server.controller.dto;
 
 import com.web.yapp.server.domain.Contract;
+import com.web.yapp.server.domain.Musician;
+import com.web.yapp.server.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,13 +28,38 @@ public class ContractRequestDto {
     private String dueDate;
     private int minFee;
     private int maxFee;
-    private String docuUrl1;
-    private String docuUrl2;
-    private String docuUrl3;
-    private String docuUrl4;
-    private String docuUrl5;
 
-    public Contract toEntity(){
-        return Contract
+    public Contract toEntity(Musician musician, User user, String status, List<String> documentUrl){
+        return Contract.builder()
+                .user(user)
+                .musician(musician)
+                .usage(usage)
+                .copyright(copyright)
+                .minTime(minTime)
+                .maxTime(maxTime)
+                .playTimeChangable(playTimeChangable)
+                .minFee(minFee)
+                .maxFee(maxFee)
+                .intention(intention)
+                .phoneNumber(phoneNumber)
+                .kakaoId(kakaoId)
+                .startDate(startDate)
+                .dueDate(dueDate)
+                .status(status)
+                .build();
+    }
+
+    public ContractRequestDto(Contract Entity){
+        this.usage = Entity.getUsage();
+        this.copyright = Entity.getCopyright();
+        this.minTime = Entity.getMinTime();
+        this.maxTime = Entity.getMaxTime();
+        this.playTimeChangable = Entity.getPlayTimeChangable();
+        this.minFee = Entity.getMinFee();
+        this.maxFee = Entity.getMaxFee();
+        this.startDate = Entity.getStartDate();
+        this.dueDate = Entity.getDueDate();
+        this.kakaoId = Entity.getKakaoId();
+        this.phoneNumber = Entity.getPhoneNumber();
     }
 }

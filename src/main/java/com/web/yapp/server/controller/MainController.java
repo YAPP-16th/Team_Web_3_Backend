@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
+import com.web.yapp.server.domain.service.MusicianService;
 import com.web.yapp.server.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,7 @@ import java.util.Map;
 public class MainController {
     private final HttpSession httpSession;
     private final UserService userService;
+    private final MusicianService musicianService;
 
     @GetMapping("/")
     public String home(Model model, HttpSession session, HttpServletResponse response) {       // 모델에 유저 정보
@@ -159,6 +161,10 @@ public class MainController {
         return resultMap;
     }
 
+    @GetMapping("/main")
+    public Map<String, Object> main(){
+        return musicianService.getMainResponse();
+    }
 
 
 }

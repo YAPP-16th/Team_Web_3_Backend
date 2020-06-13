@@ -46,10 +46,10 @@ public class TestController {
 
     }
 
-    @GetMapping("/main")
-    public Map<String, Object> main(){
-        return musicianService.getMainResponse();
-    }
+//    @GetMapping("/main")
+//    public Map<String, Object> main(){
+//        return musicianService.getMainResponse();
+//    }
 
     @GetMapping("/user")
     public SessionUserDto getUser(){

@@ -24,20 +24,8 @@ public class MusicianController {
     private final HttpSession httpSession;
     private final MusicianTagService musicianTagService;
     private final MusicianService musicianService;
-//    private final HttpServletRequest request;
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
-
-    /**
-     * 뮤지션 생성 페이지 이동 컨트롤러
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/musicians/new", method=RequestMethod.POST)
-    public String createMusicianPage(Model model){
-        model.addAttribute("memberForm", new MusicianDto());
-        return "createMusicianPage";
-    }
 
     /**
      *  뮤지션 값 전체조회
@@ -69,19 +57,19 @@ public class MusicianController {
         return musicianList;
     }
 
-    /**
-     * 뮤지션 닉네임값 조회
-     * @param nickNm
-     * @return
-     */
-    @RequestMapping(value = "/musicians/v2/{nickNm}", method=RequestMethod.GET)
-    public Map<String,Object> getMusicianNickNmInfo(@PathVariable("nickNm") String nickNm){
-        List<MusicianDto> musicianListNickNmInfo = new ArrayList<>();
-        Map<String,Object> musicianList = new HashMap<String,Object>();
-        musicianListNickNmInfo = musicianService.findByNickNmMusician(nickNm);
-        musicianList.put("musicianListNickNmInfo",musicianListNickNmInfo);
-        return musicianList;
-    }
+//    /**
+//     * 뮤지션 닉네임값 조회
+//     * @param nickNm
+//     * @return
+//     */
+//    @RequestMapping(value = "/musicians/v2/{nickNm}", method=RequestMethod.GET)
+//    public Map<String,Object> getMusicianNickNmInfo(@PathVariable("nickNm") String nickNm){
+//        List<MusicianDto> musicianListNickNmInfo = new ArrayList<>();
+//        Map<String,Object> musicianList = new HashMap<String,Object>();
+//        musicianListNickNmInfo = musicianService.findByNickNmMusician(nickNm);
+//        musicianList.put("musicianListNickNmInfo",musicianListNickNmInfo);
+//        return musicianList;
+//    }
 
 
     /**
@@ -90,12 +78,7 @@ public class MusicianController {
      */
     @RequestMapping(value = "/musicians", method=RequestMethod.POST)
     public List<Map<String, Object>> createMusician(
-                                                    Model model,
                                                     HttpSession session,
-
-                                                    /*Valid MusicianDto musicianDto,
-                                                    BindingResult result,
-                                                    */
                                                     @RequestBody HashMap<String,Object> paramMap
                                                     /*@RequestBody(required = false) List<String> atmoList,
                                                     @RequestBody(required = false) List<String> genreList,
@@ -103,6 +86,9 @@ public class MusicianController {
                                                     @RequestBody(required = false) List<String> themeList,
                                                     @RequestBody(required = false) List<String> spclNoteList*/
     ){
+        //노래 파일 받아와서 s3 업로드 후, song Entity create 하기
+
+
         List<Map<String,Object>> resultMapList = new ArrayList<>();
         Map<String,Object> resultMap = new HashMap<>();
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");

@@ -44,8 +44,7 @@ public class MusicianService {
                              List<String> themeList,
                              List<String> spclNoteList){
 
-        Musician musician = new Musician();
-        musician = musicianDto.toEntity();
+        Musician musician = musicianDto.toEntity();
         musicianRepository.save(musician);
 
         musicianTagService.saveMusicianTag(atmoList, musician, "분위기");
