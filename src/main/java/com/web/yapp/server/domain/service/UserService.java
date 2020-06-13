@@ -30,13 +30,13 @@ public class UserService {
     }
 
     @Transactional
-    public void createUser(String email, String userNM, String profileUrl) {
+    public Long createUser(String email, String userNM, String profileUrl) {
         User user = User.builder()
                 .email(email)
                 .name(userNM)
                 .profile_url(profileUrl)
                 .role(Role.USER)
                 .build();
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }
