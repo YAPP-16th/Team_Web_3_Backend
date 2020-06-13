@@ -74,8 +74,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 //                        attributes.getProfile_url())
 //                )
 //                .orElse(attributes.toEntity());
-        userService.createUser(attributes.getEmail(),attributes.getName(),attributes.getProfile_url());
-        User user = userService.findUserByEmail(attributes.getEmail());
-        return user;
+        Long userId = userService.createUser(attributes.getEmail(),attributes.getName(),attributes.getProfile_url());
+        return userService.findUserById(userId);
     }
 }

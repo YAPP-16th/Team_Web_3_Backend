@@ -19,9 +19,10 @@ public class UserRepository{
                 .getSingleResult();
     }
 
-    public void save(User user){
+    public Long save(User user){
         EntityManager em = this.em;
         em.persist(user);
+        return user.getId();
     }
 
     public User findUserById(Long userId){
