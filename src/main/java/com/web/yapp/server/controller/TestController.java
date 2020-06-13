@@ -1,26 +1,23 @@
 package com.web.yapp.server.controller;
 
-import com.web.yapp.server.controller.dto.MusicianSearchResponseDto;
 import com.web.yapp.server.controller.dto.SessionUserDto;
-import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.Tag;
 import com.web.yapp.server.domain.User;
 import com.web.yapp.server.domain.repository.MusicianRepository;
 import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.repository.TagRepository;
-import com.web.yapp.server.domain.repository.UserRepository;
+import com.web.yapp.server.domain.repository.UserClassRepository;
 import com.web.yapp.server.domain.service.MusicianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
 public class TestController {
-    private final UserRepository userRepository;
+    private final UserClassRepository userClassRepository;
     private final TagRepository tagRepository;
     private final MusicianTagRepository musicianTagRepository;
     private final MusicianService musicianService;
@@ -53,7 +50,7 @@ public class TestController {
 
     @GetMapping("/user")
     public SessionUserDto getUser(){
-        User user = userRepository.findUserById((long) 1);
+        User user = userClassRepository.findUserById((long) 1);
         SessionUserDto sessionUserDto = new SessionUserDto(user);
         return sessionUserDto;
     }

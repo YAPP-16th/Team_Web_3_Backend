@@ -5,7 +5,7 @@ import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.User;
 import com.web.yapp.server.domain.repository.BookmarkRepository;
 import com.web.yapp.server.domain.repository.MusicianRepository;
-import com.web.yapp.server.domain.repository.UserRepository;
+import com.web.yapp.server.domain.repository.UserClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
-    private final UserRepository userRepository;
+    private final UserClassRepository userClassRepository;
     private final MusicianRepository musicianRepository;
 
     @Transactional
     public void createBookmark(Long userId, Long musicianId) {
-        User user = userRepository.findUserById(userId);
+        User user = userClassRepository.findUserById(userId);
         Musician musician = musicianRepository.findOne(musicianId);
         Bookmark bookmark = Bookmark
                 .builder()

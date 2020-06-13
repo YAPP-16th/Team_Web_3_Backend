@@ -4,12 +4,11 @@ import com.web.yapp.server.controller.dto.*;
 //import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
-import com.web.yapp.server.domain.repository.UserRepository;
+import com.web.yapp.server.domain.repository.UserClassRepository;
 import com.web.yapp.server.domain.repository.UserRoleRepository;
 import com.web.yapp.server.domain.service.MusicianService;
 import com.web.yapp.server.domain.service.MusicianTagService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class MusicianController {
     private final HttpSession httpSession;
     private final MusicianTagService musicianTagService;
     private final MusicianService musicianService;
-    private final UserRepository userRepository;
+    private final UserClassRepository userClassRepository;
     private final UserRoleRepository userRoleRepository;
 
     /**
@@ -101,7 +100,7 @@ public class MusicianController {
         String userEmail = user.getEmail();
         User user_role = userRoleRepository.findByEmail(userEmail);
         user_role.setRole(Role.MUSICIAN);
-        userRepository.save(user_role);
+        userClassRepository.save(user_role);
 
 //                user.setRole(Role.MUSICIAN);
 //            String email = user.getEmail();
