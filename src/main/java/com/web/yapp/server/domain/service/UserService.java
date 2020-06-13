@@ -1,6 +1,7 @@
 package com.web.yapp.server.domain.service;
 
 import com.web.yapp.server.controller.dto.OAuthAttributesDto;
+import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
 import com.web.yapp.server.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class UserService {
                 .email(email)
                 .name(userNM)
                 .profile_url(profileUrl)
+                .role(Role.USER)
                 .build();
         userRepository.save(user);
     }
