@@ -54,7 +54,7 @@ public class SongService {
      * @throws IOException
      */
     @Transactional //대표곡커버, 대표곡, 일반곡1, ... 순서
-    public List<Long> song(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
+    public List<Long> songSave(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
         List<Long> idList = new LinkedList<Long>();
         Musician musician = musicianRepository.findOne(musicianId);
         String RPcoverUrl = s3Uploader.upload(multipartFiles.get(0),"static");
