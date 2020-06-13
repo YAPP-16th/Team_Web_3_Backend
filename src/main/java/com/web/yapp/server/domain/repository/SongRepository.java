@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 
@@ -30,9 +31,15 @@ public class SongRepository {
      * @return
      */
     public Song findRPSongByMusician(Long musicianId){
-        return em.createQuery("select s from Song s where s.musician.id = :musicianId and s.represent = 1",Song.class)
-                .setParameter("musicianId",musicianId)
-                .getSingleResult();
+        try{
+            return em.createQuery("select s from Song s where s.musician.id = :musicianId and s.represent = 1",Song.class)
+                    .setParameter("musicianId",musicianId)
+                    .getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+
     }
 
     public void save(Song song){

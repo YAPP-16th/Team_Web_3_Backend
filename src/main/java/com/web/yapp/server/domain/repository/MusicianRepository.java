@@ -43,6 +43,12 @@ public class MusicianRepository{
                 .getResultList();
     }
 
+    public Musician findByUserNm(String userNm){
+        return em.createQuery("select m from Musician m where m.userId.name = :userNm", Musician.class)
+                .setParameter("userNm", userNm)
+                .getSingleResult();
+    }
+
 
     /**
      * 모든값 조회
@@ -67,21 +73,33 @@ public class MusicianRepository{
     /**
      * 새로 등장한 뮤지션
      */
-    public List<Musician> findMusicianByChoice(){
-        List<Musician> musicianChoiceInfo = em.createQuery("select count(m.id) as cnt from Musician m where cnt < 20 order by m.id"  , Musician.class)
+    public List<Musician> findMusicianByBookmark(){
+        List<Musician> musicianChoiceInfo = em.createQuery("select m from Musician m order by m.bookmarkCount desc"  , Musician.class)
+                .setFirstResult(0)
+                .setMaxResults(9)
                 .getResultList();
         return musicianChoiceInfo;
-
-
     }
 
     /**
      * 리스너들의 선택
      */
-
     public List<Musician> findMusicianByNew(){
-        List<Musician> musicianNewInfo = em.createQuery("select m from Musician m, Bookmark b where m.id = b.id" , Musician.class)
+        List<Musician> musicians = em.createQuery("select m from Musician m order by m.createdDate asc " , Musician.class)
+                .setFirstResult(0)
+                .setMaxResults(9)
                 .getResultList();
-        return musicianNewInfo;
+        return musicians;
     }
+
+    public void upBookmarkCount(Long musicianId){
+        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount+1 where m.id = :musicianId")
+                .setParameter("musicianId",musicianId);
+    }
+
+    public void downBookmarkCount(Long musicianId){
+        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount-1 where m.id = :musicianId")
+                .setParameter("musicianId",musicianId);
+    }
+
 }

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "TUNA_TAG")
 @Entity
-public class Tag {
+public class Tag extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TAG_ID")
