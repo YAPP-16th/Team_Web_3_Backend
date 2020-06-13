@@ -1,32 +1,29 @@
 package com.web.yapp.server.domain.service;
 
-import com.web.yapp.server.controller.dto.OAuthAttributesDto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
-import com.web.yapp.server.domain.repository.UserRepository;
+import com.web.yapp.server.domain.repository.UserClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    private final UserClassRepository userClassRepository;
 
     public Long findUserIdByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userClassRepository.findUserByEmail(email);
         return user.getId();
     }
 
     public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        return userClassRepository.findUserByEmail(email);
     }
 
     public User findUserById(Long userId) {
-        return userRepository.findUserById(userId);
+        return userClassRepository.findUserById(userId);
     }
 
     @Transactional
@@ -37,6 +34,6 @@ public class UserService {
                 .profile_url(profileUrl)
                 .role(Role.USER)
                 .build();
-        return userRepository.save(user);
+        return userClassRepository.save(user);
     }
 }

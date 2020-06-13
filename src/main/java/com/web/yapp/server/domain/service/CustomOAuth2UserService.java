@@ -4,21 +4,17 @@ import com.web.yapp.server.controller.dto.OAuthAttributesDto;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.User;
 import com.web.yapp.server.domain.repository.UserRepository;
-import com.web.yapp.server.handler.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 
-import org.apache.http.HttpResponse;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
@@ -27,6 +23,7 @@ import java.util.Collections;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final HttpSession httpSession;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest)
@@ -51,7 +48,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         //OAuthAtrributes : OAuth2UserService를 통해 가져온 OAuth2User의 attribute를 담을 클래스
         //이후 네이버 등 다른 소셜 로그인도 이 클래스 사용
 
-        User user = save(attributes);
+        User user = saveOrupdate(attributes);
 
         /* 유저 테이블 저장 */
 
@@ -68,13 +65,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 
 
-    private User save(OAuthAttributesDto attributes){
-//        User user = userRepository.findByEmail(attributes.getEmail())
-//                .map(entity -> entity.update(attributes.getName(),
-//                        attributes.getProfile_url())
-//                )
-//                .orElse(attributes.toEntity());
-        Long userId = userService.createUser(attributes.getEmail(),attributes.getName(),attributes.getProfile_url());
-        return userService.findUserById(userId);
+    private User saveOrupdate(OAuthAttributesDto attributes){
+        User user = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName(),
+                        attributes.getProfile_url())
+                )
+                .orElse(attributes.toEntity());
+//        Long userId = userService.createUser(attributes.getEmail(),attributes.getName(),attributes.getProfile_url());
+//        return userService.findUserById(userId);
+        return user;
     }
 }
