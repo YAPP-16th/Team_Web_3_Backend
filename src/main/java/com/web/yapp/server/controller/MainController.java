@@ -137,18 +137,19 @@ public class MainController {
         cookie.setMaxAge(3600); // 쿠키 유효기간 설정 (초 단위)
         response.addCookie(cookie);
 
-        return "redirect:http://localhost:3000";
+        //return "redirect:http://localhost:3000";
+        return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
     }
 
     @GetMapping("/authToken")
-    public HashMap<String, Object> authToken() {       // 모델에 유저 정보
+    public HashMap<String, Object> authToken(@RequestBody String reqAccessToken) {       // 모델에 유저 정보
         HashMap<String, Object> resultMap = new HashMap<String,Object>();
 
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         String accessToken =  (String) httpSession.getAttribute("accessToken");
         Long userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
         try {
-            if(accessToken != null || accessToken != "" ){
+            if(reqAccessToken != null){
                 resultMap.put("success", "1");
                 resultMap.put("userId", userId);
                 resultMap.put("accessToken", accessToken);
