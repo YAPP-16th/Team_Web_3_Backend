@@ -13,11 +13,11 @@ import java.util.List;
 public class ContractRequestDto {
     private String usage;
     private String copyright;
-    private List<String> atmoList;
-    private List<String> themeList;
-    private List<String> genreList;
-    private List<String> instruList;
-    private List<String> spclList;
+//    private List<String> atmoList;
+//    private List<String> themeList;
+//    private List<String> genreList;
+//    private List<String> instruList;
+//    private List<String> spclList;
     private String minTime;
     private String maxTime;
     private String playTimeChangable;
