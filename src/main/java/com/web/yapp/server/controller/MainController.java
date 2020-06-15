@@ -175,6 +175,4 @@ public class MainController {
     public Map<String, Object> main() {
         return musicianService.getMainResponse();
     }
-
-
 }
