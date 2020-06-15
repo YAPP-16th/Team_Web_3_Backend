@@ -70,14 +70,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)
-                //.expiredUrl("/duplicated-login")
+//                .expiredUrl("/duplicated-login")
                 .sessionRegistry(sessionRegistry());
 
         http.formLogin()
-                .defaultSuccessUrl("/")
+                //.defaultSuccessUrl("/")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
+                //.logoutSuccessUrl("/")
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint()
@@ -106,5 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static ServletListenerRegistrationBean httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
     }
+
+
 
 }

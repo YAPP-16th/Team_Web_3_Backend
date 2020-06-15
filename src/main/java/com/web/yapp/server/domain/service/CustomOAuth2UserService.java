@@ -62,9 +62,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
     }
-
-
-
     private User saveOrupdate(OAuthAttributesDto attributes){
         User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(),
@@ -73,6 +70,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .orElse(attributes.toEntity());
 //        Long userId = userService.createUser(attributes.getEmail(),attributes.getName(),attributes.getProfile_url());
 //        return userService.findUserById(userId);
-        return user;
+        return userRepository.save(user);
     }
+
+
 }

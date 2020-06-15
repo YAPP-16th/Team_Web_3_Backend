@@ -137,30 +137,35 @@ public class MainController {
         cookie.setMaxAge(3600); // 쿠키 유효기간 설정 (초 단위)
         response.addCookie(cookie);
 
-        return "redirect:http://localhost:3000";
+        //return "redirect:http://localhost:3000";
+        return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
     }
-
-    @GetMapping("/authToken")
-    public HashMap<String, Object> authToken() {       // 모델에 유저 정보
+    @PostMapping("/authToken")
+    public @ResponseBody HashMap<String, Object> authToken(@RequestBody String reqAccessToken) {       // 모델에 유저 정보
         HashMap<String, Object> resultMap = new HashMap<String,Object>();
 
+        log.info(reqAccessToken);
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        String accessToken =  (String) httpSession.getAttribute("accessToken");
-        Long userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
-        try {
-            if(accessToken != null || accessToken != "" ){
-                resultMap.put("success", "1");
-                resultMap.put("userId", userId);
-                resultMap.put("accessToken", accessToken);
-            }else {
-                resultMap.put("success", "0");
-            }
-        } catch (Exception e ) {
-            e.printStackTrace();
+        
+	log.info(String.valueOf(sessionUserDto.getRole()));
+	String accessToken =  (String) httpSession.getAttribute("accessToken");
+        Long userId = null;
+	if(sessionUserDto.getRole().equals("USER")){
+            resultMap.put("isMusician",false);
+        }else {
+            resultMap.put("isMusician",true);
+        }
+        if(sessionUserDto != null){
+            userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
+            resultMap.put("success", "1");
+            resultMap.put("userId", String.valueOf(userId));
+            resultMap.put("user", sessionUserDto);
+            resultMap.put("accessToken", accessToken);
+        }else {
+            resultMap.put("success", "0");
         }
         return resultMap;
-    }
-
+    }	
     @GetMapping("/main")
     public Map<String, Object> main(){
         return musicianService.getMainResponse();
