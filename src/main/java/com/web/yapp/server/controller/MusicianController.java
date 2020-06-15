@@ -91,7 +91,9 @@ public class MusicianController {
                                                     @RequestBody(required = false) List<String> spclNoteList*/
     ){
         //노래 파일 받아와서 s3 업로드 후, song Entity create 하기
-
+        /*
+        * musician, 노래파일, 태그 받아오기
+        * */
 
         // 맵가져오기
         List<Map<String,Object>> resultMapList = new ArrayList<>();
@@ -101,7 +103,7 @@ public class MusicianController {
         //Long musicianId = musicianService.saveRegister(musicianDto,atmoList,genreList,instruList,themeList,spclNoteList);
         System.out.println(paramMap);
 
-        // 이메일값으로 유저 역할 조회
+        // 이메일값으로 유저 역할 조회, 뮤지션으로 Role 변경
         resultMap.put("success", "1");
         String userEmail = user.getEmail();
         User user_role = userRoleRepository.findByEmail(userEmail);
@@ -112,12 +114,6 @@ public class MusicianController {
         musicianService.saveRegister();
         // 곡 정보 저장 - 곡정보, 뮤지션 ID
         songService.songSave();*/
-
-
-
-
-
-
 
         resultMapList.add(resultMap);
         return resultMapList;

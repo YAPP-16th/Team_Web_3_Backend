@@ -67,8 +67,6 @@ public class MusicianService {
         map.put("newMusician",findMusicianByNew());
         map.put("bestMusician",findMusicianByBookmark());
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        if(sessionUserDto.getRole().equals("ROLE_USER")) map.put("user",sessionUserDto);
-        else if(sessionUserDto.getRole().equals("ROLE_MUSICIAN")) map.put("musician", findMusicianByUserNm());
         return map;
     }
 
