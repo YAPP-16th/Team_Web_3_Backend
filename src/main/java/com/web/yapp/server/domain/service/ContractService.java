@@ -32,7 +32,7 @@ public class ContractService {
         List<MultipartFile> documents = contractSaveRequestDto.getDocuments();
         Long userId = contractSaveRequestDto.getUserId();
         Long musicianId = contractSaveRequestDto.getMusicianId();
-        
+
         Musician musician = musicianRepository.findOne(musicianId);
         User user = userClassRepository.findUserById(userId);
 
