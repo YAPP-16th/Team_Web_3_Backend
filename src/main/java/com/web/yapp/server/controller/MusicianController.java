@@ -91,6 +91,9 @@ public class MusicianController {
                                                     @RequestBody(required = false) List<String> spclNoteList*/
     ){
         //노래 파일 받아와서 s3 업로드 후, song Entity create 하기
+        /*
+        * musician, 노래파일, 태그 받아오기 
+        * */
 
         // 맵가져오기
         List<Map<String,Object>> resultMapList = new ArrayList<>();
