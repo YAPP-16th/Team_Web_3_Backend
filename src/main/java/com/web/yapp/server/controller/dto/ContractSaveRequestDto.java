@@ -8,8 +8,8 @@ import java.util.List;
 
 @Setter
 @Getter
-public class AllContractDto {
-    private ContractRequestDto contractRequestDto;
+public class ContractSaveRequestDto {
+    private ContractDto contractDto;
     private ContractTagDto atmo;
     private ContractTagDto theme;
     private ContractTagDto genre;

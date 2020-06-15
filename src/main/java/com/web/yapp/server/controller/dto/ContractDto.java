@@ -13,7 +13,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class ContractRequestDto {
+public class ContractDto {
     private String usage;
     private String copyright;
     private String minTime;
