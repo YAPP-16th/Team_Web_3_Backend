@@ -1,5 +1,6 @@
 package com.web.yapp.server.controller;
 
+import com.web.yapp.server.controller.dto.AllContractDto;
 import com.web.yapp.server.controller.dto.ContractRequestDto;
 import com.web.yapp.server.controller.dto.ContractTagDto;
 import com.web.yapp.server.controller.dto.SessionUserDto;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -60,19 +62,24 @@ public class TestController {
         SessionUserDto sessionUserDto = new SessionUserDto(user);
         return sessionUserDto;
     }
-
-    @PostMapping("/contractTest")
-    public ContractRequestDto contract(ContractRequestDto contractRequestDto,
+/*
+* ,
                          ContractTagDto atmo, ContractTagDto theme,
                          ContractTagDto genre, ContractTagDto instru,
                          ContractTagDto spclNote, List<MultipartFile> documents,
-                         Long userId, Long musicianId) throws IOException {
-        System.out.println("ddd"+contractRequestDto);
-        System.out.println("dd"+contractRequestDto.getCopyright()+","+contractRequestDto.getDueDate()+","+contractRequestDto.getIntention());
-        System.out.println("tt"+atmo.getEtcTag());
-//        contractService.createContract(contractRequestDto, atmo, theme,
-//                genre, instru, spclNote, documents, userId, musicianId);
-        return contractRequestDto;
+                         Long userId, Long musicianId
+* */
+    @PostMapping("/contractTest")
+    public void contract(@RequestBody HashMap<String,Object> paramMap) throws IOException {
+        ContractTagDto contractTagDto = (ContractTagDto) paramMap.get("atmo");
+//        System.out.println(contractDto.getContractRequestDto().getDueDate());
+//        return contractDto;
+    }
+
+    @PostMapping("/contractTest2")
+    public void contractTest(String a) throws IOException {
+        System.out.println(a);
+        //System.out.println(musicianId);
     }
 
 }
