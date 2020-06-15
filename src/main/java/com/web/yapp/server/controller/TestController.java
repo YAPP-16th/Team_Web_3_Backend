@@ -1,5 +1,7 @@
 package com.web.yapp.server.controller;
 
+import com.web.yapp.server.controller.dto.ContractRequestDto;
+import com.web.yapp.server.controller.dto.ContractTagDto;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Tag;
 import com.web.yapp.server.domain.User;
@@ -7,11 +9,14 @@ import com.web.yapp.server.domain.repository.MusicianRepository;
 import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.repository.TagRepository;
 import com.web.yapp.server.domain.repository.UserClassRepository;
+import com.web.yapp.server.domain.service.ContractService;
 import com.web.yapp.server.domain.service.MusicianService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,6 +27,7 @@ public class TestController {
     private final MusicianTagRepository musicianTagRepository;
     private final MusicianService musicianService;
     private final MusicianRepository musicianRepository;
+    private final ContractService contractService;
 
     @GetMapping("/test")
     public void test(){
@@ -55,5 +61,18 @@ public class TestController {
         return sessionUserDto;
     }
 
+    @PostMapping("/contractTest")
+    public ContractRequestDto contract(ContractRequestDto contractRequestDto,
+                         ContractTagDto atmo, ContractTagDto theme,
+                         ContractTagDto genre, ContractTagDto instru,
+                         ContractTagDto spclNote, List<MultipartFile> documents,
+                         Long userId, Long musicianId) throws IOException {
+        System.out.println("ddd"+contractRequestDto);
+        System.out.println("dd"+contractRequestDto.getCopyright()+","+contractRequestDto.getDueDate()+","+contractRequestDto.getIntention());
+        System.out.println("tt"+atmo.getEtcTag());
+//        contractService.createContract(contractRequestDto, atmo, theme,
+//                genre, instru, spclNote, documents, userId, musicianId);
+        return contractRequestDto;
+    }
 
 }
