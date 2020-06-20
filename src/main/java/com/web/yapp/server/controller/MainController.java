@@ -153,7 +153,7 @@ public class MainController {
 
         String accessToken = (String) httpSession.getAttribute("accessToken");
         Long userId = null;
-        if (sessionUserRole.equals("ROLE_USER")) {
+        if ("ROLE_USER".equals(String.valueOf(sessionUserRole))){
             resultMap.put("isMusician", false);
         } else {
             resultMap.put("isMusician", true);
