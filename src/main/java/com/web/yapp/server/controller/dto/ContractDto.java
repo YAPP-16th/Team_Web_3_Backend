@@ -27,6 +27,11 @@ public class ContractDto {
     private int minFee;
     private int maxFee;
 
+    public ContractDto(Contract id) {
+
+
+    }
+
     public Contract toEntity(Musician musician, User user, String status, List<String> documentUrl){
         //list의 원소가 비어있을 경우 고려해야함
         String[] urlSetting = new String[5];
