@@ -49,9 +49,13 @@ public class BookmarkRepository {
         return bookmark;
     }*/
 
-    public void delete(Long userId, Long musicianId){
-
-    }
+//    public void delete(String email, Long musicianId){
+//        try {
+//            em.createQuery("delete b from Bookmark b where b.u")
+//        }catch (NoResultException e){
+//
+//        }
+//    }
 
     public Bookmark chkBookmark(String userEmail, Long musicianId){
         try{
