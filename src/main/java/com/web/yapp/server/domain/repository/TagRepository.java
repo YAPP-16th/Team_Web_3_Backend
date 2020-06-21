@@ -17,7 +17,10 @@ public class TagRepository {
         try {
             return em.createQuery("select t from Tag t where t.tagNM = :tagNM",Tag.class)
                     .setParameter("tagNM",tagNM)
-                    .getSingleResult();
+                    .setMaxResults(1)
+                    .getSingleResult()
+                    ;
+
         } catch (NoResultException nre) {
             System.out.println("태그 없음");
         }

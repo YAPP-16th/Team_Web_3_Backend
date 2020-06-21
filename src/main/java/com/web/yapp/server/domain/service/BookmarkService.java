@@ -1,5 +1,7 @@
 package com.web.yapp.server.domain.service;
 
+import com.web.yapp.server.controller.dto.BookmarkDto;
+import com.web.yapp.server.controller.dto.MusicianDto;
 import com.web.yapp.server.domain.Bookmark;
 import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.User;
@@ -30,12 +32,10 @@ public class BookmarkService {
         bookmarkRepository.save(bookmark);
         upBookmarkCount(musician);
     }
-
     @Transactional
     public void deleteBookmark(Long userId, Long musicianId){
 
     }
-
     @Transactional
     public void upBookmarkCount(Musician musician){
         musicianRepository.upBookmarkCount(musician.getId());
@@ -44,5 +44,16 @@ public class BookmarkService {
     @Transactional
     public void downBookmarkCount(Musician musician){
         musicianRepository.downBookmarkCount(musician.getId());
+    }
+
+
+    /**
+     * 유저 ID 조회
+     * @param id
+     * @return
+     */
+
+    public BookmarkDto findByIdBookmark(Long id){
+        return new BookmarkDto(bookmarkRepository.findByUserId(id));
     }
 }

@@ -1,18 +1,24 @@
 package com.web.yapp.server.domain.service;
-
+;
 import com.web.yapp.server.controller.dto.ContractDto;
 import com.web.yapp.server.controller.dto.ContractSaveRequestDto;
 import com.web.yapp.server.controller.dto.ContractTagDto;
-import com.web.yapp.server.domain.*;
-import com.web.yapp.server.domain.repository.*;
+import com.web.yapp.server.domain.Contract;
+import com.web.yapp.server.domain.Musician;
+import com.web.yapp.server.domain.User;
+import com.web.yapp.server.domain.repository.ContractRepository;
+import com.web.yapp.server.domain.repository.MusicianRepository;
+import com.web.yapp.server.domain.repository.UserClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class ContractService {
@@ -21,7 +27,8 @@ public class ContractService {
     private final MusicianRepository musicianRepository;
     private final S3Uploader s3Uploader;
     private final ContractTagService contractTagService;
-    
+
+    @Transactional
     public void createContract(ContractSaveRequestDto contractSaveRequestDto) throws IOException {
         ContractDto contractDto = contractSaveRequestDto.getContractDto();
         ContractTagDto atmo = contractSaveRequestDto.getAtmo();
@@ -56,6 +63,15 @@ public class ContractService {
         }
         return docuUrls;
     }
+    /**
+     * 의뢰서 ID 조회
+     * @param id
+     * @return
+     */
+    public ContractDto findByIdContract(Long id){
+        return new ContractDto(contractRepository.findByUserId(id));
+    }
+
 
 
 }

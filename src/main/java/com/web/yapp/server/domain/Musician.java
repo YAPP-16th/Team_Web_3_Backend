@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Table(name = "TUNA_MUSICIAN")
 @Entity
-public class Musician extends BaseTimeEntity{
+public class Musician{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MUSICIAN_ID")
@@ -73,6 +73,9 @@ public class Musician extends BaseTimeEntity{
     @Column(name = "MUSICIAN_QSTN_ANS04")       //step02 Q&A 04
     private String qstnAns04;
 
+    @Column(name = "MUSICIAN_QSTN_ANS05")       //step02 Q&A 04
+    private String qstnAns05;
+
     @Column(name = "MUSICIAN_PRC_YN")           //step03 가격고정(Y) or 가격협의(N)
     private String styPrcYN;
 
@@ -114,6 +117,7 @@ public class Musician extends BaseTimeEntity{
                        String qstnAns02,
                        String qstnAns03,
                        String qstnAns04,
+                       String qstnAns05,
                        String styPrcYN,
                        Long styPrc01,
                        Long styPrc02,
@@ -140,6 +144,7 @@ public class Musician extends BaseTimeEntity{
         this.qstnAns02 = qstnAns02;
         this.qstnAns03 = qstnAns03;
         this.qstnAns04 = qstnAns04;
+        this.qstnAns04 = qstnAns05;
         this.styPrcYN = styPrcYN;
         this.styPrc01 = styPrc01;
         this.styPrc02 = styPrc02;
