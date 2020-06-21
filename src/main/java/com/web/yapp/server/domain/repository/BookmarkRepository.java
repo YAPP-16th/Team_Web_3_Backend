@@ -49,13 +49,17 @@ public class BookmarkRepository {
         return bookmark;
     }*/
 
-//    public void delete(String email, Long musicianId){
-//        try {
-//            em.createQuery("delete b from Bookmark b where b.u")
-//        }catch (NoResultException e){
-//
-//        }
-//    }
+    public int delete(Long userId, Long musicianId){
+        try {
+            return em.createQuery("delete from Bookmark b where b.user.id = :userId and b.musician.id = :musicianId")
+                    .setParameter("userId",userId)
+                    .setParameter("musicianId",musicianId)
+                    .executeUpdate();
+        }catch (NoResultException e){
+            log.error("BookmarkRepository chkBookmark :"+e.getMessage());
+            return 0;
+        }
+    }
 
     public Bookmark chkBookmark(String userEmail, Long musicianId){
         try{

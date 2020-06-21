@@ -45,6 +45,8 @@ public class BookmarkService {
         String email = sessionUserDto.getEmail();
         User user = userClassRepository.findUserByEmail(email);
         Musician musician = musicianRepository.findOne(musicianId);
+
+
     }
     @Transactional
     public void upBookmarkCount(Musician musician){

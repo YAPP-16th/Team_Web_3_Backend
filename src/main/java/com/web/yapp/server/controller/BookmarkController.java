@@ -18,10 +18,10 @@ public class BookmarkController {
         bookmarkService.createBookmark(musicianId);
     }
 
-//    @DeleteMapping("/{musicianId}")
-//    public void deleteBookmark(@PathVariable Long musicianId){
-//        bookmarkService.deleteBookmark(musicianId);
-//    }
+    @DeleteMapping("/{musicianId}")
+    public void deleteBookmark(@PathVariable Long musicianId){
+        bookmarkService.deleteBookmark(musicianId);
+    }
 
 
 }

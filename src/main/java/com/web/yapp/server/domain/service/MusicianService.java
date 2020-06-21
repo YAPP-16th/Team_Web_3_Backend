@@ -45,7 +45,6 @@ public class MusicianService {
 
         Musician musician = musicianDto.toEntity();
 
-
         List<String> atmoListTmp= atmoList.getTagNM();
         List<String> genreListTmp= genreList.getTagNM();
         List<String> InstrumentDto= instruList.getTagNM();
@@ -59,7 +58,7 @@ public class MusicianService {
         musicianTagService.saveMusicianTag(themeListTmp, musician,"테마");
         musicianTagService.saveMusicianTag(spclNoteListTmp, musician,"작업");
 
-        return musician.getId();
+        return musician.getId(); //id 값 잘 들어옴
     }
 
     /**
@@ -72,7 +71,6 @@ public class MusicianService {
         HashMap<String, Object> map = new HashMap<>();
         map.put("newMusician",findMusicianByNew());
         map.put("bestMusician",findMusicianByBookmark());
-        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         return map;
     }
 
@@ -167,6 +165,7 @@ public class MusicianService {
      * @return
      */
     public boolean chkBookmark(Musician musician){
+        if(httpSession.getAttribute("user") == null) return false; //로그인 안하면 북마크 false되어있는 상태
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         String userEmail = sessionUserDto.getEmail();
         Bookmark bookmark = bookmarkRepository.chkBookmark(userEmail, musician.getId());
@@ -181,14 +180,14 @@ public class MusicianService {
      * @return
      */
     public SimpleMusicianResponseDto getSimpleMusicianResponseDto(Musician musician){
-        MusicianDto musicianDto = new MusicianDto(musician);
-        SongDto songDto = songService.findRPSongByMuscianId(musician.getId());
+        MusicianMainResponseDto musicianMainResponseDto = new MusicianMainResponseDto(musician);
+        SongMainResponseDto songMainResponseDto = songService.findRPSongByMuscianId(musician.getId());
         List<String> spclNoteTagNMList = musicianTagService.findSpclNoteTagByMusician(musician.getId());
         List<String> RPTag = musicianTagService.findRPTagByMusician(musician.getId());
 
         return SimpleMusicianResponseDto.builder()
-                .musicianDto(musicianDto)
-                .songDto(songDto)
+                .musicianMainResponseDto(musicianMainResponseDto)
+                .songMainResponseDto(songMainResponseDto)
                 .spclNoteTags(spclNoteTagNMList)
                 .RPtags(RPTag)
                 .build();
