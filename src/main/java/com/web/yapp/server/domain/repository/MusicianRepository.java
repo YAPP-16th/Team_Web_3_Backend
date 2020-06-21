@@ -117,13 +117,30 @@ public class MusicianRepository{
     }
 
     public void upBookmarkCount(Long musicianId){ //잘못된 뮤지션 id가 들어왔을 때 처리하기
-        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount+1 where m.id = :musicianId")
-                .setParameter("musicianId",musicianId);
+        try{
+            Musician musician = findOne(musicianId);
+            if(musician.getBookmarkCount() == null) {
+                em.createQuery("update Musician m set m.bookmarkCount = 1 where m.id = :musicianId")
+                        .setParameter("musicianId",musicianId);
+            }
+            else {
+                em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount+1 where m.id = :musicianId")
+                        .setParameter("musicianId",musicianId);
+            }
+        }catch (NoResultException e){
+            log.error("MusicianRepository upBookmarkCount" + e.getMessage());
+        }
+
     }
 
     public void downBookmarkCount(Long musicianId){
-        em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount-1 where m.id = :musicianId")
-                .setParameter("musicianId",musicianId);
+        try {
+            em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount-1 where m.id = :musicianId")
+                    .setParameter("musicianId",musicianId);
+        }catch (Exception e){
+            log.error("MusicianRepository downBookmarkCount " + e.getMessage());
+        }
+
     }
 
 }
