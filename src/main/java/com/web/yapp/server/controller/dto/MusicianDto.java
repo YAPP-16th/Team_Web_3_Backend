@@ -1,5 +1,6 @@
 package com.web.yapp.server.controller.dto;
 
+import com.web.yapp.server.domain.BaseTimeEntity;
 import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.User;
 import lombok.Builder;

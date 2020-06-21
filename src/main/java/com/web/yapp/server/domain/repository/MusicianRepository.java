@@ -90,6 +90,8 @@ public class MusicianRepository{
                 .setMaxResults(9)
                 .getResultList();
         return musicians;
+
+
     }
 
     public void upBookmarkCount(Long musicianId){
