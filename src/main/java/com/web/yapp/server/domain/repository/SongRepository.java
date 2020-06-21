@@ -2,13 +2,15 @@ package com.web.yapp.server.domain.repository;
 
 import com.web.yapp.server.domain.Song;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class SongRepository {
@@ -20,9 +22,15 @@ public class SongRepository {
      * @return
      */
     public List<Song> findSongByMusician(Long musicianId){
-        return em.createQuery("select s from Song s where s.musician.id = :musicianId",Song.class)
-                .setParameter("musicianId",musicianId)
-                .getResultList();
+        try{
+            return em.createQuery("select s from Song s where s.musician.id = :musicianId",Song.class)
+                    .setParameter("musicianId",musicianId)
+                    .getResultList();
+        }catch (NoResultException e){
+            log.error("SongRepository findSongByMusician :"+e.getMessage());
+            return new ArrayList<Song>();
+        }
+
     }
 
     /**
@@ -36,8 +44,8 @@ public class SongRepository {
                     .setParameter("musicianId",musicianId)
                     .getSingleResult();
         }catch (NoResultException e){
-            System.out.println(e.getMessage());
-            return null;
+            log.error("SongRepository findRPSongByMusician :"+e.getMessage());
+            return new Song(); //될지모르겠음
         }
 
     }
