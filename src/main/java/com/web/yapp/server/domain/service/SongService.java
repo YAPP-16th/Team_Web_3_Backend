@@ -48,7 +48,7 @@ public class SongService {
                 System.out.println("mid:"+musicianId);
                 System.out.println("title:"+song.getTitle());
 
-            }
+
 
         }catch(NullPointerException e){
             e.printStackTrace();
