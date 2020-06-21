@@ -28,7 +28,7 @@ public class SongRepository {
                     .getResultList();
         }catch (NoResultException e){
             log.error("SongRepository findSongByMusician :"+e.getMessage());
-            return new ArrayList<Song>();
+            return null;
         }
 
     }
@@ -45,7 +45,7 @@ public class SongRepository {
                     .getSingleResult();
         }catch (NoResultException e){
             log.error("SongRepository findRPSongByMusician :"+e.getMessage());
-            return new Song(); //될지모르겠음
+            return null;
         }
 
     }
