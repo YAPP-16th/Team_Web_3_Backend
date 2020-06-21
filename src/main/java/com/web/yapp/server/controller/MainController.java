@@ -1,9 +1,8 @@
 package com.web.yapp.server.controller;
 
 
-
-
 //import com.oracle.tools.packager.Log;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
@@ -42,17 +41,17 @@ public class MainController {
     @GetMapping("/")
     public String home(Model model, HttpSession session, HttpServletResponse response) {       // 모델에 유저 정보
 
-        List<HashMap<String, Object>> accessTokenList = new ArrayList<HashMap<String,Object>>();
-        HashMap<String, Object> resultMap = new HashMap<String,Object>();
+        List<HashMap<String, Object>> accessTokenList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
-        String accessToken =  (String) httpSession.getAttribute("accessToken");
+        String accessToken = (String) httpSession.getAttribute("accessToken");
 
         // 토큰이 있는 경우(사용자 정보랑 값 넣어서 리턴)
-        if(accessToken != null ){
+        if (accessToken != null) {
 
 
-        }else {
+        } else {
 
         }
 
@@ -121,9 +120,9 @@ public class MainController {
          *
          */
 
-        session.setAttribute("login","locallogin");
+        session.setAttribute("login", "locallogin");
         session.setAttribute("user", user);
-        httpSession.setAttribute("user",user);
+        httpSession.setAttribute("user", user);
         log.info("메인 컨트롤러 ");
        /* Cookie cookie = new Cookie("user", user);
         cookie.setValue(user);
@@ -140,36 +139,45 @@ public class MainController {
         //return "redirect:http://localhost:3000";
         return "redirect:http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000";
     }
+
     @PostMapping("/authToken")
-    public @ResponseBody HashMap<String, Object> authToken(@RequestBody String reqAccessToken) {       // 모델에 유저 정보
-        HashMap<String, Object> resultMap = new HashMap<String,Object>();
+    public @ResponseBody
+    HashMap<String, Object> authToken(@RequestBody String reqAccessToken) {       // 모델에 유저 정보
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
         log.info(reqAccessToken);
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        
-	log.info(String.valueOf(sessionUserDto.getRole()));
-	String accessToken =  (String) httpSession.getAttribute("accessToken");
+
+        log.info("roleKey:" + sessionUserDto.getRole().getKey());
+        String sessionUserRole = sessionUserDto.getRole().getKey().toString();
+
+        String accessToken = (String) httpSession.getAttribute("accessToken");
         Long userId = null;
-	if(sessionUserDto.getRole().equals("USER")){
-            resultMap.put("isMusician",false);
-        }else {
-            resultMap.put("isMusician",true);
+        if ("ROLE_USER".equals(String.valueOf(sessionUserRole))){
+            resultMap.put("isMusician", false);
+        } else {
+            resultMap.put("isMusician", true);
         }
-        if(sessionUserDto != null){
+        if (sessionUserDto != null) {
             userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
             resultMap.put("success", "1");
             resultMap.put("userId", String.valueOf(userId));
             resultMap.put("user", sessionUserDto);
             resultMap.put("accessToken", accessToken);
-        }else {
+        } else {
             resultMap.put("success", "0");
         }
+        log.info("role:"+resultMap.get("isMusician").toString());
         return resultMap;
-    }	
+    }
+
     @GetMapping("/main")
-    public Map<String, Object> main(){
+    public Map<String, Object> main() {
         return musicianService.getMainResponse();
     }
+
+
+
 
 
 }
