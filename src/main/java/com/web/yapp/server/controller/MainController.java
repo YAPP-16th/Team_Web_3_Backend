@@ -1,23 +1,14 @@
 package com.web.yapp.server.controller;
 
 
-//import com.oracle.tools.packager.Log;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.yapp.server.controller.dto.MusicianCardResponseDto;
 import com.web.yapp.server.controller.dto.SessionUserDto;
-import com.web.yapp.server.domain.Musician;
-import com.web.yapp.server.domain.Role;
-import com.web.yapp.server.domain.User;
 import com.web.yapp.server.domain.service.MusicianService;
 import com.web.yapp.server.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
