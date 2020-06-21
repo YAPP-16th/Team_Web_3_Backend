@@ -37,7 +37,6 @@ public class MusicianDto {
     private String qstnAns02;
     private String qstnAns03;
     private String qstnAns04;
-    private String qstnAns05;
     private Long styPrc01;
     private Long styPrc02;
     private Long styPrc03;

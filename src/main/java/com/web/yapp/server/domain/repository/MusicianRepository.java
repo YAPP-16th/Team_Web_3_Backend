@@ -26,8 +26,13 @@ public class MusicianRepository{
      * @param musician
      */
     public void save(Musician musician){
-        EntityManager em = this.em;
-        em.persist(musician);
+        try{
+            EntityManager em = this.em;
+            em.persist(musician);
+        }
+        catch (Exception e){
+            log.error("musician 등록 실패");
+        }
     }
 
     /**
