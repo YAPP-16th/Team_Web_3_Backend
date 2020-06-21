@@ -1,5 +1,6 @@
 package com.web.yapp.server.domain.service;
 
+import com.oracle.tools.packager.Log;
 import com.web.yapp.server.controller.dto.SongDto;
 import com.web.yapp.server.controller.dto.SongMainResponseDto;
 import com.web.yapp.server.domain.Musician;
@@ -42,9 +43,18 @@ public class SongService {
      */
     public SongMainResponseDto findRPSongByMuscianId(Long musicianId){
         Song song = songRepository.findRPSongByMusician(musicianId);
-        System.out.println("mid:"+musicianId);
-        System.out.println("title:"+song.getTitle());
+        try
+        {
+                System.out.println("mid:"+musicianId);
+                System.out.println("title:"+song.getTitle());
+
+
+
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
         return new SongMainResponseDto(song);
+
     }
 
     /**
@@ -55,6 +65,45 @@ public class SongService {
      * @throws IOException
      */
     @Transactional //대표곡커버, 대표곡, 일반곡1, ... 순서
+    public List<Long> songSave(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
+        List<Long> idList = new LinkedList<Long>();
+        Musician musician = musicianRepository.findOne(musicianId);
+
+
+
+
+        String RPcoverUrl = s3Uploader.upload(multipartFiles.get(1),"static");
+        String RPsongUrl = s3Uploader.upload(multipartFiles.get(2),"static");
+        String RPtitle = multipartFiles.get(2).getOriginalFilename();
+
+        Song RPsong = Song.builder()
+                .title(RPtitle)
+                .coverUrl(RPcoverUrl)
+                .songUrl(RPsongUrl)
+                .represent(1)
+                .musician(musician)
+                .build();
+
+        songRepository.save(RPsong);
+        idList.add(RPsong.getId());
+
+        for(int i=3;i<multipartFiles.size();i++){
+            String title = multipartFiles.get(i).getOriginalFilename();
+            String songUrl = s3Uploader.upload(multipartFiles.get(i),"static");
+            Song song = new Song();
+            song.builder()
+                    .title(title)
+                    .songUrl(songUrl)
+                    .coverUrl("")
+                    .represent(0)
+                    .musician(musician)
+                    .build();
+        }
+        return idList;
+    }
+
+
+   /* @Transactional //대표곡커버, 대표곡, 일반곡1, ... 순서
     public List<Long> songSave(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
         List<Long> idList = new LinkedList<Long>();
         Musician musician = musicianRepository.findOne(musicianId);
@@ -86,6 +135,6 @@ public class SongService {
                     .build();
         }
         return idList;
-    }
+    }*/
 
 }
