@@ -57,11 +57,4 @@ public class ProfileController {
         resultMap.put("success","1");
         return resultMap;
     }
-
-
-
-
-
-
-
 }
