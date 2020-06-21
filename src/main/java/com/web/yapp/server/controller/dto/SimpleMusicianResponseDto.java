@@ -14,14 +14,14 @@ import java.util.List;
 @NoArgsConstructor
 public class SimpleMusicianResponseDto {
     private MusicianMainResponseDto musicianMainResponseDto;
-    private SongDto songDto;
+    private SongMainResponseDto songMainResponseDto;
     private List<String> spclNoteTags;
     private List<String> RPtags;
 
     @Builder
-    public SimpleMusicianResponseDto(MusicianMainResponseDto musicianMainResponseDto, SongDto songDto,List<String> spclNoteTags, List<String> RPtags){
+    public SimpleMusicianResponseDto(MusicianMainResponseDto musicianMainResponseDto, SongMainResponseDto songMainResponseDto,List<String> spclNoteTags, List<String> RPtags){
         this.musicianMainResponseDto = musicianMainResponseDto;
-        this.songDto = songDto;
+        this.songMainResponseDto = songMainResponseDto;
         this.spclNoteTags = spclNoteTags;
         this.RPtags = RPtags;
     }
