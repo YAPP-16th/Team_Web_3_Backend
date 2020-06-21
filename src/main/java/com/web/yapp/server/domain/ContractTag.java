@@ -23,10 +23,19 @@ public class ContractTag extends BaseTimeEntity{
     @JoinColumn(name = "TAG_ID")
     private Tag tag;
 
+    // "Y" or "N"
+    @Column(name = "CON_TAG_MAP_RPRSN")
+    private String represent;
+
+    @Column(name = "CON_TAG_CATEGORY_NM")
+    private String categoryNM;
+
     @Builder
-    public ContractTag(Contract contract, Tag tag){
+    public ContractTag(Contract contract, Tag tag, String represent, String categoryNM){
         this.contract = contract;
         this.tag = tag;
+        this.represent = represent;
+        this.categoryNM = categoryNM;
     }
 
 }

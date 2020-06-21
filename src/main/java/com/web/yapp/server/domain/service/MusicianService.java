@@ -6,16 +6,15 @@ import com.web.yapp.server.controller.dto.*;
 import com.web.yapp.server.domain.*;
 import com.web.yapp.server.domain.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)     /* 전체 서비스를 Readonly로 처리 단, 회원가입의 경우만 트랜잭션 처리 */
 @RequiredArgsConstructor
@@ -38,22 +37,28 @@ public class MusicianService {
      */
     @Transactional
     public Long saveRegister(MusicianDto musicianDto,
-                             List<String> atmoList,
-                             List<String> genreList,
-                             List<String> instruList,
-                             List<String> themeList,
-                             List<String> spclNoteList){
+                             AtmosphereDto atmoList,
+                             GenreDto genreList,
+                             InstrumentDto instruList,
+                             ThemeDto themeList,
+                             SpecialDto spclNoteList){
 
         Musician musician = musicianDto.toEntity();
+
+        List<String> atmoListTmp= atmoList.getTagNM();
+        List<String> genreListTmp= genreList.getTagNM();
+        List<String> InstrumentDto= instruList.getTagNM();
+        List<String> themeListTmp= themeList.getTagNM();
+        List<String> spclNoteListTmp= spclNoteList.getTagNM();
         musicianRepository.save(musician);
 
-        musicianTagService.saveMusicianTag(atmoList, musician, "분위기");
-        musicianTagService.saveMusicianTag(genreList, musician, "장르");
-        musicianTagService.saveMusicianTag(instruList, musician,"악기");
-        musicianTagService.saveMusicianTag(themeList, musician,"테마");
-        musicianTagService.saveMusicianTag(spclNoteList, musician,"작업");
+        musicianTagService.saveMusicianTag(atmoListTmp, musician, "분위기");
+        musicianTagService.saveMusicianTag(genreListTmp, musician, "장르");
+        musicianTagService.saveMusicianTag(InstrumentDto, musician,"악기");
+        musicianTagService.saveMusicianTag(themeListTmp, musician,"테마");
+        musicianTagService.saveMusicianTag(spclNoteListTmp, musician,"작업");
 
-        return musician.getId();
+        return musician.getId(); //id 값 잘 들어옴
     }
 
     /**
@@ -66,9 +71,6 @@ public class MusicianService {
         HashMap<String, Object> map = new HashMap<>();
         map.put("newMusician",findMusicianByNew());
         map.put("bestMusician",findMusicianByBookmark());
-        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        if(sessionUserDto.getRole().equals("ROLE_USER")) map.put("user",sessionUserDto);
-        else if(sessionUserDto.getRole().equals("ROLE_MUSICIAN")) map.put("musician", findMusicianByUserNm());
         return map;
     }
 
@@ -163,10 +165,11 @@ public class MusicianService {
      * @return
      */
     public boolean chkBookmark(Musician musician){
+        if(httpSession.getAttribute("user") == null) return false; //로그인 안하면 북마크 false되어있는 상태
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        String userName = sessionUserDto.getName();
-        Bookmark bookmark = bookmarkRepository.chkBookmark(userName, musician.getId());
-        if(bookmark == null) System.out.println("북마크 널 ");
+        String userEmail = sessionUserDto.getEmail();
+        Bookmark bookmark = bookmarkRepository.chkBookmark(userEmail, musician.getId());
+        if(bookmark == null) log.info("MusicianService chkBookmark bookmark is null");
         Boolean alreadyBookmark = bookmark == null ? false : true;
         return alreadyBookmark;
     }
@@ -177,14 +180,14 @@ public class MusicianService {
      * @return
      */
     public SimpleMusicianResponseDto getSimpleMusicianResponseDto(Musician musician){
-        MusicianDto musicianDto = new MusicianDto(musician);
-        SongDto songDto = songService.findRPSongByMuscianId(musician.getId());
+        MusicianMainResponseDto musicianMainResponseDto = new MusicianMainResponseDto(musician);
+        SongMainResponseDto songMainResponseDto = songService.findRPSongByMuscianId(musician.getId());
         List<String> spclNoteTagNMList = musicianTagService.findSpclNoteTagByMusician(musician.getId());
         List<String> RPTag = musicianTagService.findRPTagByMusician(musician.getId());
 
         return SimpleMusicianResponseDto.builder()
-                .musicianDto(musicianDto)
-                .songDto(songDto)
+                .musicianMainResponseDto(musicianMainResponseDto)
+                .songMainResponseDto(songMainResponseDto)
                 .spclNoteTags(spclNoteTagNMList)
                 .RPtags(RPTag)
                 .build();

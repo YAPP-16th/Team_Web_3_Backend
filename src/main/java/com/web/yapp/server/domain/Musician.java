@@ -25,17 +25,20 @@ public class Musician extends BaseTimeEntity{
     @Column(name = "MUSICIAN_NICKNAME")        // 1Step 뮤지션 닉네임
     private String nickNm;
 
+    @Column(name = "MUSICIAN_PROFILE_URL")      //1Step 프로필 사진 url
+    private String profileUrl;
+
     @Column(name = "MUSICIAN_INTRODUCTION") // 1step 뮤지션 프로필 문구
     private String introduction;
 
     @Column(name = "MUSICIAN_CAREER") // 1step 뮤지션 경력 경력
     private String career;
 
-    @Column(name = "MUSICIAN_CELPHN") // 1step 뮤지션 핸드폰번호
-    private String celPhone;
-
     @Column(name = "MUSICIAN_PORT_LINK")    // 1step 뮤지션 포트폴리오 링크
     private String portFolioLink;
+
+    @Column(name = "MUSICIAN_CELLPHN") // 1step 뮤지션 핸드폰번호
+    private String cellPhone;
 
     @Column(name = "MUSICIAN_SNS_NM")   // 1step 뮤지션 SNS 이름
     private String snsNm;
@@ -70,31 +73,28 @@ public class Musician extends BaseTimeEntity{
     @Column(name = "MUSICIAN_QSTN_ANS04")       //step02 Q&A 04
     private String qstnAns04;
 
-    @Column(name = "MUSICIAN_QSTN_ANS05")       //step02 Q&A 05
-    private String qstnAns05;
+    @Column(name = "MUSICIAN_PRC_YN")           //step03 가격고정(Y) or 가격협의(N)
+    private String styPrcYN;
 
-    @Column(name = "MUSICIAN_PRC01")            //step03 스타일 A 가격 01
+    @Column(name = "MUSICIAN_PRC01")            //step03 옵션 A 가격 01
     private Long styPrc01;
 
-    @Column(name = "MUSICIAN_PRC02")            //step03 스타일 B 가격 02
+    @Column(name = "MUSICIAN_PRC02")            //step03 옵션 B 가격 02
     private Long styPrc02;
 
-    @Column(name = "MUSICIAN_PRC03")            //step03 스타일 C 가격 03
+    @Column(name = "MUSICIAN_PRC03")            //step03 옵션 C 가격 03
     private Long styPrc03;
 
-    @Column(name = "MUSICIAN_EXPLN01")          //step03 스타일 A 설명 01
+    @Column(name = "MUSICIAN_EXPLN01")          //step03 옵션 A 설명 01
     private String styExpln01;
 
-    @Column(name = "MUSICIAN_EXPLN02")          //step03 스타일 B 설명 02
+    @Column(name = "MUSICIAN_EXPLN02")          //step03 옵션 B 설명 02
     private String styExpln02;
 
-    @Column(name = "MUSICIAN_EXPLN03")          //step03 스타일 C 설명 03
+    @Column(name = "MUSICIAN_EXPLN03")          //step03 옵션 C 설명 03
     private String styExpln03;
 
-    @Column(name = "MUSICIAN_PROFILE_URL") //프로필 사진 url
-    private String profileUrl;
-
-    @Column(name = "MUSICIAN_BOOKMARK_COUNT")
+    @Column(name = "MUSICIAN_BOOKMARK_COUNT")   //이 뮤지션이 좋아요 받은 개수
     private Long bookmarkCount;
 
     @Builder
@@ -103,7 +103,7 @@ public class Musician extends BaseTimeEntity{
                        @NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
                        @NotEmpty(message = "뮤지션 이름은 필수입니다.") String nickNm,
                        @NotEmpty(message = "뮤지션 소개는 필수입니다.") String introduction,
-                       String celPhone,
+                       String cellPhone,
                        String portFolioLink,
                        String snsNm,
                        Long snsType,
@@ -114,7 +114,7 @@ public class Musician extends BaseTimeEntity{
                        String qstnAns02,
                        String qstnAns03,
                        String qstnAns04,
-                       String qstnAns05,
+                       String styPrcYN,
                        Long styPrc01,
                        Long styPrc02,
                        Long styPrc03,
@@ -127,8 +127,9 @@ public class Musician extends BaseTimeEntity{
         this.userId = userId;
         this.career = career;
         this.nickNm = nickNm;
+        this.profileUrl = profileUrl;
         this.introduction = introduction;
-        this.celPhone = celPhone;
+        this.cellPhone = cellPhone;
         this.portFolioLink = portFolioLink;
         this.snsNm = snsNm;
         this.snsType = snsType;
@@ -139,14 +140,13 @@ public class Musician extends BaseTimeEntity{
         this.qstnAns02 = qstnAns02;
         this.qstnAns03 = qstnAns03;
         this.qstnAns04 = qstnAns04;
-        this.qstnAns05 = qstnAns05;
+        this.styPrcYN = styPrcYN;
         this.styPrc01 = styPrc01;
         this.styPrc02 = styPrc02;
         this.styPrc03 = styPrc03;
         this.styExpln01 = styExpln01;
         this.styExpln02 = styExpln02;
         this.styExpln03 = styExpln03;
-        this.profileUrl = profileUrl;
         this.bookmarkCount = bookmarkCount;
     }
 }

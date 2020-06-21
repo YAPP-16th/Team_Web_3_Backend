@@ -1,6 +1,7 @@
 package com.web.yapp.server.domain.service;
 
 import com.web.yapp.server.controller.dto.SongDto;
+import com.web.yapp.server.controller.dto.SongMainResponseDto;
 import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.Song;
 import com.web.yapp.server.domain.repository.MusicianRepository;
@@ -39,11 +40,11 @@ public class SongService {
      * @param musicianId
      * @return
      */
-    public SongDto findRPSongByMuscianId(Long musicianId){
+    public SongMainResponseDto findRPSongByMuscianId(Long musicianId){
         Song song = songRepository.findRPSongByMusician(musicianId);
         System.out.println("mid:"+musicianId);
         System.out.println("title:"+song.getTitle());
-        return new SongDto(song);
+        return new SongMainResponseDto(song);
     }
 
     /**
@@ -54,7 +55,7 @@ public class SongService {
      * @throws IOException
      */
     @Transactional //대표곡커버, 대표곡, 일반곡1, ... 순서
-    public List<Long> song(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
+    public List<Long> songSave(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
         List<Long> idList = new LinkedList<Long>();
         Musician musician = musicianRepository.findOne(musicianId);
         String RPcoverUrl = s3Uploader.upload(multipartFiles.get(0),"static");

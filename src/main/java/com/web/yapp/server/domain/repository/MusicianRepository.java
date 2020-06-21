@@ -2,11 +2,15 @@ package com.web.yapp.server.domain.repository;
 
 import com.web.yapp.server.domain.Musician;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import java.util.LinkedList;
 import java.util.List;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class MusicianRepository{
@@ -18,8 +22,13 @@ public class MusicianRepository{
      * @param musician
      */
     public void save(Musician musician){
-        EntityManager em = this.em;
-        em.persist(musician);
+        try{
+            EntityManager em = this.em;
+            em.persist(musician);
+        }
+        catch (Exception e){
+            log.error("musician 등록 실패");
+        }
     }
 
     /**
@@ -74,10 +83,17 @@ public class MusicianRepository{
      * 새로 등장한 뮤지션
      */
     public List<Musician> findMusicianByBookmark(){
-        List<Musician> musicianChoiceInfo = em.createQuery("select m from Musician m order by m.bookmarkCount desc"  , Musician.class)
-                .setFirstResult(0)
-                .setMaxResults(9)
-                .getResultList();
+        List<Musician> musicianChoiceInfo;
+        try{
+            musicianChoiceInfo = em.createQuery("select m from Musician m order by m.bookmarkCount desc"  , Musician.class)
+                    .setFirstResult(0)
+                    .setMaxResults(9)
+                    .getResultList();
+        }
+        catch (NoResultException e){
+            log.error("MusicianRepository findMusicianByBookmark :"+e.getMessage());
+            musicianChoiceInfo = null;
+        }
         return musicianChoiceInfo;
     }
 
@@ -85,14 +101,24 @@ public class MusicianRepository{
      * 리스너들의 선택
      */
     public List<Musician> findMusicianByNew(){
-        List<Musician> musicians = em.createQuery("select m from Musician m order by m.createdDate asc " , Musician.class)
-                .setFirstResult(0)
-                .setMaxResults(9)
-                .getResultList();
+        List<Musician> musicians;
+        try{
+            musicians = em.createQuery("select m from Musician m order by m.createdDate asc " , Musician.class)
+                    .setFirstResult(0)
+                    .setMaxResults(9)
+                    .getResultList();
+
+        }
+        catch (NoResultException e){
+            log.error("MusicianRepository findMusicianByNew :"+e.getMessage());
+            musicians = null;
+        }
         return musicians;
+
+
     }
 
-    public void upBookmarkCount(Long musicianId){
+    public void upBookmarkCount(Long musicianId){ //잘못된 뮤지션 id가 들어왔을 때 처리하기
         em.createQuery("update Musician m set m.bookmarkCount = m.bookmarkCount+1 where m.id = :musicianId")
                 .setParameter("musicianId",musicianId);
     }
