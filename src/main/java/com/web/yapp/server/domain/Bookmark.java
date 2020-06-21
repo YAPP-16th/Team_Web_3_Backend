@@ -25,7 +25,8 @@ public class Bookmark extends BaseTimeEntity{
     private User user;
 
     @Builder
-    public Bookmark(User user, Musician musician){
+    public Bookmark(Long id, User user, Musician musician){
+        this.id = id;
         this.user = user;
         this.musician = musician;
     }

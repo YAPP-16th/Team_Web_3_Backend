@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,20 +37,27 @@ public class MusicianService {
      */
     @Transactional
     public Long saveRegister(MusicianDto musicianDto,
-                             List<String> atmoList,
-                             List<String> genreList,
-                             List<String> instruList,
-                             List<String> themeList,
-                             List<String> spclNoteList){
+                             AtmosphereDto atmoList,
+                             GenreDto genreList,
+                             InstrumentDto instruList,
+                             ThemeDto themeList,
+                             SpecialDto spclNoteList){
 
         Musician musician = musicianDto.toEntity();
+
+
+        List<String> atmoListTmp= atmoList.getTagNM();
+        List<String> genreListTmp= genreList.getTagNM();
+        List<String> InstrumentDto= instruList.getTagNM();
+        List<String> themeListTmp= themeList.getTagNM();
+        List<String> spclNoteListTmp= spclNoteList.getTagNM();
         musicianRepository.save(musician);
 
-        musicianTagService.saveMusicianTag(atmoList, musician, "분위기");
-        musicianTagService.saveMusicianTag(genreList, musician, "장르");
-        musicianTagService.saveMusicianTag(instruList, musician,"악기");
-        musicianTagService.saveMusicianTag(themeList, musician,"테마");
-        musicianTagService.saveMusicianTag(spclNoteList, musician,"작업");
+        musicianTagService.saveMusicianTag(atmoListTmp, musician, "분위기");
+        musicianTagService.saveMusicianTag(genreListTmp, musician, "장르");
+        musicianTagService.saveMusicianTag(InstrumentDto, musician,"악기");
+        musicianTagService.saveMusicianTag(themeListTmp, musician,"테마");
+        musicianTagService.saveMusicianTag(spclNoteListTmp, musician,"작업");
 
         return musician.getId();
     }

@@ -6,8 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,6 +44,13 @@ public class MusicianDto {
     private String styExpln03;
     private String profileUrl;
 
+    private AtmosphereDto atmosphereList;
+    private GenreDto genreList;
+    private InstrumentDto instrumentList;
+    private SpecialDto specialList;
+    private ThemeDto themeList;
+    private List<MultipartFile> multipartFile;
+
     public MusicianDto(Musician Entity){
         this.id = Entity.getId();
         this.userId = Entity.getUserId();
@@ -59,7 +68,6 @@ public class MusicianDto {
         this.qstnAns02 = Entity.getQstnAns02();
         this.qstnAns03 = Entity.getQstnAns03();
         this.qstnAns04 = Entity.getQstnAns04();
-        //this.qstnAns05 = Entity.getQstnAns05();
         this.styPrc01 = Entity.getStyPrc01();
         this.styPrc02 = Entity.getStyPrc02();
         this.styPrc03 = Entity.getStyPrc03();
@@ -71,9 +79,9 @@ public class MusicianDto {
     }
 
 
-    @Builder
+    /*@Builder
     public MusicianDto(Long id,
-                       User userId,
+                       Long userId,
                        @NotEmpty(message = "뮤지션 경력은 필수입니다.") String career,
                        @NotEmpty(message = "뮤지션 이름은 필수입니다.") String nickNm,
                        @NotEmpty(message = "뮤지션 소개는 필수입니다.") String introduction,
@@ -121,7 +129,7 @@ public class MusicianDto {
         this.styExpln03 = styExpln03;
         this.profileUrl = profileUrl;
 
-    }
+    }*/
 
     public Musician toEntity(){
         return Musician.builder()
@@ -141,7 +149,6 @@ public class MusicianDto {
                 .qstnAns02(qstnAns02)
                 .qstnAns03(qstnAns03)
                 .qstnAns04(qstnAns04)
-                //.qstnAns05(qstnAns05)
                 .styPrc01(styPrc01)
                 .styPrc02(styPrc02)
                 .styPrc03(styPrc03)
