@@ -4,11 +4,14 @@ import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.MusicianTag;
 import com.web.yapp.server.domain.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class MusicianTagRepository {
@@ -20,9 +23,17 @@ public class MusicianTagRepository {
      * @return
      */
     public List<Musician> findMusicianByTag(Long tagId){
-        return em.createQuery("select mt.musician from MusicianTag mt where mt.tag.id = :tagId", Musician.class)
-                .setParameter("tagId",tagId)
-                .getResultList();
+        List<Musician> musicians;
+        try{
+            musicians = em.createQuery("select mt.musician from MusicianTag mt where mt.tag.id = :tagId", Musician.class)
+                    .setParameter("tagId",tagId)
+                    .getResultList();
+
+        }catch (NoResultException e){
+            log.error("MusicianTagRepository findMusicianByTag :"+e.getMessage());
+            musicians = null;
+        }
+        return musicians;
     }
 
     /**
@@ -31,10 +42,18 @@ public class MusicianTagRepository {
      * @return
      */
     public List<Tag> findSpclNoteTagByMusician(Long musicianId){
-        return em.createQuery("select mt.tag from MusicianTag " +
-                "mt where mt.musician.id = :musicianId and mt.categoryNM = '작업'",Tag.class)
-                .setParameter("musicianId",musicianId)
-                .getResultList();
+        List<Tag> tags;
+        try{
+            tags = em.createQuery("select mt.tag from MusicianTag " +
+                    "mt where mt.musician.id = :musicianId and mt.categoryNM = '작업'",Tag.class)
+                    .setParameter("musicianId",musicianId)
+                    .getResultList();
+
+        }catch (NoResultException e){
+            log.error("MusicianTagRepository findSpclNoteTagByMusician :"+e.getMessage());
+            tags = null;
+        }
+        return tags;
     }
 
     /**
@@ -43,9 +62,16 @@ public class MusicianTagRepository {
      * @return
      */
     public List<Tag> findRPTagByMusician(Long musicianId){
-        return em.createQuery("select mt.tag from MusicianTag mt where mt.musician.id = :musicianId and mt.represent = 1",Tag.class)
-                .setParameter("musicianId",musicianId)
-                .getResultList();
+        List<Tag> tags;
+        try{
+            tags = em.createQuery("select mt.tag from MusicianTag mt where mt.musician.id = :musicianId and mt.represent = 1",Tag.class)
+                    .setParameter("musicianId",musicianId)
+                    .getResultList();
+        }catch (NoResultException e){
+            log.error("MusicianTagRepository findRPTagByMusician :"+e.getMessage());
+            tags = null;
+        }
+        return tags;
     }
 
 
@@ -55,6 +81,7 @@ public class MusicianTagRepository {
      * @return
      */
     public List<Tag> findTagByMusician(Long musicianId){
+        List<Tag> tags;
         return em.createQuery("select mt.tag from MusicianTag mt where mt.musician.id = :musicianId", Tag.class)
                 .setParameter("musicianId",musicianId)
                 .getResultList();
