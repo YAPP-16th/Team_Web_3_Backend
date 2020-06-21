@@ -17,12 +17,19 @@ public class SongController {
      * @param musicianId
      * @return
      */
+//    @GetMapping("/musician/{musicianId}") //뮤지션페이지에서 노래 목록 제공
+//    public List<SongDto> songsByMusician(@PathVariable Long musicianId){
+//        return songService.findSongByMusicianId(musicianId);
+//    }
+
     @GetMapping("/musician/{musicianId}") //뮤지션페이지에서 노래 목록 제공
-    public List<SongDto> songsByMusician(@PathVariable Long musicianId){
-        return songService.findSongByMusicianId(musicianId);
+    public Object songsByMusician(@PathVariable Long musicianId){
+        Object object = songService.findSongByMusicianId(musicianId);
+        if(object == null) return "잘못된 뮤지션 ID 입니다";
+        return object;
     }
 
-//    @PutMapping
+    //    @PutMapping
 //    public SongDto updateSong(){} //save
 //
 //    @DeleteMapping

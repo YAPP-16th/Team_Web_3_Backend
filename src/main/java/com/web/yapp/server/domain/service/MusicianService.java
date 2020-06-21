@@ -6,6 +6,7 @@ import com.web.yapp.server.controller.dto.*;
 import com.web.yapp.server.domain.*;
 import com.web.yapp.server.domain.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)     /* 전체 서비스를 Readonly로 처리 단, 회원가입의 경우만 트랜잭션 처리 */
 @RequiredArgsConstructor
@@ -166,9 +168,9 @@ public class MusicianService {
      */
     public boolean chkBookmark(Musician musician){
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        String userName = sessionUserDto.getName();
-        Bookmark bookmark = bookmarkRepository.chkBookmark(userName, musician.getId());
-        if(bookmark == null) System.out.println("북마크 널 ");
+        String userEmail = sessionUserDto.getEmail();
+        Bookmark bookmark = bookmarkRepository.chkBookmark(userEmail, musician.getId());
+        if(bookmark == null) log.info("MusicianService chkBookmark bookmark is null");
         Boolean alreadyBookmark = bookmark == null ? false : true;
         return alreadyBookmark;
     }
