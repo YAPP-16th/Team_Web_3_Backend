@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -50,7 +51,12 @@ public class MusicianDto {
     private InstrumentDto instrumentList;
     private SpecialDto specialList;
     private ThemeDto themeList;
-    private List<MultipartFile> multipartFile;
+    private List<MultipartFile> multipartFiles;
+   /* private List<MultipartFile> portfolioFile;
+    private List<MultipartFile> mainSongFile;
+    private List<MultipartFile> subSongFile;*/
+
+
 
     public MusicianDto(Musician Entity){
         this.id = Entity.getId();

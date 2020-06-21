@@ -43,8 +43,14 @@ public class MusicianService {
                              ThemeDto themeList,
                              SpecialDto spclNoteList){
 
+
+
         Musician musician = musicianDto.toEntity();
 
+       /* musician.builder()
+                .profileUrl(musicianDto)
+                .portFolioLink()
+*/
 
         List<String> atmoListTmp= atmoList.getTagNM();
         List<String> genreListTmp= genreList.getTagNM();
@@ -72,6 +78,18 @@ public class MusicianService {
         HashMap<String, Object> map = new HashMap<>();
         map.put("newMusician",findMusicianByNew());
         map.put("bestMusician",findMusicianByBookmark());
+        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
+        return map;
+    }
+
+    /**
+     * 검색 응답값
+     * @return
+     */
+    public Map<String, Object> getSearchResponse(){
+        HashMap<String, Object> map = new HashMap<>();
+        //map.put("searchMusician",findMusicianBySearch());
+
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         return map;
     }
@@ -141,6 +159,15 @@ public class MusicianService {
     }
 
     /**
+     * 검색하기 페이지 뮤지션
+     * @return
+     */
+    public List<MusicianCardResponseDto> findMusicianBySearch(String categoryNm){ //좋아요 눌린 여부도 필요?
+        List<Musician> musicians = musicianRepository.findMusicianBySearch(categoryNm);
+        return getMusicianCardResponseDto(musicians);
+    }
+
+    /**
      * 메인 뮤지션 카드( 뮤지션, 노래, 작업태그, 대표태그, 좋아요 개수, 좋아요 T/F)
      * @param musicians
      * @return
@@ -167,6 +194,7 @@ public class MusicianService {
      * @return
      */
     public boolean chkBookmark(Musician musician){
+        if(httpSession.getAttribute("user") == null) return false; //로그인 안하면 북마크 false되어있는 상태
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         String userEmail = sessionUserDto.getEmail();
         Bookmark bookmark = bookmarkRepository.chkBookmark(userEmail, musician.getId());
