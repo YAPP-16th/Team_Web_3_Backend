@@ -12,23 +12,15 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ApiModel
 public class SimpleMusicianResponseDto {
-    @ApiModelProperty(value = "musicianDto")
-    private MusicianDto musicianDto;
-
-    @ApiModelProperty(value = "songDto")
+    private MusicianMainResponseDto musicianMainResponseDto;
     private SongDto songDto;
-
-    @ApiModelProperty(value = "작업태그")
     private List<String> spclNoteTags;
-
-    @ApiModelProperty(value = "대표태그")
     private List<String> RPtags;
 
     @Builder
-    public SimpleMusicianResponseDto(MusicianDto musicianDto, SongDto songDto,List<String> spclNoteTags, List<String> RPtags){
-        this.musicianDto = musicianDto;
+    public SimpleMusicianResponseDto(MusicianMainResponseDto musicianMainResponseDto, SongDto songDto,List<String> spclNoteTags, List<String> RPtags){
+        this.musicianMainResponseDto = musicianMainResponseDto;
         this.songDto = songDto;
         this.spclNoteTags = spclNoteTags;
         this.RPtags = RPtags;
