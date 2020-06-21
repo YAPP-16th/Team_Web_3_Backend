@@ -1,6 +1,7 @@
 package com.web.yapp.server.domain.service;
 
 import com.web.yapp.server.controller.dto.SongDto;
+import com.web.yapp.server.controller.dto.SongMainResponseDto;
 import com.web.yapp.server.domain.Musician;
 import com.web.yapp.server.domain.Song;
 import com.web.yapp.server.domain.repository.MusicianRepository;
@@ -39,11 +40,11 @@ public class SongService {
      * @param musicianId
      * @return
      */
-    public SongDto findRPSongByMuscianId(Long musicianId){
+    public SongMainResponseDto findRPSongByMuscianId(Long musicianId){
         Song song = songRepository.findRPSongByMusician(musicianId);
         System.out.println("mid:"+musicianId);
         System.out.println("title:"+song.getTitle());
-        return new SongDto(song);
+        return new SongMainResponseDto(song);
     }
 
     /**

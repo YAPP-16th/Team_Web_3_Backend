@@ -31,7 +31,7 @@ import java.util.Map;
 @CrossOrigin("*")
 @SessionAttributes
 @RequiredArgsConstructor
-@Controller
+@RestController
 @Slf4j      /* 로그 어노테이션 */
 public class MainController {
     private final HttpSession httpSession;

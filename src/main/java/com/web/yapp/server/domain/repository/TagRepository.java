@@ -2,12 +2,14 @@ package com.web.yapp.server.domain.repository;
 
 import com.web.yapp.server.domain.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class TagRepository {
@@ -22,7 +24,7 @@ public class TagRepository {
                     ;
 
         } catch (NoResultException nre) {
-            System.out.println("태그 없음");
+            log.error("TagRepository findTagByTagNM "+nre.getMessage());
         }
         return new Tag();
     }
