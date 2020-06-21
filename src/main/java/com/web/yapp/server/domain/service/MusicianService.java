@@ -43,8 +43,9 @@ public class MusicianService {
                              ThemeDto themeList,
                              SpecialDto spclNoteList){
 
-        Musician musician = musicianDto.toEntity();
 
+
+        Musician musician = musicianDto.toEntity();
         List<String> atmoListTmp= atmoList.getTagNM();
         List<String> genreListTmp= genreList.getTagNM();
         List<String> InstrumentDto= instruList.getTagNM();
@@ -71,6 +72,18 @@ public class MusicianService {
         HashMap<String, Object> map = new HashMap<>();
         map.put("newMusician",findMusicianByNew());
         map.put("bestMusician",findMusicianByBookmark());
+        return map;
+    }
+
+    /**
+     * 검색 응답값
+     * @return
+     */
+    public Map<String, Object> getSearchResponse(){
+        HashMap<String, Object> map = new HashMap<>();
+        //map.put("searchMusician",findMusicianBySearch());
+
+        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         return map;
     }
 
@@ -135,6 +148,15 @@ public class MusicianService {
      */
     public List<MusicianCardResponseDto> findMusicianByNew(){ //좋아요 눌린 여부도 필요?
         List<Musician> musicians = musicianRepository.findMusicianByNew();
+        return getMusicianCardResponseDto(musicians);
+    }
+
+    /**
+     * 검색하기 페이지 뮤지션
+     * @return
+     */
+    public List<MusicianCardResponseDto> findMusicianBySearch(String categoryNm){ //좋아요 눌린 여부도 필요?
+        List<Musician> musicians = musicianRepository.findMusicianBySearch(categoryNm);
         return getMusicianCardResponseDto(musicians);
     }
 
