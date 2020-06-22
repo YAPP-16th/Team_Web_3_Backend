@@ -63,6 +63,18 @@ public class MusicianController {
         return musicianList;
     }
 
+    @GetMapping("/msuician/detail")
+    public HashMap<String,Object> getMusicianDetail(@RequestParam Long musicianId){
+
+        HashMap<String,Object> resultMap = new HashMap<String,Object>();
+
+        MusicianDto musicianDto = musicianService.findByIdMusician(musicianId);
+        List<SongDto> songList= songService.findSongByMusicianId(musicianId);
+        resultMap.put("musicianList", musicianDto);
+        resultMap.put("songList", songList);
+        return resultMap;
+    }
+
 //    /**
 //     * 뮤지션 닉네임값 조회
 //     * @param nickNm
