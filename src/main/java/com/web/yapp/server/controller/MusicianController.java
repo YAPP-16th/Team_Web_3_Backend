@@ -67,7 +67,6 @@ public class MusicianController {
     public HashMap<String,Object> getMusicianDetail(@PathVariable Long musicianId){
 
         HashMap<String,Object> resultMap = new HashMap<String,Object>();
-
         MusicianDto musicianDto = musicianService.findByIdMusician(musicianId);
         List<SongDto> songList= songService.findSongByMusicianId(musicianId);
         resultMap.put("musicianList", musicianDto);
