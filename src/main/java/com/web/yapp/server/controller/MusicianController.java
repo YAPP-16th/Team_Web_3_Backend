@@ -63,8 +63,8 @@ public class MusicianController {
         return musicianList;
     }
 
-    @GetMapping("/msuician/detail")
-    public HashMap<String,Object> getMusicianDetail(@RequestParam Long musicianId){
+    @GetMapping("/musician/detail/{musicianId}")
+    public HashMap<String,Object> getMusicianDetail(@PathVariable Long musicianId){
 
         HashMap<String,Object> resultMap = new HashMap<String,Object>();
 
