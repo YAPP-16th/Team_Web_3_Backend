@@ -42,6 +42,7 @@ public class MusicianDto {
     private String styExpln02;
     private String styExpln03;
     private String profileUrl;
+    private Long bookmarkCount;
 
     private AtmosphereDto atmosphereList;
     private GenreDto genreList;
@@ -74,6 +75,7 @@ public class MusicianDto {
         this.styExpln02 = Entity.getStyExpln02();
         this.styExpln03 = Entity.getStyExpln03();
         this.profileUrl = Entity.getProfileUrl();
+        this.bookmarkCount = Entity.getBookmarkCount();
 
     }
 
@@ -155,6 +157,7 @@ public class MusicianDto {
                 .styExpln02(styExpln02)
                 .styExpln03(styExpln03)
                 .profileUrl(profileUrl)
+                .bookmarkCount(0L) //O으로 초기 설정
                 .build();
     }
 

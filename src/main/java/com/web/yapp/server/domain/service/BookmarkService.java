@@ -28,8 +28,16 @@ public class BookmarkService {
 
     @Transactional
     public boolean createBookmark(Long musicianId) {
-        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        String email = sessionUserDto.getEmail();
+        SessionUserDto sessionUserDto;
+        String email = "";
+        try{
+            sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
+            email = sessionUserDto.getEmail();
+        }catch (NullPointerException e){
+            log.info("BookmarkService createBookmark 로그인이 필요합니다. error message : "+e.getMessage());
+            return false;
+        }
+
         User user = userClassRepository.findUserByEmail(email);
         Musician musician = musicianRepository.findOne(musicianId);
         Bookmark bookmark = Bookmark

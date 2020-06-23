@@ -20,11 +20,10 @@ public class TagRepository {
             return em.createQuery("select t from Tag t where t.tagNM = :tagNM",Tag.class)
                     .setParameter("tagNM",tagNM)
                     .setMaxResults(1)
-                    .getSingleResult()
-                    ;
+                    .getSingleResult();
 
         } catch (NoResultException nre) {
-            log.error("TagRepository findTagByTagNM "+nre.getMessage());
+            log.error("TagRepository.findTagByTagNM("+tagNM+")  error Message : "+nre.getMessage());
         }
         return new Tag();
     }

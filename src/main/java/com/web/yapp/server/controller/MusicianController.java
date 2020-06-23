@@ -212,19 +212,15 @@ public class MusicianController {
         resultMapList.add(resultMap);
         return resultMapList;
     }
+
     /**
      *
-     * @param atmoList
-     * @param genreList
-     * @param instruList
-     * @param themeList
+     * @param curationReqDto
      * @return
      */
-    @GetMapping("/musicians/curation") //뮤지션 + 작업태그 돌려주기
-    public Map<String,Object> musicianCuration(@RequestParam List<String> atmoList, @RequestParam List<String> genreList,
-                                               @RequestParam List<String> instruList, @RequestParam List<String> themeList) {
-
-        return musicianService.musicianCuration(atmoList, genreList, instruList, themeList);
+    @GetMapping("/musicians/curation")
+    public Map<String,Object> musicianCuration(@RequestBody CurationReqDto curationReqDto) {
+        return musicianService.musicianCuration(curationReqDto);
     }
 
     /**
