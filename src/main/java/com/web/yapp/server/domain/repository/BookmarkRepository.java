@@ -17,9 +17,15 @@ import javax.persistence.NoResultException;
 public class BookmarkRepository {
     private final EntityManager em;
 
-    public void save(Bookmark bookmark){
-        EntityManager em = this.em;
-        em.persist(bookmark);
+    public Bookmark save(Bookmark bookmark){
+        try{
+            EntityManager em = this.em;
+            em.persist(bookmark);
+            return bookmark;
+        }catch (Exception e){
+            log.error("BookmarkRepository save :"+e.getMessage());
+            return new Bookmark();
+        }
     }
 
 
@@ -30,13 +36,13 @@ public class BookmarkRepository {
      */
     /**
      *
-     * @param user
+     * @param userId
      * @return
      */
-    public Bookmark findByUserId(Long user){
+    public Bookmark findByUserId(Long userId){
         try{
-            return em.createQuery("select b from Bookmark b where b.bookmark.user = :user", Bookmark.class)
-                    .setParameter("user",user)
+            return em.createQuery("select b from Bookmark b where b.user.id = :userId", Bookmark.class)
+                    .setParameter("userId",userId)
                     .getSingleResult();
         }catch (NoResultException e){
             System.out.println(e.getMessage());
@@ -44,6 +50,7 @@ public class BookmarkRepository {
         }
 
     }
+
  /*   public Bookmark findOne(Long id){
         Bookmark bookmark = em.find(Bookmark.class, id);
         return bookmark;

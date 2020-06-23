@@ -11,6 +11,7 @@ import com.web.yapp.server.domain.repository.MusicianRepository;
 import com.web.yapp.server.domain.repository.MusicianTagRepository;
 import com.web.yapp.server.domain.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)     /* 전체 서비스를 Readonly로 처리 단, 회원가입의 경우만 트랜잭션 처리 */
 @RequiredArgsConstructor
@@ -91,15 +93,16 @@ public class MusicianTagService {
         Map<Musician,Integer> map = new HashMap<>();
 
         for (int i=0;i<tagList.size();i++){
-            if(tagList.get(i).equals("선택안함")) break; //선택안함이면 필터링 과정 필요 없음
+            log.info("태그명 : "+ tagList.get(i));
+            if(tagList.get(i).equals("선택안함")) break; //큐레이션에서 선택안함을 누르면 필터링 과정 필요 없이 다른 카테고리의 조건으로 넘어간다
             Tag tag = tagRepository.findTagByTagNM(tagList.get(i));
             Long tagId = tag.getId();
             List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
 
-            //제한없음 태그를 가진 뮤지션도 모두 불러오기
-            Tag possibleTag = tagRepository.findTagByTagNM("제한없음");
+            //선택안함 태그를 가진 뮤지션도 모두 불러오기
+            Tag possibleTag = tagRepository.findTagByTagNM("선택안함");
             Long possibleTagId = possibleTag.getId();
-            List<Musician> possibleMuiscians = musicianTagRepository.findMusicianByTag(possibleTagId);
+            List<Musician> possibleMuisicians = musicianTagRepository.findMusicianByTag(possibleTagId);
 
             for (Musician musician : musicians
             ) {
@@ -107,7 +110,7 @@ public class MusicianTagService {
                 map.put(musician,value);
             }
 
-            for (Musician musician : possibleMuiscians
+            for (Musician musician : possibleMuisicians
             ) {
                 map.put(musician, 0);
             }
@@ -116,7 +119,7 @@ public class MusicianTagService {
 
         for( Map.Entry<Musician, Integer> elem : map.entrySet() ){
             if(elem.getValue() == tagList.size() || elem.getValue() == 0){ //선택한 태그를 모두가지고 있는 뮤지션이면
-                musicianList.add(elem.getKey());
+                musicianList.add(elem.getKey()); //elem.getkey => musician
             }
         }
 
