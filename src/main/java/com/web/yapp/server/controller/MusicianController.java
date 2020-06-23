@@ -1,18 +1,15 @@
 package com.web.yapp.server.controller;
 
 import com.web.yapp.server.controller.dto.*;
-//import com.web.yapp.server.controller.dto.SessionUserDto;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.User;
-import com.web.yapp.server.domain.repository.SongRepository;
-import com.web.yapp.server.domain.repository.TagRepository;
 import com.web.yapp.server.domain.repository.UserClassRepository;
 import com.web.yapp.server.domain.repository.UserRoleRepository;
 import com.web.yapp.server.domain.service.MusicianService;
 import com.web.yapp.server.domain.service.MusicianTagService;
 import com.web.yapp.server.domain.service.SongService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.SpringCglibInfo;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,6 +61,18 @@ public class MusicianController {
         musicianListIdInfo = musicianService.findByIdMusician(id);
         musicianList.put("musicianListIdInfo", musicianListIdInfo);
         return musicianList;
+    }
+
+    @GetMapping("/msuician/detail")
+    public HashMap<String,Object> getMusicianDetail(@RequestParam Long musicianId){
+
+        HashMap<String,Object> resultMap = new HashMap<String,Object>();
+
+        MusicianDto musicianDto = musicianService.findByIdMusician(musicianId);
+        List<SongDto> songList= songService.findSongByMusicianId(musicianId);
+        resultMap.put("musicianList", musicianDto);
+        resultMap.put("songList", songList);
+        return resultMap;
     }
 
 //    /**
@@ -151,7 +160,7 @@ public class MusicianController {
      *
      * @return
      */
-    @PostMapping(value = "/musicians")
+    @PostMapping(value = "/musicians",consumes = "multipart/form-data")
     public List<Map<String, Object>> createMusician(HttpSession session,
                                                     @RequestBody MusicianDto musicianDto
                                                     //,@RequestBody AtmosphereDto atmoList
@@ -166,7 +175,12 @@ public class MusicianController {
         InstrumentDto instrumentList = musicianDto.getInstrumentList();
         ThemeDto themeList = musicianDto.getThemeList();
         SpecialDto specialList = musicianDto.getSpecialList();
-        List<MultipartFile> multipartFile = musicianDto.getMultipartFile();
+        List<MultipartFile> multipartFiles = musicianDto.getMultipartFiles();
+
+        /*List<MultipartFile> portfolioFile = musicianDto.getPortfolioFile();
+        List<MultipartFile> mainSongFile = musicianDto.getMainSongFile();
+        List<MultipartFile> subSongFile = musicianDto.getSubSongFile();*/
+
         //노래 파일 받아와서 s3 업로드 후, song Entity create 하기
         /*
          * musician, 노래파일, 태그 받아오기
@@ -178,12 +192,13 @@ public class MusicianController {
         SessionUserDto user = (SessionUserDto) httpSession.getAttribute("user");
         String accessToken = (String) httpSession.getAttribute("accessToken");
         try {
-        System.out.println(multipartFile);
+        System.out.println(multipartFiles);
+
         //Long userId = musicianDto.getUserId().getId();
         // 1. 뮤지션등록 - 뮤지션 모델 카테고리별 종류
         //Long musicianId = 0L;
         Long musicianId = musicianService.saveRegister(musicianDto,atmosphereList,genreList,instrumentList,themeList,specialList);           // 뮤지션 id값 채번
-
+        songService.songSave(multipartFiles, musicianId);
         // 2. 곡 등록
         //songService.songSave(songDto, musicianId);
         // 이메일값으로 유저 역할 조회, 뮤지션으로 Role 변경
@@ -194,9 +209,13 @@ public class MusicianController {
                 String userEmail = user.getEmail();
                 User user_role = userRoleRepository.findByEmail(userEmail);
                 user_role.setRole(Role.MUSICIAN);
-                songService.songSave(multipartFile, musicianId);
-            }
 
+/*                songService.songSave(portfolioFile, musicianId);
+                songService.songSave(mainSongFile, musicianId);
+                if(subSongFile != null){
+                    songService.songSave(subSongFile, musicianId);
+                }*/
+            }
             //userClassRepository.save(user_role);
         }else {
             resultMap.put("success","0");

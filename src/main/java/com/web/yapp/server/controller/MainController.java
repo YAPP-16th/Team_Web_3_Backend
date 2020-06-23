@@ -1,21 +1,14 @@
 package com.web.yapp.server.controller;
 
 
-//import com.oracle.tools.packager.Log;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.yapp.server.controller.dto.MusicianCardResponseDto;
 import com.web.yapp.server.controller.dto.SessionUserDto;
-import com.web.yapp.server.domain.Role;
-import com.web.yapp.server.domain.User;
 import com.web.yapp.server.domain.service.MusicianService;
 import com.web.yapp.server.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -146,25 +139,33 @@ public class MainController {
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
         log.info(reqAccessToken);
-        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
 
-        log.info("roleKey:" + sessionUserDto.getRole().getKey());
-        String sessionUserRole = sessionUserDto.getRole().getKey().toString();
 
-        String accessToken = (String) httpSession.getAttribute("accessToken");
-        Long userId = null;
-        if ("ROLE_USER".equals(String.valueOf(sessionUserRole))){
-            resultMap.put("isMusician", false);
-        } else {
-            resultMap.put("isMusician", true);
+        if(reqAccessToken != "" || reqAccessToken != null){
+            SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
+
+
+            log.info("roleKey", String.valueOf(sessionUserDto));
+            log.info("roleKey:" + sessionUserDto.getRole().getKey());
+            String sessionUserRole = sessionUserDto.getRole().getKey().toString();
+
+            String accessToken = (String) httpSession.getAttribute("accessToken");
+            Long userId = null;
+
+            if ("ROLE_USER".equals(String.valueOf(sessionUserRole))){
+                resultMap.put("isMusician", false);
+            } else {
+                resultMap.put("isMusician", true);
+            }
+            if (sessionUserDto != null) {
+                userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
+                resultMap.put("success", "1");
+                resultMap.put("userId", String.valueOf(userId));
+                resultMap.put("user", sessionUserDto);
+                resultMap.put("accessToken", accessToken);
+            }
         }
-        if (sessionUserDto != null) {
-            userId = userService.findUserIdByEmail(sessionUserDto.getEmail());
-            resultMap.put("success", "1");
-            resultMap.put("userId", String.valueOf(userId));
-            resultMap.put("user", sessionUserDto);
-            resultMap.put("accessToken", accessToken);
-        } else {
+        else {
             resultMap.put("success", "0");
         }
         log.info("role:"+resultMap.get("isMusician").toString());
@@ -176,8 +177,25 @@ public class MainController {
         return musicianService.getMainResponse();
     }
 
+    // 카테고리
+    @GetMapping(value="/categorys")
+    public HashMap<String, Object> categorySelect(@RequestParam String categoryNm) {
 
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+        List<MusicianCardResponseDto> musicianList;
 
-
+        try{
+            musicianList = musicianService.findMusicianBySearch(categoryNm);
+            if(musicianList == null){
+                resultMap.put("success", "0");
+            }else {
+                resultMap.put("success", "1");
+                resultMap.put("categoryList", musicianList);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
 
 }

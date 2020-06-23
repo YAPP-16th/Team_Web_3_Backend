@@ -1,12 +1,15 @@
 package com.web.yapp.server.domain.repository;
 
 import com.web.yapp.server.domain.Musician;
+import com.web.yapp.server.domain.MusicianTag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import springfox.documentation.service.Tags;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MusicianRepository{
     private final EntityManager em;
+    
 
 
     /**
@@ -108,6 +112,60 @@ public class MusicianRepository{
                     .setMaxResults(9)
                     .getResultList();
 
+        }
+        catch (NoResultException e){
+            log.error("MusicianRepository findMusicianByNew :"+e.getMessage());
+            musicians = null;
+        }
+        return musicians;
+    }
+    /**
+     * 검색 페이지 - 메인
+     */
+    /*public List<Musician> findMusicianByAllSearch(String categoryNM){
+
+        List<Musician> musicians;
+        try{
+           if(categoryNM != "전체") {
+               musicians = em.createQuery("select m from Musician m order by m.createdDate asc " , Musician.class)
+                       .setFirstResult(0)
+                       .setMaxResults(9)
+                       .getResultList();
+            }
+        }
+        catch (NoResultException e){
+            log.error("MusicianRepository findMusicianByNew :"+e.getMessage());
+            musicians = null;
+        }
+        return musicians;
+    }*/
+    /**
+     * 검색페이지 카테고리 메인
+     */
+   public List<Musician> findMusicianBySearch(String categoryNM){
+
+        List<MusicianTag> musicianTags;
+        List<Musician> musicians = null;
+        List<Long> musicianIdList;
+
+        try{
+            musicianIdList = em.createQuery("select t.musician.id from MusicianTag t where t.categoryNM = :categoryNM")
+                    .setParameter("categoryNM", categoryNM)
+                    .getResultList();
+
+            if(categoryNM.equals("선택안함")){
+                musicians = em.createQuery("select m from Musician m order by m.createdDate asc ")
+                        .getResultList();
+            }
+            else if(categoryNM.equals("분위기") || categoryNM.equals("테마") || categoryNM.equals("장르") || categoryNM.equals("악기")){
+                 for(int i=0; i < musicianIdList.size(); i++){
+                         Long musicianId = musicianIdList.get(i);
+                         musicians = em.createQuery("select m from Musician m where m.id = :musicianId")
+                                 .setParameter("musicianId", musicianId)
+                                 .getResultList();
+
+                 }
+            }
         }
         catch (NoResultException e){
             log.error("MusicianRepository findMusicianByNew :"+e.getMessage());
