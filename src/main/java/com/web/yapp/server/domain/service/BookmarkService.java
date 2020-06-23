@@ -10,11 +10,13 @@ import com.web.yapp.server.domain.repository.BookmarkRepository;
 import com.web.yapp.server.domain.repository.MusicianRepository;
 import com.web.yapp.server.domain.repository.UserClassRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 
+@Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -25,9 +27,17 @@ public class BookmarkService {
     private final HttpSession httpSession;
 
     @Transactional
-    public void createBookmark(Long musicianId) {
-        SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
-        String email = sessionUserDto.getEmail();
+    public boolean createBookmark(Long musicianId) {
+        SessionUserDto sessionUserDto;
+        String email = "";
+        try{
+            sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
+            email = sessionUserDto.getEmail();
+        }catch (NullPointerException e){
+            log.info("BookmarkService createBookmark 로그인이 필요합니다. error message : "+e.getMessage());
+            return false;
+        }
+
         User user = userClassRepository.findUserByEmail(email);
         Musician musician = musicianRepository.findOne(musicianId);
         Bookmark bookmark = Bookmark
@@ -36,20 +46,33 @@ public class BookmarkService {
                 .musician(musician)
                 .build();
         bookmarkRepository.save(bookmark);
+        log.info("insert 전  Cnt:" + musician.getBookmarkCount());
+
         upBookmarkCount(musician);
+        log.info("inset 후  Cnt:" + musician.getBookmarkCount());
+
+        if(bookmark.getId() != null) return true;
+        else return false;
     }
 
     @Transactional
-    public void deleteBookmark(Long musicianId){
+    public boolean deleteBookmark(Long musicianId){
         SessionUserDto sessionUserDto = (SessionUserDto) httpSession.getAttribute("user");
         String email = sessionUserDto.getEmail();
         User user = userClassRepository.findUserByEmail(email);
         Musician musician = musicianRepository.findOne(musicianId);
+        int rowCnt = bookmarkRepository.delete(user.getId(),musicianId);
+        log.info("delte 전  Cnt:" + musician.getBookmarkCount());
 
+        downBookmarkCount(musician);
+        log.info("delete 후 Cnt:" + musician.getBookmarkCount());
+        if(rowCnt == 1) return true;
+        else return false;
 
     }
     @Transactional
     public void upBookmarkCount(Musician musician){
+        //MusicianDto = musician;
         musicianRepository.upBookmarkCount(musician.getId());
     }
 
