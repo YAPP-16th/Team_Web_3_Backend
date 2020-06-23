@@ -100,13 +100,15 @@ public class MusicianService {
 
     /**
      * 큐레이션
-     * @param atmoList
-     * @param genreList
-     * @param instruList
-     * @param themeList
+     * @param curationReqDto
      * @return
      */
-    public Map<String,Object> musicianCuration(List<String> atmoList, List<String> genreList, List<String> instruList, List<String> themeList){
+    public Map<String,Object> musicianCuration(CurationReqDto curationReqDto){
+        List<String> atmoList = curationReqDto.getAtmoList();
+        List<String> genreList = curationReqDto.getGenreList();
+        List<String> instruList = curationReqDto.getInstruList();
+        List<String> themeList = curationReqDto.getThemeList();
+
         HashMap<String,Object> map = new HashMap<>();
         List<Musician> musicians = new LinkedList<Musician>();
         List<SimpleMusicianResponseDto> musicianResponseDtos = new LinkedList<SimpleMusicianResponseDto>();

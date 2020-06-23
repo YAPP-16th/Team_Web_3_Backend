@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 public class ContractController {
