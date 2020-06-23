@@ -61,6 +61,8 @@ public class MusicianTagService {
     }
 
 
+
+
     /**
      * 대표태그 조회
      * @param musicianId
@@ -79,6 +81,7 @@ public class MusicianTagService {
 
     /**
      * 태그리스트로 뮤지션 조회
+     * 선택한 태그를 모두 가진 뮤지션 조회
      * 큐레이션, 탐색에 필요
      * @param tagList
      * @return
@@ -140,6 +143,7 @@ public class MusicianTagService {
 
     /**
      * 뮤지션이 가진 태그 조회
+     * 카테고리별로 태그 담아서 return
      * @param musicianId
      * @return
      */

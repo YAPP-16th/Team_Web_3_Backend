@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -14,6 +15,7 @@ public class SongDto {
     private String coverUrl;
     private String songUrl;
     private int represent;
+    private MultipartFile multipartFile;
 
 //    @Builder
 //    public SongDto(String title, String coverUrl, String songUrl, int represent){
@@ -37,6 +39,7 @@ public class SongDto {
         this.coverUrl = Entity.getCoverUrl();
         this.songUrl = Entity.getSongUrl();
         this.represent = Entity.getRepresent();
+
     }
 
 }

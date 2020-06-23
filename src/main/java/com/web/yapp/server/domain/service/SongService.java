@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class SongService {
     private final MusicianRepository musicianRepository;
@@ -27,7 +28,6 @@ public class SongService {
      * @param musicianId
      * @return
      */
-    @Transactional(readOnly = true)
     public List<SongDto> findSongByMusicianId(Long musicianId){
         return songRepository.findSongByMusician(musicianId).stream()
                 .map(SongDto::new)
@@ -39,9 +39,10 @@ public class SongService {
      * @param musicianId
      * @return
      */
-    @Transactional(readOnly = true)
     public SongDto findRPSongByMuscianId(Long musicianId){
         Song song = songRepository.findRPSongByMusician(musicianId);
+        System.out.println("mid:"+musicianId);
+        System.out.println("title:"+song.getTitle());
         return new SongDto(song);
     }
 
@@ -53,7 +54,7 @@ public class SongService {
      * @throws IOException
      */
     @Transactional //대표곡커버, 대표곡, 일반곡1, ... 순서
-    public List<Long> song(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
+    public List<Long> songSave(List<MultipartFile> multipartFiles, Long musicianId) throws IOException {
         List<Long> idList = new LinkedList<Long>();
         Musician musician = musicianRepository.findOne(musicianId);
         String RPcoverUrl = s3Uploader.upload(multipartFiles.get(0),"static");

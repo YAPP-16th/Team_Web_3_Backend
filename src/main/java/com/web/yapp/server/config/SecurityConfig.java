@@ -3,13 +3,21 @@ package com.web.yapp.server.config;
 import com.web.yapp.server.domain.Role;
 import com.web.yapp.server.domain.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -42,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
         };
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
@@ -49,26 +58,55 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html","localhost:8080", "localhost:3000","13.209.105.111:3000","13.209.105.111:8080",
-                        "ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080",
-                        "http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000","/test","/**").permitAll()
+                .antMatchers("/**","swagger-ui.html","/resources/**", "localhost:3000", "http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000","http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000/musician/enroll").permitAll()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("localhost:8080", "localhost:3000","http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080",
+                        "http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080/musicians","http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000","http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000/musician/**").permitAll()
                 .antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**,/musicians/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
-//                .antMatchers("/").hasRole(Role.USER.name())
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and()
+                .cors().and()
+                .csrf().disable()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+//                .expiredUrl("/duplicated-login")
+                .sessionRegistry(sessionRegistry());
+
         http.formLogin()
-                .defaultSuccessUrl("/")
+                //.defaultSuccessUrl("/")
                 .and()
-                    .logout()
-                    .logoutSuccessUrl("/")
+                .logout()
+                //.logoutSuccessUrl("/")
                 .and()
-                    .oauth2Login()
-                    .userInfoEndpoint()
-                    .userService(customOAuth2UserService);
-//                .defaultSuccessUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000")
-//                .failureUrl("ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000");
-//                .and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/index"));
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:3000");
+        configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("http://ec2-13-209-105-111.ap-northeast-2.compute.amazonaws.com:8080");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+    @Bean
+    public static ServletListenerRegistrationBean httpSessionEventPublisher() {
+        return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
+    }
+
+
+
 }
