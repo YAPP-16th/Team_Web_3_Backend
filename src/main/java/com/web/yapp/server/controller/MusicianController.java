@@ -237,7 +237,7 @@ public class MusicianController {
      * @param curationReqDto
      * @return
      */
-    @GetMapping("/musicians/curation")
+    @PostMapping("/musicians/curation")
     public Map<String,Object> musicianCuration(@RequestBody CurationReqDto curationReqDto) {
         return musicianService.musicianCuration(curationReqDto);
     }

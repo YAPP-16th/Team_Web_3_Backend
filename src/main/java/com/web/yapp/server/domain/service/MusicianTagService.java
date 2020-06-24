@@ -50,7 +50,7 @@ public class MusicianTagService {
                     .categoryNM(categoryNM)
                     .build();
 
-            if(i==0)  { //대표태그
+            if(i==0 && !(categoryNM.equals("작업")))  { //대표태그, 작업태그는 대표태그 X
                 musicianTag = MusicianTag.builder()
                         .musician(musician)
                         .tag(tag)
@@ -88,21 +88,26 @@ public class MusicianTagService {
      * @param tagList
      * @return
      */
-    public List<Musician> findMusicianByTags(List<String> tagList){
-        List<Musician> musicianList = new LinkedList<Musician>();
-        Map<Musician,Integer> map = new HashMap<>();
+    public List<Musician> findMusicianByTags(List<String> tagList, List<Musician> musicianList){
+        Map<Musician, Integer> map = new HashMap<Musician, Integer>();
 
         for (int i=0;i<tagList.size();i++){
-            log.info("태그명 : "+ tagList.get(i));
-            if(tagList.get(i).equals("선택안함")) break; //큐레이션에서 선택안함을 누르면 필터링 과정 필요 없이 다른 카테고리의 조건으로 넘어간다
-            Tag tag = tagRepository.findTagByTagNM(tagList.get(i));
+            String tagNM = tagList.get(i);
+            log.info("MusicianTagService findMusicianByTags 태그명 : "+ tagList.get(i));
+            if(tagNM.equals("선택안함") || tagNM.equals("제한없음")) break; //큐레이션에서 선택안함을 누르면 필터링 과정 필요 없이 다른 카테고리의 조건으로 넘어간다
+            Tag tag = tagRepository.findTagByTagNM(tagNM);
             Long tagId = tag.getId();
             List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
 
             //선택안함 태그를 가진 뮤지션도 모두 불러오기
-            Tag possibleTag = tagRepository.findTagByTagNM("선택안함");
-            Long possibleTagId = possibleTag.getId();
-            List<Musician> possibleMuisicians = musicianTagRepository.findMusicianByTag(possibleTagId);
+            Tag noSelectTag = tagRepository.findTagByTagNM("선택안함");
+            Long noSelectTagId = noSelectTag.getId();
+            List<Musician> noSelectMuisicians = musicianTagRepository.findMusicianByTag(noSelectTagId);
+
+            //제한없음 태그를 가진 뮤지션도 모두 불러오기
+            Tag noLimitTag = tagRepository.findTagByTagNM("제한없음");
+            Long noLimitTagId = noLimitTag.getId();
+            List<Musician> noLimitMuisicians = musicianTagRepository.findMusicianByTag(noLimitTagId);
 
             for (Musician musician : musicians
             ) {
@@ -110,22 +115,25 @@ public class MusicianTagService {
                 map.put(musician,value);
             }
 
-            for (Musician musician : possibleMuisicians
+            for (Musician musician : noSelectMuisicians
+            ) {
+                map.put(musician, 0);
+            }
+
+            for (Musician musician : noLimitMuisicians
             ) {
                 map.put(musician, 0);
             }
 
         }
 
+        //선택한 태그를 모두가지고 있는 뮤지션이면. 태그 개수로 조건걸기
         for( Map.Entry<Musician, Integer> elem : map.entrySet() ){
-            if(elem.getValue() == tagList.size() || elem.getValue() == 0){ //선택한 태그를 모두가지고 있는 뮤지션이면
+            if(elem.getValue() == tagList.size() || elem.getValue() == 0){
                 musicianList.add(elem.getKey()); //elem.getkey => musician
             }
         }
 
-//        return musicianList.stream()
-//                .map(MusicianDto::new)
-//                .collect(Collectors.toList());
         return musicianList;
     }
 
