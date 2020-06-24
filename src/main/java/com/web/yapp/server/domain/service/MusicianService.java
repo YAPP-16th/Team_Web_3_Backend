@@ -99,40 +99,41 @@ public class MusicianService {
     }
 
     /**
-     * 큐레이션
-     * @param curationReqDto
+     *
+     * @param cuReqDto
      * @return
      */
-    public Map<String,Object> musicianCuration(CurationReqDto curationReqDto){
-        List<String> atmoList = curationReqDto.getAtmoList();
-        List<String> genreList = curationReqDto.getGenreList();
-        List<String> instruList = curationReqDto.getInstruList();
-        List<String> themeList = curationReqDto.getThemeList();
-
-        HashMap<String,Object> map = new HashMap<>();
-        List<Musician> musicians = new LinkedList<Musician>();
-        List<SimpleMusicianResponseDto> musicianResponseDtos = new LinkedList<SimpleMusicianResponseDto>();
+    public Map<String,Object> musicianCuration(CurationReqDto cuReqDto){
+        HashMap<String,Object> ResponseMap = new HashMap<>();
         HashMap<Musician,Integer> curationResult = new HashMap<>();
+        List<SimpleMusicianResponseDto> musicianResponseDtos = new LinkedList<SimpleMusicianResponseDto>();
+        List<Musician> musicians = new LinkedList<>();
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getAtmoList(), musicians);
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getGenreList(), musicians);
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getInstruList(), musicians);
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getThemeList(), musicians);
 
-        List<Musician> atmoMusician = musicianTagService.findMusicianByTags(atmoList);
-        List<Musician> genreMusician = musicianTagService.findMusicianByTags(genreList);
-        List<Musician> instruMusician = musicianTagService.findMusicianByTags(instruList);
-        List<Musician> themeMusician = musicianTagService.findMusicianByTags(themeList);
+        int max = 0;
 
-        for (Musician musician : atmoMusician) { curationResult.put(musician,0);}
-        for (Musician musician : genreMusician) { curationResult.put(musician,0);}
-        for (Musician musician : instruMusician) { curationResult.put(musician,0);}
-        for (Musician musician : themeMusician) { curationResult.put(musician,0);}
-
-        for( Map.Entry<Musician, Integer> elem : curationResult.entrySet() ){
-            Musician musician = elem.getKey();
-            SimpleMusicianResponseDto simpleMusicianResponseDto
-                    = getSimpleMusicianResponseDto(musician);
-            musicianResponseDtos.add(simpleMusicianResponseDto);
+        for (Musician musician: musicians
+        ) {
+            int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
+            curationResult.put(musician,value);
+            max = Math.max(max,value);
         }
 
-        map.put("musician",musicianResponseDtos);
-        return map;
+        //분위기, 장르, 악기, 테마의 조건을 모두 만족하는 뮤지션 고르기
+        for( Map.Entry<Musician, Integer> elem : curationResult.entrySet() ){
+            if(elem.getValue() == max){
+                Musician musician = elem.getKey();
+                SimpleMusicianResponseDto simpleMusicianResponseDto
+                        = getSimpleMusicianResponseDto(musician);
+                musicianResponseDtos.add(simpleMusicianResponseDto);
+            }
+        }
+
+        ResponseMap.put("musician",musicianResponseDtos);
+        return ResponseMap;
     }
 
     /**
