@@ -28,14 +28,18 @@ public class MusicianTag extends BaseTimeEntity{
     @Column(name = "MU_TAG_MAP_RPRSN") // 대표 : 1 , 일반 : 0
     private int represent;
 
+    @Column(name = "MU_TAG_NM")
+    private String muTagNM;
+
     @Column(name = "MU_TAG_CATEGORY_NM")
     private String categoryNM;
 
     @Builder
-    public MusicianTag(Musician musician, Tag tag, int represent, String categoryNM){
+    public MusicianTag(Musician musician, Tag tag, int represent, String muTagNM, String categoryNM){
         this.musician = musician;
         this.tag = tag;
         this.represent = represent;
+        this.muTagNM = muTagNM;
         this.categoryNM = categoryNM;
     }
 }
