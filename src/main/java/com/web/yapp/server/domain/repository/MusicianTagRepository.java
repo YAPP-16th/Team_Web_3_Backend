@@ -36,6 +36,21 @@ public class MusicianTagRepository {
         return musicians;
     }
 
+    public List<Musician> findNoOptionMusicianByTag(Long tagId, String categoryNM){
+        List<Musician> musicians;
+        try{
+            musicians = em.createQuery("select mt.musician from MusicianTag mt " +
+                    "where mt.tag.id = :tagId and mt.categoryNM = :categoryNM", Musician.class)
+                    .setParameter("tagId",tagId)
+                    .setParameter("categoryNM",categoryNM)
+                    .getResultList();
+
+        }catch (NoResultException e){
+            log.error("MusicianTagRepository findNoOptionMusicianByTag :"+e.getMessage());
+            musicians = null;
+        }
+        return musicians;
+    }
     /**
      * 작업태그 조회
      * @param musicianId
@@ -64,7 +79,8 @@ public class MusicianTagRepository {
     public List<Tag> findRPTagByMusician(Long musicianId){
         List<Tag> tags;
         try{
-            tags = em.createQuery("select mt.tag from MusicianTag mt where mt.musician.id = :musicianId and mt.represent = 1",Tag.class)
+            tags = em.createQuery("select mt.tag from MusicianTag mt " +
+                    "where mt.musician.id = :musicianId and mt.represent = 1 " ,Tag.class)
                     .setParameter("musicianId",musicianId)
                     .getResultList();
         }catch (NoResultException e){

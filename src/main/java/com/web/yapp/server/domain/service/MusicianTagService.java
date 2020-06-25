@@ -47,6 +47,7 @@ public class MusicianTagService {
                     .musician(musician)
                     .tag(tag)
                     .represent(0)
+                    .muTagNM(tagNM)
                     .categoryNM(categoryNM)
                     .build();
 
@@ -55,6 +56,7 @@ public class MusicianTagService {
                         .musician(musician)
                         .tag(tag)
                         .represent(1)
+                        .muTagNM(tagNM)
                         .categoryNM(categoryNM)
                         .build();
             }
@@ -88,7 +90,7 @@ public class MusicianTagService {
      * @param tagList
      * @return
      */
-    public List<Musician> findMusicianByTags(List<String> tagList, List<Musician> musicianList){
+    public List<Musician> findMusicianByTags(List<String> tagList, List<Musician> musicianList, String categoryNM){
         Map<Musician, Integer> map = new HashMap<Musician, Integer>();
 
         for (int i=0;i<tagList.size();i++){
@@ -96,34 +98,37 @@ public class MusicianTagService {
             log.info("MusicianTagService findMusicianByTags 태그명 : "+ tagList.get(i));
             if(tagNM.equals("선택안함") || tagNM.equals("제한없음")) break; //큐레이션에서 선택안함을 누르면 필터링 과정 필요 없이 다른 카테고리의 조건으로 넘어간다
             Tag tag = tagRepository.findTagByTagNM(tagNM);
+            if (tag == null) break;
             Long tagId = tag.getId();
             List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
-
             //선택안함 태그를 가진 뮤지션도 모두 불러오기
             Tag noSelectTag = tagRepository.findTagByTagNM("선택안함");
             Long noSelectTagId = noSelectTag.getId();
-            List<Musician> noSelectMuisicians = musicianTagRepository.findMusicianByTag(noSelectTagId);
+            List<Musician> noSelectMuisicians
+                    = musicianTagRepository.findNoOptionMusicianByTag(noSelectTagId, categoryNM);
 
             //제한없음 태그를 가진 뮤지션도 모두 불러오기
             Tag noLimitTag = tagRepository.findTagByTagNM("제한없음");
             Long noLimitTagId = noLimitTag.getId();
-            List<Musician> noLimitMuisicians = musicianTagRepository.findMusicianByTag(noLimitTagId);
+            List<Musician> noLimitMuisicians
+                    = musicianTagRepository.findNoOptionMusicianByTag(noLimitTagId, categoryNM);
 
             for (Musician musician : musicians
             ) {
+                System.out.println(tagNM +", musicianId " + musician.getId() +"tagId :"+tag.getId());
                 int value = map.containsKey(musician) ? map.get(musician)+1 : 1 ;
                 map.put(musician,value);
             }
 
-            for (Musician musician : noSelectMuisicians
-            ) {
-                map.put(musician, 0);
-            }
-
-            for (Musician musician : noLimitMuisicians
-            ) {
-                map.put(musician, 0);
-            }
+//            for (Musician musician : noSelectMuisicians //수정하기 
+//            ) {
+//                map.put(musician, 0);
+//            }
+//
+//            for (Musician musician : noLimitMuisicians
+//            ) {
+//                map.put(musician, 0);
+//            }
 
         }
 
