@@ -120,7 +120,7 @@ public class MusicianTagService {
                 map.put(musician,value);
             }
 
-//            for (Musician musician : noSelectMuisicians //수정하기 
+//            for (Musician musician : noSelectMuisicians //수정하기
 //            ) {
 //                map.put(musician, 0);
 //            }
