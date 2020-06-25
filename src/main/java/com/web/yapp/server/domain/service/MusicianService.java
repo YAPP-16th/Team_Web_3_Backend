@@ -116,7 +116,7 @@ public class MusicianService {
         int max = 0;
 
         for (Musician musician: musicians
-             ) {
+        ) {
             int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
             curationResult.put(musician,value);
             max = Math.max(max,value);
