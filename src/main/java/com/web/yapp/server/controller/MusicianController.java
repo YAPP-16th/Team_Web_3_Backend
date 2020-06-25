@@ -174,6 +174,7 @@ public class MusicianController {
         InstrumentDto instrumentList = musicianDto.getInstrumentList();
         ThemeDto themeList = musicianDto.getThemeList();
         SpecialDto specialList = musicianDto.getSpecialList();
+
         List<MultipartFile> multipartFiles = musicianDto.getMultipartFiles();
 
         /*List<MultipartFile> portfolioFile = musicianDto.getPortfolioFile();
@@ -197,7 +198,9 @@ public class MusicianController {
         // 1. 뮤지션등록 - 뮤지션 모델 카테고리별 종류
         //Long musicianId = 0L;
         Long musicianId = musicianService.saveRegister(musicianDto,atmosphereList,genreList,instrumentList,themeList,specialList);           // 뮤지션 id값 채번
+
         songService.songSave(multipartFiles, musicianId);
+
         // 2. 곡 등록
         //songService.songSave(songDto, musicianId);
         // 이메일값으로 유저 역할 조회, 뮤지션으로 Role 변경

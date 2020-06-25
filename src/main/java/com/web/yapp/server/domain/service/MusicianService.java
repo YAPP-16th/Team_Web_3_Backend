@@ -106,29 +106,37 @@ public class MusicianService {
     public Map<String,Object> musicianCuration(CurationReqDto cuReqDto){
         HashMap<String,Object> ResponseMap = new HashMap<>();
         HashMap<Musician,Integer> curationResult = new HashMap<>();
-        List<SimpleMusicianResponseDto> musicianResponseDtos = new LinkedList<SimpleMusicianResponseDto>();
+        List<MusicianCardResponseDto> musicianResponseDtos = new LinkedList<MusicianCardResponseDto>();
         List<Musician> musicians = new LinkedList<>();
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getAtmoList(), musicians);
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getGenreList(), musicians);
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getInstruList(), musicians);
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getThemeList(), musicians);
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getAtmoList(), musicians, "분위기");
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getGenreList(), musicians,"장르");
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getInstruList(), musicians, "악기");
+        musicians = musicianTagService.findMusicianByTags(cuReqDto.getThemeList(), musicians, "테마");
 
         int max = 0;
 
         for (Musician musician: musicians
         ) {
+            System.out.println("결과=============:"+curationResult.containsKey(musician));
             int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
             curationResult.put(musician,value);
+            System.out.println("================ value:" + value);
             max = Math.max(max,value);
         }
-
+        System.out.println("============================max :"+max );
         //분위기, 장르, 악기, 테마의 조건을 모두 만족하는 뮤지션 고르기
         for( Map.Entry<Musician, Integer> elem : curationResult.entrySet() ){
             if(elem.getValue() == max){
                 Musician musician = elem.getKey();
-                SimpleMusicianResponseDto simpleMusicianResponseDto
-                        = getSimpleMusicianResponseDto(musician);
-                musicianResponseDtos.add(simpleMusicianResponseDto);
+                System.out.println("musicianId"+ musician.getId());
+
+                MusicianCardResponseDto musicianCardRepDto = MusicianCardResponseDto
+                        .builder()
+                        .simpleMusicianResponseDto(getSimpleMusicianResponseDto(musician))
+                        .bookmarkCount(musician.getBookmarkCount())
+                        .alreadyBookmark(chkBookmark(musician))
+                        .build();
+                musicianResponseDtos.add(musicianCardRepDto);
             }
         }
 
