@@ -106,7 +106,7 @@ public class MusicianService {
     public Map<String,Object> musicianCuration(CurationReqDto cuReqDto){
         HashMap<String,Object> ResponseMap = new HashMap<>();
         HashMap<Musician,Integer> curationResult = new HashMap<>();
-        List<SimpleMusicianResponseDto> musicianResponseDtos = new LinkedList<SimpleMusicianResponseDto>();
+        List<MusicianCardResponseDto> musicianResponseDtos = new LinkedList<MusicianCardResponseDto>();
         List<Musician> musicians = new LinkedList<>();
         musicians = musicianTagService.findMusicianByTags(cuReqDto.getAtmoList(), musicians);
         musicians = musicianTagService.findMusicianByTags(cuReqDto.getGenreList(), musicians);
@@ -126,9 +126,13 @@ public class MusicianService {
         for( Map.Entry<Musician, Integer> elem : curationResult.entrySet() ){
             if(elem.getValue() == max){
                 Musician musician = elem.getKey();
-                SimpleMusicianResponseDto simpleMusicianResponseDto
-                        = getSimpleMusicianResponseDto(musician);
-                musicianResponseDtos.add(simpleMusicianResponseDto);
+                MusicianCardResponseDto musicianCardRepDto = MusicianCardResponseDto
+                        .builder()
+                        .simpleMusicianResponseDto(getSimpleMusicianResponseDto(musician))
+                        .bookmarkCount(musician.getBookmarkCount())
+                        .alreadyBookmark(chkBookmark(musician))
+                        .build();
+                musicianResponseDtos.add(musicianCardRepDto);
             }
         }
 
