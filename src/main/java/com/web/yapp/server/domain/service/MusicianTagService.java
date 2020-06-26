@@ -90,56 +90,76 @@ public class MusicianTagService {
      * @param tagList
      * @return
      */
-    public List<Musician> findMusicianByTags(List<String> tagList, List<Musician> musicianList, String categoryNM){
+    public List<Musician> findMusicianByTags(List<String> tagList, String categoryNM){
         Map<Musician, Integer> map = new HashMap<Musician, Integer>();
+        List<Musician> result = new LinkedList<>();
+        int max = 0;
 
+        //분위기 일때는 map에 모두추가 그 기준으로 포함되어있는지 탐색하기
         for (int i=0;i<tagList.size();i++){
             String tagNM = tagList.get(i);
             log.info("MusicianTagService findMusicianByTags 태그명 : "+ tagList.get(i));
-            if(tagNM.equals("선택안함") || tagNM.equals("제한없음")) break; //큐레이션에서 선택안함을 누르면 필터링 과정 필요 없이 다른 카테고리의 조건으로 넘어간다
+            if(tagNM.equals("선택안함") || tagNM.equals("제한없음") || tagNM.equals("")) {
+                result = musicianRepository.findMusicianByNew();
+                return result;
+            } //큐레이션에서 선택안함을 누르면 필터링 과정 필요 없이 다른 카테고리의 조건으로 넘어간다
+
             Tag tag = tagRepository.findTagByTagNM(tagNM);
             if (tag == null) break;
-            Long tagId = tag.getId();
-            List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
-            //선택안함 태그를 가진 뮤지션도 모두 불러오기
-            Tag noSelectTag = tagRepository.findTagByTagNM("선택안함");
-            Long noSelectTagId = noSelectTag.getId();
-            List<Musician> noSelectMuisicians
-                    = musicianTagRepository.findNoOptionMusicianByTag(noSelectTagId, categoryNM);
 
-            //제한없음 태그를 가진 뮤지션도 모두 불러오기
-            Tag noLimitTag = tagRepository.findTagByTagNM("제한없음");
-            Long noLimitTagId = noLimitTag.getId();
-            List<Musician> noLimitMuisicians
-                    = musicianTagRepository.findNoOptionMusicianByTag(noLimitTagId, categoryNM);
+            Long tagId = tag.getId();
+
+            //해당 태그 1개를 가진 뮤지션 리스트
+            List<Musician> musicians = musicianTagRepository.findMusicianByTag(tagId);
+            if(musicians == null) break; //더 찾을 필요가 없음
+
+            for (Musician musician: musicians
+                 ) {
+                if(result.contains(musician)) {
+
+                }
+            }
 
             for (Musician musician : musicians
             ) {
                 System.out.println(tagNM +", musicianId " + musician.getId() +"tagId :"+tag.getId());
                 int value = map.containsKey(musician) ? map.get(musician)+1 : 1 ;
                 map.put(musician,value);
+                max = Math.max(value,max);
             }
-
-//            for (Musician musician : noSelectMuisicians //수정하기
-//            ) {
-//                map.put(musician, 0);
-//            }
-//
-//            for (Musician musician : noLimitMuisicians
-//            ) {
-//                map.put(musician, 0);
-//            }
 
         }
 
+        Tag noSelectTag = tagRepository.findTagByTagNM("선택안함");
+        Long noSelectTagId = noSelectTag.getId();
+        List<Musician> noSelectMuisicians
+                = musicianTagRepository.findNoOptionMusicianByTag(noSelectTagId, categoryNM);
+
+        //제한없음 태그를 가진 뮤지션도 모두 불러오기
+        Tag noLimitTag = tagRepository.findTagByTagNM("제한없음");
+        Long noLimitTagId = noLimitTag.getId();
+        List<Musician> noLimitMuisicians
+                = musicianTagRepository.findNoOptionMusicianByTag(noLimitTagId, categoryNM);
+
+        for (Musician musician : noSelectMuisicians //수정하기
+        ) {
+            map.put(musician, 0);
+        }
+
+        for (Musician musician : noLimitMuisicians
+        ) {
+            map.put(musician, 0);
+        }
+
+        //선택한 태그 모두가지고 있는 뮤지션과, 제한없음 또는 선택안함을 가진 뮤지션
         //선택한 태그를 모두가지고 있는 뮤지션이면. 태그 개수로 조건걸기
         for( Map.Entry<Musician, Integer> elem : map.entrySet() ){
-            if(elem.getValue() == tagList.size() || elem.getValue() == 0){
-                musicianList.add(elem.getKey()); //elem.getkey => musician
+            if(elem.getValue() == max || elem.getValue() == 0){
+                result.add(elem.getKey()); //elem.getkey => musician
             }
         }
 
-        return musicianList;
+        return result;
     }
 
     /**
