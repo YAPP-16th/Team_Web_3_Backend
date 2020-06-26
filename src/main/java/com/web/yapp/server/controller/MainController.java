@@ -3,6 +3,7 @@ package com.web.yapp.server.controller;
 
 import com.web.yapp.server.controller.dto.MusicianCardResponseDto;
 import com.web.yapp.server.controller.dto.SessionUserDto;
+import com.web.yapp.server.domain.repository.MusicianRepository;
 import com.web.yapp.server.domain.service.MusicianService;
 import com.web.yapp.server.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class MainController {
     private final HttpSession httpSession;
     private final UserService userService;
     private final MusicianService musicianService;
+    private final MusicianRepository musicianRepository;
 
     @GetMapping("/")
     public String home(Model model, HttpSession session, HttpServletResponse response) {       // 모델에 유저 정보

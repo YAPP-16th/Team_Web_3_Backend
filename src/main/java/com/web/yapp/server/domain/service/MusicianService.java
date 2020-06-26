@@ -107,39 +107,71 @@ public class MusicianService {
         HashMap<String,Object> ResponseMap = new HashMap<>();
         HashMap<Musician,Integer> curationResult = new HashMap<>();
         List<MusicianCardResponseDto> musicianResponseDtos = new LinkedList<MusicianCardResponseDto>();
-        List<Musician> musicians = new LinkedList<>();
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getAtmoList(), musicians, "분위기");
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getGenreList(), musicians,"장르");
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getInstruList(), musicians, "악기");
-        musicians = musicianTagService.findMusicianByTags(cuReqDto.getThemeList(), musicians, "테마");
+//        List<Musician> atmoResult = new LinkedList<>();
+//        List<Musician> genreResult = new LinkedList<>();
+//        List<Musician> instruResult = new LinkedList<>();
+//        List<Musician> themeResult = new LinkedList<>();
+//        int max = 0;
+//
+//        atmoResult = musicianTagService.findMusicianByTags(cuReqDto.getAtmoList(),"분위기");
+//        for (Musician musician: atmoResult
+//        ) {
+//            int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
+//            curationResult.put(musician,value);
+//            max = Math.max(max,value);
+//        }
+//        genreResult = musicianTagService.findMusicianByTags(cuReqDto.getGenreList(),"장르");
+//        for (Musician musician: genreResult
+//        ) {
+//            int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
+//            curationResult.put(musician,value);
+//            max = Math.max(max,value);
+//        }
+//        instruResult = musicianTagService.findMusicianByTags(cuReqDto.getInstruList(),"악기");
+//        for (Musician musician: instruResult
+//        ) {
+//            int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
+//            curationResult.put(musician,value);
+//            max = Math.max(max,value);
+//        }
+//        themeResult = musicianTagService.findMusicianByTags(cuReqDto.getThemeList(),  "테마");
+//        for (Musician musician: themeResult
+//        ) {
+//            int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
+//            curationResult.put(musician,value);
+//            max = Math.max(max,value);
+//        }
+//        //4개의 조건이 모두 맞을때만 반환해야한다
+//
+//        System.out.println("============================max :"+max );
+//        //분위기, 장르, 악기, 테마의 조건을 모두 만족하는 뮤지션 고르기
+//        for( Map.Entry<Musician, Integer> elem : curationResult.entrySet() ){
+//            if(elem.getValue() == max){
+//                Musician musician = elem.getKey();
+//                System.out.println("musicianId"+ musician.getId());
+//
+//                MusicianCardResponseDto musicianCardRepDto = MusicianCardResponseDto
+//                        .builder()
+//                        .simpleMusicianResponseDto(getSimpleMusicianResponseDto(musician))
+//                        .bookmarkCount(musician.getBookmarkCount())
+//                        .alreadyBookmark(chkBookmark(musician))
+//                        .build();
+//                musicianResponseDtos.add(musicianCardRepDto);
+//            }
+//        }
 
-        int max = 0;
 
-        for (Musician musician: musicians
-        ) {
-            System.out.println("결과=============:"+curationResult.containsKey(musician));
-            int value = curationResult.containsKey(musician) ? curationResult.get(musician)+1 : 1 ;
-            curationResult.put(musician,value);
-            System.out.println("================ value:" + value);
-            max = Math.max(max,value);
+        List<Musician> list = musicianRepository.findMusicianByNew();
+        for (Musician musician:list
+             ) {
+            MusicianCardResponseDto musicianCardRepDto = MusicianCardResponseDto
+                    .builder()
+                    .simpleMusicianResponseDto(getSimpleMusicianResponseDto(musician))
+                    .bookmarkCount(musician.getBookmarkCount())
+                    .alreadyBookmark(chkBookmark(musician))
+                    .build();
+            musicianResponseDtos.add(musicianCardRepDto);
         }
-        System.out.println("============================max :"+max );
-        //분위기, 장르, 악기, 테마의 조건을 모두 만족하는 뮤지션 고르기
-        for( Map.Entry<Musician, Integer> elem : curationResult.entrySet() ){
-            if(elem.getValue() == max){
-                Musician musician = elem.getKey();
-                System.out.println("musicianId"+ musician.getId());
-
-                MusicianCardResponseDto musicianCardRepDto = MusicianCardResponseDto
-                        .builder()
-                        .simpleMusicianResponseDto(getSimpleMusicianResponseDto(musician))
-                        .bookmarkCount(musician.getBookmarkCount())
-                        .alreadyBookmark(chkBookmark(musician))
-                        .build();
-                musicianResponseDtos.add(musicianCardRepDto);
-            }
-        }
-
         ResponseMap.put("musician",musicianResponseDtos);
         return ResponseMap;
     }
@@ -167,7 +199,8 @@ public class MusicianService {
      * @return
      */
     public List<MusicianCardResponseDto> findMusicianBySearch(String categoryNm){ //좋아요 눌린 여부도 필요?
-        List<Musician> musicians = musicianRepository.findMusicianBySearch(categoryNm);
+        List<Musician> musicians = musicianRepository.findAllMusician();
+        //List<Musician> musicians = musicianRepository.findMusicianBySearch(categoryNm);
         return getMusicianCardResponseDto(musicians);
     }
 

@@ -108,8 +108,6 @@ public class MusicianRepository{
         List<Musician> musicians;
         try{
             musicians = em.createQuery("select m from Musician m order by m.createdDate asc " , Musician.class)
-                    .setFirstResult(0)
-                    .setMaxResults(9)
                     .getResultList();
 
         }
